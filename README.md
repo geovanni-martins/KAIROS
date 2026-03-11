@@ -210,31 +210,6 @@ Esta plataforma carrega seu nome porque **aprender não é sobre quantidade — 
 
 </div>
 
-<pre>
-src/main/java/kairos/
-│
-├── 📂 model/
-│   ├── 📂 usuario/        →  Aluno · Professor · PerfilCognitivo
-│   ├── 📂 conteudo/       →  Materia · Conteudo · Prerequisito
-│   ├── 📂 memoria/        →  ConteudoAprendido · CicloDeRevisao
-│   ├── 📂 divida/         →  DividaDeAprendizado · PlanoDeRecuperacao
-│   └── 📂 missao/         →  Missao · TrilhaCognitiva · Relatorio
-│
-├── 📂 service/
-│   ├── ⚙️  EbbinghausService.java
-│   ├── ⚙️  LacunaDetectorService.java
-│   └── ⚙️  MissaoGeneratorService.java
-│
-├── 📂 api/                →  GeminiClient.java
-├── 📂 repository/         →  DAOs · PostgreSQL
-│
-└── 📂 ui/
-    ├── 🖥️  CemiterioVisual.java
-    ├── 🖥️  GrafoInterativo.java
-    ├── 🖥️  RadarDeConhecimento.java
-    └── 🖥️  DashboardPrincipal.java
-</pre>
-
 ---
 
 <div align="center">
