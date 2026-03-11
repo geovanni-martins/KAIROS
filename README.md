@@ -48,15 +48,14 @@ Esta plataforma carrega seu nome porque **aprender não é sobre quantidade — 
 
 </td>
 <td align="center" width="180">
-```
+<pre>
     ⏳
 
  O Momento
    Certo
 
  Κ Α Ι Ρ Ο Σ
-```
-
+</pre>
 </td>
 </tr>
 </table>
@@ -210,7 +209,8 @@ Esta plataforma carrega seu nome porque **aprender não é sobre quantidade — 
 ## 📁 Estrutura de Pacotes
 
 </div>
-```
+
+<pre>
 src/main/java/kairos/
 │
 ├── 📂 model/
@@ -233,7 +233,7 @@ src/main/java/kairos/
     ├── 🖥️  GrafoInterativo.java
     ├── 🖥️  RadarDeConhecimento.java
     └── 🖥️  DashboardPrincipal.java
-```
+</pre>
 
 ---
 
