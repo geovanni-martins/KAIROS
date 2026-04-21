@@ -33,8 +33,7 @@ CREATE TABLE IF NOT EXISTS admin (
 CREATE TABLE IF NOT EXISTS topic (
     id_topic INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    subject ENUM('MATH') NOT NULL,
-    difficulty ENUM('EASY', 'MEDIUM', 'HARD') NOT NULL
+    subject ENUM('MATH') NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS topic_pre_requirements (
@@ -50,6 +49,7 @@ CREATE TABLE IF NOT EXISTS question (
     topic_id INT NOT NULL,
     statement TEXT NOT NULL,
     stats ENUM('VERIFIED', 'NOT_VERIFIED') NOT NULL,
+    difficulty ENUM('EASY', 'MEDIUM', 'HARD') NOT NULL,
     FOREIGN KEY (topic_id) REFERENCES topic(id_topic)
 );
 
