@@ -1,18 +1,26 @@
 package com.kairos.model;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 
 public class Answer {
 	private int id;
 	private int userId;
 	private int questionId;
 	private boolean isCorrect;
-	private Timestamp createdAt;
+	private Instant createdAt;
 	
 	public Answer() {
 		
 	}
-	public Answer(int id, int userId, int questionId, boolean isCorrect, Timestamp createdAt) {
+	
+	public Answer(int userId, int questionId, boolean isCorrect, Instant createdAt) {
+		this.userId = userId;
+		this.questionId = questionId;
+		this.isCorrect = isCorrect;
+		this.createdAt = createdAt;
+	}
+	
+	public Answer(int id, int userId, int questionId, boolean isCorrect, Instant createdAt) {
 		this.id = id;
 		this.userId = userId;
 		this.questionId = questionId;
@@ -44,10 +52,10 @@ public class Answer {
 	public void setCorrect(boolean isCorrect) {
 		this.isCorrect = isCorrect;
 	}
-	public Timestamp getCreatedAt() {
+	public Instant getCreatedAt() {
 		return createdAt;
 	}
-	public void setCreatedAt(Timestamp createdAt) {
+	public void setCreatedAt(Instant createdAt) {
 		this.createdAt = createdAt;
 	}
 }

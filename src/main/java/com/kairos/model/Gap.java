@@ -4,7 +4,7 @@ public class Gap {
 	private int id;
 	private int userId;
 	private int topicId;
-	private String status; // Ex "OPEN", "IN_PROGRESS"  "CLOSED"
+	private String status; // Ex "open", "in_progress"  "closed"
 	
 	public Gap() {
 		
