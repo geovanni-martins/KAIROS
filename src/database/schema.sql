@@ -53,6 +53,13 @@ CREATE TABLE IF NOT EXISTS question (
     FOREIGN KEY (topic_id) REFERENCES topic(id_topic)
 );
 
+CREATE TABLE IF NOT EXISTS multiple_choice_question (
+    question_id INT PRIMARY KEY NOT NULL,
+    template TEXT NOT NULL,
+    justification TEXT NOT NULL,
+    FOREIGN KEY (question_id) REFERENCES question(id_question)
+);
+
 CREATE TABLE IF NOT EXISTS alternatives (
     id_alternatives INT AUTO_INCREMENT PRIMARY KEY,
     question_id INT NOT NULL,
@@ -67,10 +74,14 @@ CREATE TABLE IF NOT EXISTS answer (
     question_id INT NOT NULL,
     got_right BOOLEAN NOT NULL,
     answer_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    type ENUM('multiple_choice') NOT NULL ,
-    base_answer TEXT NOT NULL,
     FOREIGN KEY (student_id) REFERENCES student(id_student),
     FOREIGN KEY (question_id) REFERENCES question(id_question)
+);
+
+CREATE TABLE IF NOT EXISTS multiple_choice_answer (
+    answer_id INT PRIMARY KEY NOT NULL,
+    chosen_alternative TEXT NOT NULL,
+    FOREIGN KEY (answer_id) REFERENCES answer(id_answer)
 );
 
 CREATE TABLE IF NOT EXISTS reports (
