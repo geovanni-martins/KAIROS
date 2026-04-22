@@ -11,23 +11,23 @@ CREATE TABLE IF NOT EXISTS user (
     user_type ENUM('student', 'moderator', 'admin') NOT NULL
 );
 
-
 CREATE TABLE IF NOT EXISTS student (
     id_student INT PRIMARY KEY,
     current_streak INT DEFAULT 0,
     bigger_streak INT DEFAULT 0,
-    FOREIGN KEY (id_student) REFERENCES user(id_user)
+    xp INT DEFAULT 0,
+    FOREIGN KEY (id_student) REFERENCES user(id_user) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS moderator (
     id_moderator INT PRIMARY KEY,
     subject_owner VARCHAR(100) NOT NULL,
-    FOREIGN KEY (id_moderator) REFERENCES user(id_user)
+    FOREIGN KEY (id_moderator) REFERENCES user(id_user) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS admin (
     id_admin INT PRIMARY KEY,
-    FOREIGN KEY (id_admin) REFERENCES user(id_user)
+    FOREIGN KEY (id_admin) REFERENCES user(id_user) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS topic (
@@ -40,8 +40,8 @@ CREATE TABLE IF NOT EXISTS topic_pre_requirements (
     topic_id INT NOT NULL,
     pre_requirement_id INT NOT NULL,
     PRIMARY KEY (topic_id, pre_requirement_id),
-    FOREIGN KEY (topic_id) REFERENCES topic(id_topic),
-    FOREIGN KEY (pre_requirement_id) REFERENCES topic(id_topic)
+    FOREIGN KEY (topic_id) REFERENCES topic(id_topic) ON DELETE CASCADE,
+    FOREIGN KEY (pre_requirement_id) REFERENCES topic(id_topic) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS question (
@@ -50,22 +50,22 @@ CREATE TABLE IF NOT EXISTS question (
     statement TEXT NOT NULL,
     stats ENUM('verified', 'not_verified') NOT NULL,
     difficulty ENUM('easy', 'medium', 'hard') NOT NULL,
-    FOREIGN KEY (topic_id) REFERENCES topic(id_topic)
+    FOREIGN KEY (topic_id) REFERENCES topic(id_topic) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS multiple_choice_question (
     question_id INT PRIMARY KEY NOT NULL,
     template TEXT NOT NULL,
     justification TEXT NOT NULL,
-    FOREIGN KEY (question_id) REFERENCES question(id_question)
+    FOREIGN KEY (question_id) REFERENCES question(id_question) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS alternatives (
-    id_alternatives INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS alternative (
+    id_alternative INT AUTO_INCREMENT PRIMARY KEY,
     question_id INT NOT NULL,
     text TEXT NOT NULL,
     is_correct BOOLEAN NOT NULL,
-    FOREIGN KEY (question_id) REFERENCES question(id_question)
+    FOREIGN KEY (question_id) REFERENCES question(id_question) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS answer (
@@ -74,27 +74,28 @@ CREATE TABLE IF NOT EXISTS answer (
     question_id INT NOT NULL,
     got_right BOOLEAN NOT NULL,
     answer_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (student_id) REFERENCES student(id_student),
-    FOREIGN KEY (question_id) REFERENCES question(id_question)
+    FOREIGN KEY (student_id) REFERENCES student(id_student) ON DELETE CASCADE,
+    FOREIGN KEY (question_id) REFERENCES question(id_question) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS multiple_choice_answer (
     answer_id INT PRIMARY KEY NOT NULL,
-    chosen_alternative TEXT NOT NULL,
-    FOREIGN KEY (answer_id) REFERENCES answer(id_answer)
+    alternative_id INT NOT NULL,
+    FOREIGN KEY (answer_id) REFERENCES answer(id_answer) ON DELETE CASCADE,
+    FOREIGN KEY (alternative_id) REFERENCES alternative(id_alternative) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS reports (
     id_reports INT AUTO_INCREMENT PRIMARY KEY,
     student_id INT NOT NULL,
     question_id INT NOT NULL,
-    report_date TIMESTAMP NOT NULL,
+    report_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     reason TEXT NOT NULL,
     analyzed_by INT NULL,
     stats ENUM('analyzed', 'pending', 'not_analyzed') NOT NULL,
-    FOREIGN KEY (student_id) REFERENCES student(id_student),
-    FOREIGN KEY (question_id) REFERENCES question(id_question),
-    FOREIGN KEY (analyzed_by) REFERENCES moderator(id_moderator)
+    FOREIGN KEY (student_id) REFERENCES student(id_student) ON DELETE CASCADE,
+    FOREIGN KEY (question_id) REFERENCES question(id_question) ON DELETE CASCADE,
+    FOREIGN KEY (analyzed_by) REFERENCES moderator(id_moderator) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS gap (
@@ -105,8 +106,8 @@ CREATE TABLE IF NOT EXISTS gap (
     correct_answers INT NOT NULL,
     identified_date TIMESTAMP NOT NULL,
     stats ENUM('solved', 'not_solved') NOT NULL,
-    FOREIGN KEY (student_id) REFERENCES student(id_student),
-    FOREIGN KEY (topic_id) REFERENCES topic(id_topic)
+    FOREIGN KEY (student_id) REFERENCES student(id_student) ON DELETE CASCADE,
+    FOREIGN KEY (topic_id) REFERENCES topic(id_topic) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS student_topic (
@@ -115,6 +116,6 @@ CREATE TABLE IF NOT EXISTS student_topic (
     qty_solved_questions INT NULL,
     qty_wrong_questions INT NULL,
     PRIMARY KEY (student_id, topic_id),
-    FOREIGN KEY (student_id) REFERENCES student(id_student),
-    FOREIGN KEY (topic_id) REFERENCES topic(id_topic)
+    FOREIGN KEY (student_id) REFERENCES student(id_student) ON DELETE CASCADE,
+    FOREIGN KEY (topic_id) REFERENCES topic(id_topic) ON DELETE CASCADE
 );
