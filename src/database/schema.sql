@@ -81,18 +81,17 @@ CREATE TABLE IF NOT EXISTS answer (
 CREATE TABLE IF NOT EXISTS multiple_choice_answer (
     answer_id INT PRIMARY KEY NOT NULL,
     alternative_id INT NOT NULL,
-    FOREIGN KEY (answer_id) REFERENCES answer(id_answer) ON DELETE CASCADE,
-    FOREIGN KEY (alternative_id) REFERENCES alternative(id_alternative) ON DELETE CASCADE,
     FOREIGN KEY (answer_id) REFERENCES answer(id_answer),
-    FOREIGN KEY (alternative_id) REFERENCES alternatives(id_alternatives)
-);
+    FOREIGN KEY (alternative_id) REFERENCES alternative(id_alternative),
+    FOREIGN KEY (answer_id) REFERENCES answer(id_answer) ON DELETE CASCADE,
+    FOREIGN KEY (alternative_id) REFERENCES alternative(id_alternative) ON DELETE CASCADE
+    );
 
 CREATE TABLE IF NOT EXISTS reports (
     id_reports INT AUTO_INCREMENT PRIMARY KEY,
     student_id INT NOT NULL,
     question_id INT NOT NULL,
     report_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    report_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
     reason TEXT NOT NULL,
     analyzed_by INT NULL,
     stats ENUM('analyzed', 'pending', 'not_analyzed') NOT NULL,
@@ -104,14 +103,14 @@ CREATE TABLE IF NOT EXISTS reports (
 CREATE TABLE IF NOT EXISTS gap (
     id_gap INT PRIMARY KEY AUTO_INCREMENT,
     student_id INT NOT NULL,
-    topic_id INT NOT NULL
+    topic_id INT NOT NULL,
     qty_solved_questions INT NOT NULL,
     correct_answers INT NOT NULL,
     identified_date TIMESTAMP NOT NULL,
     stats ENUM('solved', 'not_solved') NOT NULL,
     FOREIGN KEY (student_id) REFERENCES student(id_student) ON DELETE CASCADE,
     FOREIGN KEY (topic_id) REFERENCES topic(id_topic) ON DELETE CASCADE
-);
+    );
 
 CREATE TABLE IF NOT EXISTS student_topic (
     student_id INT NOT NULL,
