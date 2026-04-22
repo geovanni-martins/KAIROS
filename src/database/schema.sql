@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS user (
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     senha VARCHAR(100) NOT NULL,
-    user_type ENUM('STUDENT', 'MODERATOR', 'ADMIN') NOT NULL
+    user_type ENUM('student', 'moderator', 'admin') NOT NULL
 );
 
 
@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS question (
     id_question INT AUTO_INCREMENT PRIMARY KEY,
     topic_id INT NOT NULL,
     statement TEXT NOT NULL,
-    stats ENUM('VERIFIED', 'NOT_VERIFIED') NOT NULL,
-    difficulty ENUM('EASY', 'MEDIUM', 'HARD') NOT NULL,
+    stats ENUM('verified', 'not_verified') NOT NULL,
+    difficulty ENUM('easy', 'medium', 'hard') NOT NULL,
     FOREIGN KEY (topic_id) REFERENCES topic(id_topic)
 );
 
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS answer (
     question_id INT NOT NULL,
     got_right BOOLEAN NOT NULL,
     answer_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    type ENUM('MULTIPLE_CHOICE') NOT NULL ,
+    type ENUM('multiple_choice') NOT NULL ,
     base_answer TEXT NOT NULL,
     FOREIGN KEY (student_id) REFERENCES student(id_student),
     FOREIGN KEY (question_id) REFERENCES question(id_question)
@@ -79,9 +79,11 @@ CREATE TABLE IF NOT EXISTS reports (
     question_id INT NOT NULL,
     report_date TIMESTAMP NOT NULL,
     reason TEXT NOT NULL,
-    stats ENUM('ANALYZED', 'PENDING', 'NOT_ANALYZED') NOT NULL,
+    analyzed_by INT NULL,
+    stats ENUM('analyzed', 'pending', 'not_analyzed') NOT NULL,
     FOREIGN KEY (student_id) REFERENCES student(id_student),
-    FOREIGN KEY (question_id) REFERENCES question(id_question)
+    FOREIGN KEY (question_id) REFERENCES question(id_question),
+    FOREIGN KEY (analyzed_by) REFERENCES moderator(id_moderator)
 );
 
 CREATE TABLE IF NOT EXISTS gap (
@@ -91,7 +93,7 @@ CREATE TABLE IF NOT EXISTS gap (
     qty_solved_questions INT NOT NULL,
     correct_answers INT NOT NULL,
     identified_date TIMESTAMP NOT NULL,
-    stats ENUM('SOLVED', 'NOT_SOLVED') NOT NULL,
+    stats ENUM('solved', 'not_solved') NOT NULL,
     FOREIGN KEY (student_id) REFERENCES student(id_student),
     FOREIGN KEY (topic_id) REFERENCES topic(id_topic)
 );
