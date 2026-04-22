@@ -60,8 +60,8 @@ CREATE TABLE IF NOT EXISTS multiple_choice_question (
     FOREIGN KEY (question_id) REFERENCES question(id_question)
 );
 
-CREATE TABLE IF NOT EXISTS alternatives (
-    id_alternatives INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS alternative (
+    id_alternative INT AUTO_INCREMENT PRIMARY KEY,
     question_id INT NOT NULL,
     text TEXT NOT NULL,
     is_correct BOOLEAN NOT NULL,
@@ -80,15 +80,16 @@ CREATE TABLE IF NOT EXISTS answer (
 
 CREATE TABLE IF NOT EXISTS multiple_choice_answer (
     answer_id INT PRIMARY KEY NOT NULL,
-    chosen_alternative TEXT NOT NULL,
-    FOREIGN KEY (answer_id) REFERENCES answer(id_answer)
+    alternative_id INT NOT NULL,
+    FOREIGN KEY (answer_id) REFERENCES answer(id_answer),
+    FOREIGN KEY (alternative_id) REFERENCES alternatives(id_alternative)
 );
 
 CREATE TABLE IF NOT EXISTS reports (
     id_reports INT AUTO_INCREMENT PRIMARY KEY,
     student_id INT NOT NULL,
     question_id INT NOT NULL,
-    report_date TIMESTAMP NOT NULL,
+    report_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
     reason TEXT NOT NULL,
     analyzed_by INT NULL,
     stats ENUM('analyzed', 'pending', 'not_analyzed') NOT NULL,
