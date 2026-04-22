@@ -1,7 +1,7 @@
 package com.kairos.model;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Question {
 
@@ -11,24 +11,24 @@ public class Question {
     private String difficulty;  // "easy", "medium", "hard"
     private Topic topic;
     private User createBy;
-    private Date createAt;
+    private Instant createAt;
     private ArrayList<Alternative> alternatives = new ArrayList<>();
 
-    public Question(int id, String statement, String stats, String difficulty, Topic topic) {
-
+    public Question(int id, String statement, String stats, String difficulty, Topic topic, Instant createAt) {
         this.id = id;
         this.statement = statement;
         this.stats = stats;
         this.difficulty = difficulty;
         this.topic = topic;
+        this.createAt = createAt;
     }
 
     public Question(String statement, String stats, String difficulty, Topic topic) {
-
         this.statement = statement;
         this.stats = stats;
         this.difficulty = difficulty;
         this.topic = topic;
+        createAt = Instant.now();
     }
 
     public int getId() {
@@ -83,11 +83,11 @@ public class Question {
         this.createBy = createBy;
     }
 
-    public Date getCreateAt() {
+    public Instant getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(Date createAt) {
+    public void setCreateAt(Instant createAt) {
         this.createAt = createAt;
     }
 }

@@ -1,6 +1,6 @@
 package com.kairos.model;
 
-import java.util.Date;
+import java.time.Instant;
 
 public class Report {
     private int id;
@@ -8,10 +8,10 @@ public class Report {
     private Question question;
     private String reason;
     private String status; // "analyzed", "pending", "not_analyzed"
-    private Date createdAt;
+    private Instant createdAt;
     private Moderator analyzedBy;
 
-    public Report(Student student, Question question, String reason, String status, Date createdAt, Moderator analyzedBy) {
+    public Report(Student student, Question question, String reason, String status, Instant createdAt, Moderator analyzedBy) {
         this.student = student;
         this.question = question;
         this.reason = reason;
@@ -20,7 +20,7 @@ public class Report {
         this.analyzedBy = null;
     }
 
-    public Report(int id, Student student, Question question, String reason, String status, Date createdAt, Moderator analyzedBy) {
+    public Report(int id, Student student, Question question, String reason, String status, Instant createdAt, Moderator analyzedBy) {
         this.id = id;
         this.student = student;
         this.question = question;
@@ -46,11 +46,11 @@ public class Report {
         this.analyzedBy = analyzedBy;
     }
 
-    public Date getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 
