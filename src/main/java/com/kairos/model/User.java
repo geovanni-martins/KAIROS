@@ -5,11 +5,11 @@ public class User {
     private String name, email, password;
     private String role; // "admin", "moderator", "student"
 
-    public User(String name, String email, String password) {
+    public User(String name, String email, String password, String role) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.role = "student";
+        this.role = role;
     }
 
     public User(int id, String name, String email, String password, String role) {
