@@ -48,8 +48,9 @@ CREATE TABLE IF NOT EXISTS question (
     id_question INT AUTO_INCREMENT PRIMARY KEY,
     topic_id INT NOT NULL,
     statement TEXT NOT NULL,
-    stats ENUM('verified', 'not_verified') NOT NULL,
+    stats ENUM('verified', 'not_verified') NOT NULL DEFAULT 'not_verified',
     difficulty ENUM('easy', 'medium', 'hard') NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (topic_id) REFERENCES topic(id_topic) ON DELETE CASCADE
 );
 
