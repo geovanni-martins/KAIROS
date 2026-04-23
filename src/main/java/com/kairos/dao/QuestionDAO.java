@@ -1,5 +1,6 @@
 package com.kairos.dao;
 
+import com.kairos.model.Alternative;
 import com.kairos.model.Question;
 import com.kairos.model.Topic;
 
@@ -48,6 +49,7 @@ public class QuestionDAO {
 
             if (linhasAfetadas > 0) {
                 System.out.println("Questão atualizada com sucesso!");
+
             } else {
                 System.out.println("Nenhuma questão encontrada com esse ID.");
             }
@@ -59,7 +61,7 @@ public class QuestionDAO {
 
     public ArrayList<Question> listQuestions() {
         ArrayList<Question> lista = new ArrayList<>();
-        String sql = "SELECT * FROM question";
+        String sql = "SELECT * FROM question"; //FAZER O JOIN AQ
 
         try (
                 java.sql.Connection conn = DBConnection.connect();
@@ -67,8 +69,24 @@ public class QuestionDAO {
                 ResultSet rs = stmt.executeQuery();
         ) {
             while (rs.next()) {
-                Topic topic = new Topic(rs.getInt("topic_id"), null, null);
-                Question question = new Question(rs.getInt("id_question"), rs.getString("statement"), rs.getString("stats"), rs.getString("difficulty"), topic, rs.getTimestamp("created_at").toInstant());
+
+                Topic topic = new Topic(rs.getInt("topic_id"),
+                        null,
+                        null);
+
+                Question question = new Question(rs.getInt("id_question"),
+                        rs.getString("statement"),
+                        rs.getString("stats"),
+                        rs.getString("difficulty"),
+                        topic,
+                        rs.getTimestamp("created_at").toInstant());
+
+                Alternative alternative = new Alternative(rs.getString("id_alternative"),
+                        rs.getString("question_id"),
+                        rs.getString("text"),
+                        rs.getBoolean("is_correct"),
+                        Question);
+
                 lista.add(question);
             }
 
@@ -91,9 +109,18 @@ public class QuestionDAO {
             stmt.setInt(1, id_question);
 
             try (ResultSet rs = stmt.executeQuery()) {
+
                 if (rs.next()) {
-                    Topic topic = new Topic(rs.getInt("topic_id"), null, null);
-                    question = new Question(rs.getInt("id_question"), rs.getString("statement"), rs.getString("stats"), rs.getString("difficulty"), topic, rs.getTimestamp("created_at").toInstant());
+                    Topic topic = new Topic(rs.getInt("topic_id"),
+                            null,
+                            null);
+
+                    question = new Question(rs.getInt("id_question"),
+                            rs.getString("statement"),
+                            rs.getString("stats"),
+                            rs.getString("difficulty"),
+                            topic,
+                            rs.getTimestamp("created_at").toInstant());
                 }
             }
 
@@ -111,13 +138,16 @@ public class QuestionDAO {
         try (
                 java.sql.Connection conn = DBConnection.connect();
                 PreparedStatement stmt = conn.prepareStatement(sql);
+
         ) {
+
             stmt.setInt(1, id_question);
 
             int linhasAfetadas = stmt.executeUpdate();
 
             if (linhasAfetadas > 0) {
                 System.out.println("Questão excluída com sucesso!");
+
             } else {
                 System.out.println("Nenhuma questão encontrada com esse ID.");
             }
