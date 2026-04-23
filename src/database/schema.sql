@@ -7,14 +7,13 @@ CREATE TABLE IF NOT EXISTS user (
     id_user INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    senha VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL,
     user_type ENUM('student', 'moderator', 'admin') NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS student (
     id_student INT PRIMARY KEY,
-    current_streak INT DEFAULT 0,
-    bigger_streak INT DEFAULT 0,
+    level INT DEFAULT 0,
     xp INT DEFAULT 0,
     FOREIGN KEY (id_student) REFERENCES user(id_user) ON DELETE CASCADE
 );

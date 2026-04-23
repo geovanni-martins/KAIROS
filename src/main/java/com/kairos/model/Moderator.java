@@ -3,8 +3,8 @@ package com.kairos.model;
 public class Moderator extends User{
     private String responsibileDiscipline;
 
-    public Moderator(String name, String email, String password, String responsibileDiscipline) {
-        super(name, email, password);
+    public Moderator(String name, String email, String password, String role, String responsibileDiscipline) {
+        super(name, email, password, role);
         this.responsibileDiscipline = responsibileDiscipline;
     }
 
