@@ -19,6 +19,9 @@ public class UserController {
 
     public UserController() {
         userDAO = new UserDAO();
+        adminDAO = new AdminDAO();
+        studentDAO = new StudentDAO();
+        moderatorDAO = new ModeratorDAO();
     }
 
     public void register(String name, String email, String passwordTyped, String role, String responsibleDiscipline) {
