@@ -61,39 +61,108 @@ public class QuestionDAO {
 
     public ArrayList<Question> listQuestions() {
         ArrayList<Question> lista = new ArrayList<>();
-        String sql = "SELECT * FROM question"; //FAZER O JOIN AQ
+        String sql = "SELECT q.*, a.id_alternative, a.text, a.is_correct " +
+                "FROM question q " +
+                "LEFT JOIN alternative a ON q.id_question = a.question_id";
 
         try (
                 java.sql.Connection conn = DBConnection.connect();
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();
         ) {
+
+            Question currentQuestion = null;
+
             while (rs.next()) {
+
+                int id = rs.getInt("id_question");
 
                 Topic topic = new Topic(rs.getInt("topic_id"),
                         null,
                         null);
 
-                Question question = new Question(rs.getInt("id_question"),
-                        rs.getString("statement"),
-                        rs.getString("stats"),
-                        rs.getString("difficulty"),
-                        topic,
-                        rs.getTimestamp("created_at").toInstant());
+                if (currentQuestion == null || currentQuestion.getId() != id) {
+                    currentQuestion = new Question(
+                            rs.getInt("id_question"),
+                            rs.getString("statement"),
+                            rs.getString("stats"),
+                            rs.getString("difficulty"),
+                            topic,
+                            rs.getTimestamp("created_at").toInstant());
+                    lista.add(currentQuestion);
+                }
 
-                Alternative alternative = new Alternative(rs.getString("id_alternative"),
-                        rs.getString("question_id"),
+
+                Alternative alternative = new Alternative(
+                        rs.getInt("id_alternative"),
                         rs.getString("text"),
                         rs.getBoolean("is_correct"),
-                        Question);
+                        currentQuestion
+                );
 
-                lista.add(question);
+                currentQuestion.getAlternatives().add(alternative);
+
             }
 
         } catch (SQLException e) {
             System.out.println("Erro ao listar questões: " + e.getMessage());
         }
 
+        return lista;
+    }
+
+    public ArrayList<Question> listQuestionsPerTopic(int topicId) {
+        ArrayList<Question> lista = new ArrayList<>();
+        String sql = "SELECT q.*, a.id_alternative, a.text, a.is_correct " +
+                "FROM question q " +
+                "LEFT JOIN alternative a ON q.id_question = a.question_id " +
+                "WHERE q.topic_id = ?";
+
+        try (
+                java.sql.Connection conn = DBConnection.connect();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+        ) {
+
+            stmt.setInt(1, topicId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                Question currentQuestion = null;
+
+                while (rs.next()) {
+
+                    int id = rs.getInt("id_question");
+
+                    Topic topic = new Topic(rs.getInt("topic_id"),
+                            null,
+                            null);
+
+                    if (currentQuestion == null || currentQuestion.getId() != id) {
+
+                        currentQuestion = new Question(
+                                rs.getInt("id_question"),
+                                rs.getString("statement"),
+                                rs.getString("stats"),
+                                rs.getString("difficulty"),
+                                topic,
+                                rs.getTimestamp("created_at").toInstant());
+
+                        lista.add(currentQuestion);
+                    }
+
+                    Alternative alternative = new Alternative(
+                            rs.getInt("id_alternative"),
+                            rs.getString("text"),
+                            rs.getBoolean("is_correct"),
+                            currentQuestion
+                    );
+
+                    currentQuestion.getAlternatives().add(alternative);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar questões por tópico: " + e.getMessage());
+        }
         return lista;
     }
 
@@ -115,7 +184,8 @@ public class QuestionDAO {
                             null,
                             null);
 
-                    question = new Question(rs.getInt("id_question"),
+                    question = new Question(
+                            rs.getInt("id_question"),
                             rs.getString("statement"),
                             rs.getString("stats"),
                             rs.getString("difficulty"),

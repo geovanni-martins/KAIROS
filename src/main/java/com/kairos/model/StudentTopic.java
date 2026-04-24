@@ -2,44 +2,44 @@ package com.kairos.model;
 
 public class StudentTopic {
 
-    private int student_id;
-    private int topic_id;
-    private int qty_solved_questions;
-    private int qty_wrong_questions;
+    private Student student;
+    private Topic topic;
+    private int qtySolvedQuestions;
+    private int qtyWrongQuestions;
 
-    public StudentTopic(int student_id, int topic_id, int qty_solved_questions, int qty_wrong_questions) {
-        this.student_id = student_id;
-        this.topic_id = topic_id;
-        this.qty_solved_questions = qty_solved_questions;
-        this.qty_wrong_questions = qty_wrong_questions;
+    public StudentTopic(Student student, Topic topic, int qtySolvedQuestions, int qtyWrongQuestions) {
+        this.student = student;
+        this.topic = topic;
+        this.qtySolvedQuestions = qtySolvedQuestions;
+        this.qtyWrongQuestions = qtyWrongQuestions;
     }
 
-    public StudentTopic(int qty_solved_questions, int qty_wrong_questions) {
-        this.qty_solved_questions = qty_solved_questions;
-        this.qty_wrong_questions = qty_wrong_questions;
+    public StudentTopic(int qtySolvedQuestions, int qtyWrongQuestions) {
+        this.qtySolvedQuestions = qtySolvedQuestions;
+        this.qtyWrongQuestions = qtyWrongQuestions;
     }
 
-    public int getStudent_id() {
-        return student_id;
+    public Student getStudent() {
+        return student;
     }
 
-    public int getTopic_id() {
-        return topic_id;
+    public Topic getTopic() {
+        return topic;
     }
 
-    public int getQty_solved_questions() {
-        return qty_solved_questions;
+    public int getQtySolvedQuestions() {
+        return qtySolvedQuestions;
     }
 
-    public void setQty_solved_questions(int qty_solved_questions) {
-        this.qty_solved_questions = qty_solved_questions;
+    public void setQtySolvedQuestions(int qtySolvedQuestions) {
+        this.qtySolvedQuestions = qtySolvedQuestions;
     }
 
-    public int getQty_wrong_questions() {
-        return qty_wrong_questions;
+    public int getQtyWrongQuestions() {
+        return qtyWrongQuestions;
     }
 
-    public void setQty_wrong_questions(int qty_wrong_questions) {
-        this.qty_wrong_questions = qty_wrong_questions;
+    public void setQtyWrongQuestions(int qtyWrongQuestions) {
+        this.qtyWrongQuestions = qtyWrongQuestions;
     }
 }
