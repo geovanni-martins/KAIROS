@@ -23,7 +23,7 @@ public class StudentTopicDAO {
             stmt.setInt(4, studentTopic.getQtyWrongQuestions());
 
             stmt.executeUpdate();
-            System.out.println("Tópico de estudante cadastrado com sucesso!");
+            System.out.println("Tópico de estudante cadastrado com sucesso");
 
         } catch (SQLException e) {
             System.out.println("Erro ao inserir tópico de estudante: " + e.getMessage());
@@ -45,10 +45,10 @@ public class StudentTopicDAO {
             int linhasAfetadas = stmt.executeUpdate();
 
             if (linhasAfetadas > 0) {
-                System.out.println("Tópico de estudante atualizado com sucesso!");
+                System.out.println("Tópico de estudante atualizado com sucesso");
 
             } else {
-                System.out.println("Nenhum tópico de estudante encontrado com esse ID.");
+                System.out.println("Nenhum tópico de estudante encontrado com esse ID");
             }
 
         } catch (SQLException e) {
