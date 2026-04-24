@@ -38,5 +38,10 @@ public class Topic {
     public void setSubject(String subject) {
         this.subject = subject;
     }
+
+    @Override
+    public String toString() {
+        return "Topic{id=" + id + ", name='" + name + "', subject='" + subject + "'}";
+    }
 }
 
