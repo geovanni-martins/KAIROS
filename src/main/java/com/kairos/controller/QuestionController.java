@@ -1,5 +1,6 @@
 package com.kairos.controller;
 
+import com.kairos.model.MultipleChoiceQuestion;
 import com.kairos.model.Question;
 import com.kairos.dao.QuestionDAO;
 import com.kairos.model.User;
@@ -14,7 +15,7 @@ public class QuestionController {
         questionDAO = new QuestionDAO();
     }
 
-    public void insertQuestion(Question question, User user) {
+    public void insertQuestion(MultipleChoiceQuestion question, User user) {
 
         if (!user.getRole().equals("moderator") && !user.getRole().equals("admin")) {
 

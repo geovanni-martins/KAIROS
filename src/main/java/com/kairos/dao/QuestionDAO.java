@@ -1,35 +1,52 @@
 package com.kairos.dao;
 
 import com.kairos.model.Alternative;
+import com.kairos.model.MultipleChoiceQuestion;
 import com.kairos.model.Question;
 import com.kairos.model.Topic;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class QuestionDAO {
 
-    public void insertQuestion(Question question) {
+    public void insertQuestion(MultipleChoiceQuestion question) {
 
         String sql = "INSERT INTO question (topic_id, statement, stats, difficulty) VALUES (?, ?, ?, ?)";
 
         try (
                 java.sql.Connection conn = DBConnection.connect();
-                PreparedStatement stmt = conn.prepareStatement(sql);
+                PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ) {
             stmt.setInt(1, question.getTopic().getId());
             stmt.setString(2, question.getStatement());
             stmt.setString(3, question.getStats());
             stmt.setString(4, question.getDifficulty());
-
             stmt.executeUpdate();
+
+            ResultSet generatedKeys = stmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int idGerado = generatedKeys.getInt(1);
+
+                String sql2 = "INSERT INTO multiple_choice_question (question_id, template, justification) VALUES (?, ?, ?)"; //inserindo a questão como de multipla escolha ja que so existe ela por enquanto
+                PreparedStatement stmt2 = conn.prepareStatement(sql2);
+
+                stmt2.setInt(1, idGerado);
+                stmt2.setString(2, question.getTemplate());
+                stmt2.setString(3, question.getJustification());
+                stmt2.executeUpdate();
+
+            }
+
             System.out.println("Questão cadastrada com sucesso!");
 
         } catch (SQLException e) {
             System.out.println("Erro ao inserir questão: " + e.getMessage());
         }
+
     }
 
     public void updateQuestion(Question question) {
