@@ -39,9 +39,19 @@ public class QuestionDAO {
                 stmt2.setString(3, question.getJustification());
                 stmt2.executeUpdate();
 
+                String sql3 = "INSERT INTO alternative (question_id, text, is_correct) VALUES (?, ?, ?)";
+                PreparedStatement stmt3 = conn.prepareStatement(sql3);
+                for (Alternative alt : question.getAlternatives()) {
+                    stmt3.setInt(1, idGerado);
+                    stmt3.setString(2, alt.getText());
+                    stmt3.setBoolean(3, alt.getCorrect());
+                    stmt3.addBatch();
+                }
+                stmt3.executeBatch();
+
             }
 
-            System.out.println("Questão cadastrada com sucesso!");
+            System.out.println("Questão cadastrada com sucesso");
 
         } catch (SQLException e) {
             System.out.println("Erro ao inserir questão: " + e.getMessage());
@@ -49,7 +59,7 @@ public class QuestionDAO {
 
     }
 
-    public void updateQuestion(Question question) {
+    public void updateQuestion(MultipleChoiceQuestion question) {
 
         String sql = "UPDATE question SET topic_id = ?, statement = ?, stats = ?, difficulty = ? WHERE id_question = ?";
 
@@ -62,14 +72,36 @@ public class QuestionDAO {
             stmt.setString(3, question.getStats());
             stmt.setString(4, question.getDifficulty());
             stmt.setInt(5, question.getId());
-            int linhasAfetadas = stmt.executeUpdate();
+            stmt.executeUpdate();
 
-            if (linhasAfetadas > 0) {
-                System.out.println("Questão atualizada com sucesso!");
+            String sql2 = "UPDATE multiple_choice_question SET template = ?, justification = ? WHERE question_id = ?";
 
-            } else {
-                System.out.println("Nenhuma questão encontrada com esse ID.");
+            PreparedStatement stmt2 = conn.prepareStatement(sql2);
+            stmt2.setString(1, question.getTemplate());
+            stmt2.setString(2, question.getJustification());
+            stmt2.setInt(3, question.getId());
+            stmt2.executeUpdate();
+
+            String sqlDelete = "DELETE FROM alternative WHERE question_id = ?"; //aq deleta as alternativas antigas
+
+            PreparedStatement stmtDelete = conn.prepareStatement(sqlDelete);
+            stmtDelete.setInt(1, question.getId());
+            stmtDelete.executeUpdate();
+
+            String sql3 = "INSERT INTO alternative (question_id, text, is_correct) VALUES (?, ?, ?)";
+
+            PreparedStatement stmt3 = conn.prepareStatement(sql3);
+
+            for (Alternative alt : question.getAlternatives()) {
+                stmt3.setInt(1, question.getId());
+                stmt3.setString(2, alt.getText());
+                stmt3.setBoolean(3, alt.getCorrect());
+                stmt3.addBatch();
             }
+
+            stmt3.executeBatch();
+
+            System.out.println("Questão atualizada com sucesso");
 
         } catch (SQLException e) {
             System.out.println("Erro ao atualizar questão: " + e.getMessage());
@@ -233,7 +265,7 @@ public class QuestionDAO {
             int linhasAfetadas = stmt.executeUpdate();
 
             if (linhasAfetadas > 0) {
-                System.out.println("Questão excluída com sucesso!");
+                System.out.println("Questão excluída com sucesso");
 
             } else {
                 System.out.println("Nenhuma questão encontrada com esse ID.");

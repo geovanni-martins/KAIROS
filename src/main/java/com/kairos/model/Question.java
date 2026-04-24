@@ -90,4 +90,9 @@ public class Question {
     public void setCreateAt(Instant createAt) {
         this.createAt = createAt;
     }
+
+    @Override
+    public String toString() {
+        return "Question{id=" + id + ", statement='" + statement + "', stats='" + stats + "', difficulty='" + difficulty + "'}";
+    }
 }

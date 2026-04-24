@@ -42,4 +42,14 @@ public class StudentTopic {
     public void setQtyWrongQuestions(int qtyWrongQuestions) {
         this.qtyWrongQuestions = qtyWrongQuestions;
     }
+
+    @Override
+    public String toString() {
+        return "StudentTopic{" +
+                "studentId=" + student.getId() +
+                ", topicId=" + topic.getId() +
+                ", solved=" + qtySolvedQuestions +
+                ", wrong=" + qtyWrongQuestions +
+                '}';
+    }
 }

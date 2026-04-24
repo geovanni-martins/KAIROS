@@ -11,7 +11,7 @@ public class StudentTopicDAO {
 
     public void insertStudentTopic(StudentTopic studentTopic) {
 
-        String sql = "INSERT INTO student_topic (student_id, topic_id, qtd_solved_questions, qtd_wrong_questions) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO student_topic (student_id, topic_id, qty_solved_questions, qty_wrong_questions) VALUES (?, ?, ?, ?)";
 
         try (
                 java.sql.Connection conn = DBConnection.connect();

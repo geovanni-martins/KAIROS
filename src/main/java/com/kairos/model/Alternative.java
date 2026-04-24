@@ -49,4 +49,9 @@ public class Alternative {
     public void setQuestion(Question question) {
         this.question = question;
     }
+
+    @Override
+    public String toString() {
+        return "Alternative{id=" + id + ", text='" + text + "', isCorrect=" + isCorrect + "}";
+    }
 }

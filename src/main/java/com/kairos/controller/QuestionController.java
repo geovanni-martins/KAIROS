@@ -1,5 +1,6 @@
 package com.kairos.controller;
 
+import com.kairos.model.Alternative;
 import com.kairos.model.MultipleChoiceQuestion;
 import com.kairos.model.Question;
 import com.kairos.dao.QuestionDAO;
@@ -41,10 +42,27 @@ public class QuestionController {
             return;
         }
 
+        if (question.getAlternatives() == null || question.getAlternatives().size() != 5) {
+            System.out.println("A questão deve ter 5 alternativas");
+            return;
+        }
+
+        int corrects = 0;
+        for (Alternative alternative : question.getAlternatives()) {
+            if (alternative.getCorrect())
+                corrects++;
+        }
+
+        if (corrects != 1) {
+            System.out.println("A questão deve ter exatamente uma alternativa correta");
+            return;
+        }
+
         if (user.getRole().equals("moderator")){
 
             question.setStats("verified");
         }
+
         questionDAO.insertQuestion(question);
     }
 
@@ -53,12 +71,16 @@ public class QuestionController {
         return questionDAO.listQuestions();
     }
 
+    public List<Question> listQuestionsPerTopic(int topicId) {
+        return questionDAO.listQuestionsPerTopic(topicId);
+    }
+
     public Question searchQuestionById(int id) {
 
         return questionDAO.searchQuestionById(id);
     }
 
-    public void updateQuestion(Question question, User user) {
+    public void updateQuestion(MultipleChoiceQuestion question, User user) {
 
         if (!user.getRole().equals("moderator") && !user.getRole().equals("admin")) {
             System.out.println("Sem permissão para atualizar a questão");
