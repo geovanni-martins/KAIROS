@@ -1,32 +1,47 @@
 package com.kairos.model;
 
+import java.time.Instant;
+
 public class Gap {
 	private int id;
-	private int userId;
+	private int studentId;
 	private int topicId;
-	private String status; // Ex "open", "in_progress"  "closed"
+	private int qtySolvedQuestions;
+	private int correctAnswers;
+	private Instant createdAt;
+	private String stats; //'solved', 'not_solved'
 	
 	public Gap() {
 		
 	}
-	public Gap(int id, int userId, int topicId, String status) {
-		this.id = id;
-		this.userId = userId;
+	public Gap(int studentId, int topicId, int qtySolvedQuestions, int correctAnswers, Instant createdAt, String stats) {
+		this.studentId = studentId;
 		this.topicId = topicId;
-		this.status = status;
+		this.qtySolvedQuestions = qtySolvedQuestions;
+		this.correctAnswers = correctAnswers;
+		this.createdAt = createdAt;
+		this.stats = stats;
 	}
-	
+	public Gap(int id, int studentId, int topicId, int qtySolvedQuestions, int correctAnswers, Instant createdAt, String stats) {
+		this.id = id;
+		this.studentId = studentId;
+		this.topicId = topicId;
+		this.qtySolvedQuestions = qtySolvedQuestions;
+		this.correctAnswers = correctAnswers;
+		this.createdAt = createdAt;
+		this.stats = stats;
+	}
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getUserId() {
-		return userId;
+	public int getStudentId() {
+		return studentId;
 	}
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setStudentId(int studentId) {
+		this.studentId = studentId;
 	}
 	public int getTopicId() {
 		return topicId;
@@ -34,10 +49,28 @@ public class Gap {
 	public void setTopicId(int topicId) {
 		this.topicId = topicId;
 	}
-	public String getStatus() {
-		return status;
+	public int getQtySolvedQuestions() {
+		return qtySolvedQuestions;
 	}
-	public void setStatus(String status) {
-		this.status = status;
+	public void setQtySolvedQuestions(int qtySolvedQuestions) {
+		this.qtySolvedQuestions = qtySolvedQuestions;
+	}
+	public int getCorrectAnswers() {
+		return correctAnswers;
+	}
+	public void setCorrectAnswers(int correctAnswers) {
+		this.correctAnswers = correctAnswers;
+	}
+	public Instant getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(Instant createdAt) {
+		this.createdAt = createdAt;
+	}
+	public String getStats() {
+		return stats;
+	}
+	public void setStats(String stats) {
+		this.stats = stats;
 	}
 }

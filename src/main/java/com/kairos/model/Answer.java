@@ -4,58 +4,88 @@ import java.time.Instant;
 
 public class Answer {
 	private int id;
-	private int userId;
+	private int studentId;
 	private int questionId;
-	private boolean isCorrect;
+	private boolean gotRight;
 	private Instant createdAt;
+	private String type; //'Multiplique_Choice
+	private String baseAnswer;
 	
 	public Answer() {
 		
 	}
 	
-	public Answer(int userId, int questionId, boolean isCorrect, Instant createdAt) {
-		this.userId = userId;
+	public Answer(int studentId, int questionId, boolean gotRight, Instant createdAt, String type, String baseAnswer) {
+		this.studentId = studentId;
 		this.questionId = questionId;
-		this.isCorrect = isCorrect;
+		this.gotRight = gotRight;
 		this.createdAt = createdAt;
+		this.type = type;
+		this.baseAnswer = baseAnswer;
 	}
-	
-	public Answer(int id, int userId, int questionId, boolean isCorrect, Instant createdAt) {
+	public Answer(int id, int studentId, int questionId, boolean gotRight, Instant createdAt, String type, String baseAnswer) {
 		this.id = id;
-		this.userId = userId;
+		this.studentId = studentId;
 		this.questionId = questionId;
-		this.isCorrect = isCorrect;
+		this.gotRight = gotRight;
 		this.createdAt = createdAt;
+		this.type = type;
+		this.baseAnswer = baseAnswer;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getUserId() {
-		return userId;
+
+	public int getStudentId() {
+		return studentId;
 	}
-	public void setUserId(int userId) {
-		this.userId = userId;
+
+	public void setStudentId(int studentId) {
+		this.studentId = studentId;
 	}
+
 	public int getQuestionId() {
 		return questionId;
 	}
+
 	public void setQuestionId(int questionId) {
 		this.questionId = questionId;
 	}
-	public boolean isCorrect() {
-		return isCorrect;
+
+	public boolean isGotRight() {
+		return gotRight;
 	}
-	public void setCorrect(boolean isCorrect) {
-		this.isCorrect = isCorrect;
+
+	public void setGotRight(boolean gotRight) {
+		this.gotRight = gotRight;
 	}
+
 	public Instant getCreatedAt() {
 		return createdAt;
 	}
+
 	public void setCreatedAt(Instant createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getBaseAnswer() {
+		return baseAnswer;
+	}
+
+	public void setBaseAnswer(String baseAnswer) {
+		this.baseAnswer = baseAnswer;
 	}
 }
