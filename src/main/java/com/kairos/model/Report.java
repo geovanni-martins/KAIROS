@@ -11,12 +11,11 @@ public class Report {
     private Instant createdAt;
     private Moderator analyzedBy;
 
-    public Report(Student student, Question question, String reason, String status, Instant createdAt, Moderator analyzedBy) {
+    public Report(Student student, Question question, String reason, String status) {
         this.student = student;
         this.question = question;
         this.reason = reason;
         this.status = status;
-        this.createdAt = createdAt;
         this.analyzedBy = null;
     }
 

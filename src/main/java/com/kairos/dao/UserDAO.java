@@ -277,16 +277,14 @@ public class UserDAO {
     }
 
     public void updateByEmail(User user) {
-        String sql = "UPDATE users SET name = ?, password = ? WHERE id_user = ?;";
+        String sql = "UPDATE users SET name = ?, password = ? WHERE email = ?;";
 
         try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)
         ) {
-
             preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getEmail());
-            preparedStatement.setString(3, user.getPassword());
-            preparedStatement.setInt(4, user.getId());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(3, user.getEmail());
 
             int linesAffected = preparedStatement.executeUpdate();
 
