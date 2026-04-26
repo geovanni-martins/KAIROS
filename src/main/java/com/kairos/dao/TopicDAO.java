@@ -1,140 +1,116 @@
 package com.kairos.dao;
 
 import com.kairos.model.Topic;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TopicDAO {
 
-    public void insertTopic(Topic topic) {
-
+    public void insert(Topic topic) {
         String sql = "INSERT INTO topic (name, subject) VALUES (?, ?)";
 
-        try (
-                Connection conn = DBConnection.connect();
-                PreparedStatement stmt = conn.prepareStatement(sql);
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)
         ) {
             stmt.setString(1, topic.getName());
             stmt.setString(2, topic.getSubject());
             stmt.executeUpdate();
-
+            System.out.println("Tópico cadastrado");
         } catch (SQLException e) {
             System.out.println("Erro ao inserir tópico: " + e.getMessage());
         }
     }
 
-    public ArrayList<Topic> listTopics() {
-
-        String sql = "SELECT * FROM topic";
-
-        ArrayList<Topic> lista = new ArrayList<>();
-
-        try (Connection conn = DBConnection.connect();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                Topic topic = new Topic(
-                        rs.getInt("id_topic"),
-                        rs.getString("name"),
-                        rs.getString("subject")
-                );
-
-                lista.add(topic);
-            }
-
-        } catch (SQLException e) {
-
-            System.out.println("Erro ao listar tópicos: " + e.getMessage());
-        }
-        return lista;
-
-    }
-
-    public Topic searchTopicById(int topic_id) {
-
+    public Topic getById(int id) {
         String sql = "SELECT * FROM topic WHERE id_topic = ?";
 
-        Topic topic = null;
-
         try (Connection conn = DBConnection.connect();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
+            stmt.setInt(1, id);
 
-            stmt.setInt(1, topic_id);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                topic = new Topic(
-                        rs.getInt("id_topic"),
-                        rs.getString("name"),
-                        rs.getString("subject")
-                );
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Topic(
+                            rs.getInt("id_topic"),
+                            rs.getString("name"),
+                            rs.getString("subject")
+                    );
+                }
             }
 
         } catch (SQLException e) {
-
-            System.out.println("Erro ao buscar tópico pelo id: " + e.getMessage());
+            System.out.println("Erro ao buscar tópico: " + e.getMessage());
         }
 
-        return topic;
+        return null;
     }
 
-    public void updateTopic(Topic topic) {
+    public List<Topic> getAll() {
+        List<Topic> list = new ArrayList<>();
+        String sql = "SELECT * FROM topic";
 
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()
+        ) {
+            while (rs.next()) {
+                list.add(new Topic(
+                        rs.getInt("id_topic"),
+                        rs.getString("name"),
+                        rs.getString("subject")
+                ));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar tópicos: " + e.getMessage());
+        }
+
+        return list;
+    }
+
+    public void update(Topic topic) {
         String sql = "UPDATE topic SET name = ?, subject = ? WHERE id_topic = ?";
 
-        try (
-                java.sql.Connection conn = DBConnection.connect();
-                PreparedStatement stmt = conn.prepareStatement(sql);
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)
         ) {
             stmt.setString(1, topic.getName());
             stmt.setString(2, topic.getSubject());
             stmt.setInt(3, topic.getId());
-            stmt.executeUpdate();
 
-            System.out.println("Tópico atualizado com sucesso");
+            int linesAffected = stmt.executeUpdate();
+
+            if (linesAffected > 0) {
+                System.out.println("Tópico atualizado");
+            } else {
+                System.out.println("Nenhum tópico encontrado");
+            }
 
         } catch (SQLException e) {
-
             System.out.println("Erro ao atualizar tópico: " + e.getMessage());
         }
     }
 
-
-    public void deleteTopic(int id_topic) {
-
+    public void delete(int id) {
         String sql = "DELETE FROM topic WHERE id_topic = ?";
 
-        try (
-                java.sql.Connection conn = DBConnection.connect();
-                PreparedStatement stmt = conn.prepareStatement(sql);
-
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)
         ) {
+            stmt.setInt(1, id);
 
-            stmt.setInt(1, id_topic);
+            int linesAffected = stmt.executeUpdate();
 
-            int linhasAfetadas = stmt.executeUpdate();
-
-            if (linhasAfetadas > 0) {
-                System.out.println("Tópico excluído com sucesso");
-
+            if (linesAffected > 0) {
+                System.out.println("Tópico deletado");
             } else {
-                System.out.println("Nenhum tópico encontrada com esse ID.");
+                System.out.println("Nenhum tópico encontrado");
             }
 
         } catch (SQLException e) {
-            System.out.println("Erro ao excluir tópico: " + e.getMessage());
+            System.out.println("Erro ao deletar tópico: " + e.getMessage());
         }
     }
-
 }
-
-
-
-
-

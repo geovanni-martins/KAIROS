@@ -7,42 +7,39 @@ import java.util.List;
 
 public class ModeratorDAO {
 
-    public void insert(int moderatorId, String responsibleDiscipline) {
+    public void insert(int moderatorId, String subjectOwner) {
         String sql = "INSERT INTO moderator (id_moderator, subject_owner) VALUES (?, ?);";
-        try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)
+
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)
         ) {
-            preparedStatement.setInt(1, moderatorId);
-            preparedStatement.setString(2, responsibleDiscipline);
-            preparedStatement.executeUpdate();
+            stmt.setInt(1, moderatorId);
+            stmt.setString(2, subjectOwner);
+            stmt.executeUpdate();
             System.out.println("Moderador cadastrado");
         } catch (SQLException e) {
             System.out.println("Erro ao inserir moderador: " + e.getMessage());
         }
     }
 
-    public Moderator getModeratorById(int id) {
+    public Moderator getById(int id) {
         String sql =
-                "SELECT u.id_user, u.name, u.email, u.password, u.user_type, " +
-                        "m.subject_owner " +
-                        "FROM users u " +
+                "SELECT u.id_user, u.name, u.email, u.password, u.user_type, m.subject_owner " +
+                        "FROM user u " +
                         "INNER JOIN moderator m ON u.id_user = m.id_moderator " +
                         "WHERE u.id_user = ?;";
 
-        try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)
         ) {
-            preparedStatement.setInt(1, id);
+            stmt.setInt(1, id);
 
-            try (ResultSet rs = preparedStatement.executeQuery()) {
+            try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return new Moderator(
-                            rs.getInt("id_user"),
-                            rs.getString("name"),
-                            rs.getString("email"),
-                            rs.getString("password"),
-                            rs.getString("user_type"),
-                            rs.getString("subject_owner")
+                            rs.getInt("id_user"), rs.getString("name"),
+                            rs.getString("email"), rs.getString("password"),
+                            rs.getString("user_type"), rs.getString("subject_owner")
                     );
                 }
             }
@@ -54,27 +51,23 @@ public class ModeratorDAO {
         return null;
     }
 
-    public List<Moderator> getAllModerators() {
-        List<Moderator> moderatorList = new ArrayList<>();
+    public List<Moderator> getAll() {
+        List<Moderator> list = new ArrayList<>();
 
         String sql =
-                "SELECT u.id_user, u.name, u.email, u.password, u.user_type, " +
-                        "m.subject_owner " +
-                        "FROM users u " +
+                "SELECT u.id_user, u.name, u.email, u.password, u.user_type, m.subject_owner " +
+                        "FROM user u " +
                         "INNER JOIN moderator m ON u.id_user = m.id_moderator;";
 
-        try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-             ResultSet rs = preparedStatement.executeQuery()
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()
         ) {
             while (rs.next()) {
-                moderatorList.add(new Moderator(
-                        rs.getInt("id_user"),
-                        rs.getString("name"),
-                        rs.getString("email"),
-                        rs.getString("password"),
-                        rs.getString("user_type"),
-                        rs.getString("subject_owner")
+                list.add(new Moderator(
+                        rs.getInt("id_user"), rs.getString("name"),
+                        rs.getString("email"), rs.getString("password"),
+                        rs.getString("user_type"), rs.getString("subject_owner")
                 ));
             }
 
@@ -82,24 +75,24 @@ public class ModeratorDAO {
             System.out.println("Erro ao listar moderadores: " + e.getMessage());
         }
 
-        return moderatorList;
+        return list;
     }
 
-    public void updateSubjectOwner(int moderatorId, String newSubject) {
+    public void update(int moderatorId, String newSubject) {
         String sql = "UPDATE moderator SET subject_owner = ? WHERE id_moderator = ?;";
 
-        try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)
         ) {
-            preparedStatement.setString(1, newSubject);
-            preparedStatement.setInt(2, moderatorId);
+            stmt.setString(1, newSubject);
+            stmt.setInt(2, moderatorId);
 
-            int linesAffected = preparedStatement.executeUpdate();
+            int linesAffected = stmt.executeUpdate();
 
             if (linesAffected > 0) {
                 System.out.println("Moderador atualizado");
             } else {
-                System.out.println("Nenhum moderador atualizado");
+                System.out.println("Nenhum moderador encontrado");
             }
 
         } catch (SQLException e) {
@@ -107,15 +100,15 @@ public class ModeratorDAO {
         }
     }
 
-    public void deleteModeratorById(int id) {
-        String sql = "DELETE FROM users WHERE id_user = ?;";
+    public void delete(int id) {
+        String sql = "DELETE FROM user WHERE id_user = ?;";
 
-        try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)
         ) {
-            preparedStatement.setInt(1, id);
+            stmt.setInt(1, id);
 
-            int linesAffected = preparedStatement.executeUpdate();
+            int linesAffected = stmt.executeUpdate();
 
             if (linesAffected > 0) {
                 System.out.println("Moderador deletado");

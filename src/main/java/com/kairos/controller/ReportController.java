@@ -3,6 +3,7 @@ package com.kairos.controller;
 import com.kairos.dao.ReportDAO;
 import com.kairos.model.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ReportController {
 
@@ -18,26 +19,26 @@ public class ReportController {
         if (reason == null || reason.isBlank()) { return; }
 
         Report report = new Report(student, question, reason, "pending");
-        reportDAO.insertReport(report);
+        reportDAO.insert(report);
     }
 
-    public ArrayList<Report> reportList() {
-        return reportDAO.listReport();
+    public List<Report> reportList() {
+        return reportDAO.getAll();
     }
 
     public Report getReportById(int id) {
         if (id <= 0) { return null; }
-        return reportDAO.getReportById(id);
+        return reportDAO.getById(id);
     }
 
-    public ArrayList<Report> getReportsByStudent(Student student) {
+    public List<Report> getReportsByStudent(Student student) {
         if (student == null) { return new ArrayList<>(); }
-        return reportDAO.getReportsByStudentId(student.getId());
+        return reportDAO.getAllByStudent(student.getId());
     }
 
-    public ArrayList<Report> getReportsByStatus(String status) {
+    public List<Report> getReportsByStatus(String status) {
         if (status == null || status.isBlank()) { return new ArrayList<>(); }
-        return reportDAO.getReportsByStatus(status);
+        return reportDAO.getAllByStatus(status);
     }
 
     public void analyzeReport(Report report, Moderator moderator, String newStatus) {
@@ -45,6 +46,6 @@ public class ReportController {
         if (moderator == null) { return; }
         if (newStatus == null || newStatus.isBlank()) { return; }
 
-        reportDAO.updateReportStatus(report.getId(), moderator.getId(), newStatus);
+        reportDAO.updateStatus(report.getId(), moderator.getId(), newStatus);
     }
 }
