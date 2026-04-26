@@ -1,16 +1,20 @@
 package com.kairos.controller;
 
+import com.kairos.dao.StudentDAO;
 import com.kairos.dao.StudentTopicDAO;
 import com.kairos.model.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StudentTopicController {
 
     private StudentTopicDAO studentTopicDAO;
+    private StudentDAO studentDAO;
 
     public StudentTopicController() {
         studentTopicDAO = new StudentTopicDAO();
+        studentDAO = new StudentDAO();
     }
 
     public void insertStudentTopic(StudentTopic studentTopic) {
@@ -20,7 +24,7 @@ public class StudentTopicController {
             return;
         }
 
-        if (studentTopicDAO.searchStudentTopicById(
+        if (studentTopicDAO.getById(
                 studentTopic.getStudent().getId(),
                 studentTopic.getTopic().getId()) != null) {
 
@@ -28,22 +32,22 @@ public class StudentTopicController {
             return;
         }
 
-        studentTopicDAO.insertStudentTopic(studentTopic);
+        studentTopicDAO.insert(studentTopic);
     }
 
     public StudentTopic searchStudentTopic(int studentId, int topicId) {
 
-        return studentTopicDAO.searchStudentTopicById(studentId, topicId);
+        return studentTopicDAO.getById(studentId, topicId);
     }
 
-    public ArrayList<StudentTopic> listStudentTopics() {
+    public List<StudentTopic> listStudentTopics() {
 
-        return studentTopicDAO.listStudentTopic();
+        return studentTopicDAO.getAll();
     }
 
-    public ArrayList<StudentTopic> listByStudent(int studentId) {
+    public List<StudentTopic> listByStudent(int studentId) {
 
-        return studentTopicDAO.listStudentTopicByStudent(studentId);
+        return studentTopicDAO.getAllByStudent(studentId);
     }
 
     public void updateStudentTopic(StudentTopic studentTopic) {
@@ -56,7 +60,7 @@ public class StudentTopicController {
             return;
         }
 
-        studentTopicDAO.updateStudentTopic(studentTopic);
+        studentTopicDAO.update(studentTopic);
     }
 
     public void registerAnswer(int studentId, int topicId, boolean correct) {
@@ -66,10 +70,10 @@ public class StudentTopicController {
             return;
         }
 
-        StudentTopic studentTopic = studentTopicDAO.searchStudentTopicById(studentId, topicId);
+        StudentTopic studentTopic = studentTopicDAO.getById(studentId, topicId);
 
         if (studentTopic == null) {
-            Student student = new Student(studentId, null, null, null, null);
+            Student student = studentDAO.getById(studentId);
             Topic topic = new Topic(topicId, null, null);
 
             studentTopic = new StudentTopic(student, topic, 0, 0);
@@ -86,11 +90,11 @@ public class StudentTopicController {
             return;
         }
 
-        if (studentTopicDAO.searchStudentTopicById(studentId, topicId) == null) {
-            studentTopicDAO.insertStudentTopic(studentTopic);
+        if (studentTopicDAO.getById(studentId, topicId) == null) {
+            studentTopicDAO.insert(studentTopic);
 
         } else {
-            studentTopicDAO.updateStudentTopic(studentTopic);
+            studentTopicDAO.update(studentTopic);
         }
     }
 }

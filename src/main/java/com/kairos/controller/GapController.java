@@ -36,7 +36,7 @@ public class GapController extends HttpServlet {
 		
 		if(studentParam != null) {
 			int studentId = Integer.parseInt(studentParam);
-			java.util.List<com.kairos.model.Gap> list = dao.getByStudent(studentId);
+			java.util.List<com.kairos.model.Gap> list = dao.getAllByStudent(studentId);
 			
 			response.setStatus(200);
 			System.out.println("Fetched " + list.size() + " gaps for student " + studentId);

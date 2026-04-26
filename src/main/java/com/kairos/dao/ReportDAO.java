@@ -7,26 +7,33 @@ import com.kairos.model.Student;
 import java.sql.*;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ReportDAO {
 
-    public void insertReport(Report report) {
+    private StudentDAO studentDAO = new StudentDAO();
+    private QuestionDAO questionDAO = new QuestionDAO();
+    private ModeratorDAO moderatorDAO = new ModeratorDAO();
+
+    public void insert(Report report) {
         String sql = "INSERT INTO reports (student_id, question_id, reason, stats) VALUES (?, ?, ?, ?);";
-        try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)
+
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)
         ) {
-            preparedStatement.setInt(1, report.getStudent().getId());
-            preparedStatement.setInt(2, report.getQuestion().getId());
-            preparedStatement.setString(3, report.getReason());
-            preparedStatement.setString(4, report.getStatus());
-            preparedStatement.executeUpdate();
+            stmt.setInt(1, report.getStudent().getId());
+            stmt.setInt(2, report.getQuestion().getId());
+            stmt.setString(3, report.getReason());
+            stmt.setString(4, report.getStatus());
+            stmt.executeUpdate();
             System.out.println("Report cadastrado");
+
         } catch (SQLException e) {
             System.out.println("Erro ao inserir report: " + e.getMessage());
         }
     }
 
-    public Report getReportById(int id) {
+    public Report getById(int id) {
         String sql = "SELECT * FROM reports WHERE id_reports = ?;";
 
         try (Connection conn = DBConnection.connect();
@@ -36,7 +43,26 @@ public class ReportDAO {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return buildReport(rs);
+                    Student student = studentDAO.getById(rs.getInt("student_id"));
+                    Question question = questionDAO.getById(rs.getInt("question_id"));
+
+                    Moderator moderator = null;
+                    int analyzedBy = rs.getInt("analyzed_by");
+                    if (!rs.wasNull()) {
+                        moderator = moderatorDAO.getById(analyzedBy);
+                    }
+
+                    Instant reportDate = null;
+                    Timestamp ts = rs.getTimestamp("report_date");
+                    if (ts != null) {
+                        reportDate = ts.toInstant();
+                    }
+
+                    return new Report(
+                            rs.getInt("id_reports"), student, question,
+                            rs.getString("reason"), rs.getString("stats"),
+                            reportDate, moderator
+                    );
                 }
             }
 
@@ -47,8 +73,8 @@ public class ReportDAO {
         return null;
     }
 
-    public ArrayList<Report> listReport() {
-        ArrayList<Report> reportList = new ArrayList<>();
+    public List<Report> getAll() {
+        List<Report> list = new ArrayList<>();
         String sql = "SELECT * FROM reports;";
 
         try (Connection conn = DBConnection.connect();
@@ -56,18 +82,37 @@ public class ReportDAO {
              ResultSet rs = stmt.executeQuery()
         ) {
             while (rs.next()) {
-                reportList.add(buildReport(rs));
+                Student student = studentDAO.getById(rs.getInt("student_id"));
+                Question question = questionDAO.getById(rs.getInt("question_id"));
+
+                Moderator moderator = null;
+                int analyzedBy = rs.getInt("analyzed_by");
+                if (!rs.wasNull()) {
+                    moderator = moderatorDAO.getById(analyzedBy);
+                }
+
+                Instant reportDate = null;
+                Timestamp ts = rs.getTimestamp("report_date");
+                if (ts != null) {
+                    reportDate = ts.toInstant();
+                }
+
+                list.add(new Report(
+                        rs.getInt("id_reports"), student, question,
+                        rs.getString("reason"), rs.getString("stats"),
+                        reportDate, moderator
+                ));
             }
 
         } catch (SQLException e) {
             System.out.println("Erro ao listar reports: " + e.getMessage());
         }
 
-        return reportList;
+        return list;
     }
 
-    public ArrayList<Report> getReportsByStudentId(int studentId) {
-        ArrayList<Report> reportList = new ArrayList<>();
+    public List<Report> getAllByStudent(int studentId) {
+        List<Report> list = new ArrayList<>();
         String sql = "SELECT * FROM reports WHERE student_id = ?;";
 
         try (Connection conn = DBConnection.connect();
@@ -77,7 +122,26 @@ public class ReportDAO {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    reportList.add(buildReport(rs));
+                    Student student = studentDAO.getById(rs.getInt("student_id"));
+                    Question question = questionDAO.getById(rs.getInt("question_id"));
+
+                    Moderator moderator = null;
+                    int analyzedBy = rs.getInt("analyzed_by");
+                    if (!rs.wasNull()) {
+                        moderator = moderatorDAO.getById(analyzedBy);
+                    }
+
+                    Instant reportDate = null;
+                    Timestamp ts = rs.getTimestamp("report_date");
+                    if (ts != null) {
+                        reportDate = ts.toInstant();
+                    }
+
+                    list.add(new Report(
+                            rs.getInt("id_reports"), student, question,
+                            rs.getString("reason"), rs.getString("stats"),
+                            reportDate, moderator
+                    ));
                 }
             }
 
@@ -85,11 +149,11 @@ public class ReportDAO {
             System.out.println("Erro ao buscar reports do estudante: " + e.getMessage());
         }
 
-        return reportList;
+        return list;
     }
 
-    public ArrayList<Report> getReportsByStatus(String status) {
-        ArrayList<Report> reportList = new ArrayList<>();
+    public List<Report> getAllByStatus(String status) {
+        List<Report> list = new ArrayList<>();
         String sql = "SELECT * FROM reports WHERE stats = ?;";
 
         try (Connection conn = DBConnection.connect();
@@ -99,7 +163,26 @@ public class ReportDAO {
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    reportList.add(buildReport(rs));
+                    Student student = studentDAO.getById(rs.getInt("student_id"));
+                    Question question = questionDAO.getById(rs.getInt("question_id"));
+
+                    Moderator moderator = null;
+                    int analyzedBy = rs.getInt("analyzed_by");
+                    if (!rs.wasNull()) {
+                        moderator = moderatorDAO.getById(analyzedBy);
+                    }
+
+                    Instant reportDate = null;
+                    Timestamp ts = rs.getTimestamp("report_date");
+                    if (ts != null) {
+                        reportDate = ts.toInstant();
+                    }
+
+                    list.add(new Report(
+                            rs.getInt("id_reports"), student, question,
+                            rs.getString("reason"), rs.getString("stats"),
+                            reportDate, moderator
+                    ));
                 }
             }
 
@@ -107,10 +190,10 @@ public class ReportDAO {
             System.out.println("Erro ao buscar reports por status: " + e.getMessage());
         }
 
-        return reportList;
+        return list;
     }
 
-    public void updateReportStatus(int reportId, int moderatorId, String newStatus) {
+    public void updateStatus(int reportId, int moderatorId, String newStatus) {
         String sql = "UPDATE reports SET stats = ?, analyzed_by = ? WHERE id_reports = ?;";
 
         try (Connection conn = DBConnection.connect();
@@ -131,37 +214,5 @@ public class ReportDAO {
         } catch (SQLException e) {
             System.out.println("Erro ao atualizar report: " + e.getMessage());
         }
-    }
-
-    // Método auxiliar para evitar repetição na construção do objeto Report
-    private Report buildReport(ResultSet rs) throws SQLException {
-        StudentDAO studentDAO = new StudentDAO();
-        QuestionDAO questionDAO = new QuestionDAO();
-        ModeratorDAO moderatorDAO = new ModeratorDAO();
-
-        Student student = studentDAO.getStudentById(rs.getInt("student_id"));
-        Question question = questionDAO.searchQuestionById(rs.getInt("question_id"));
-
-        Moderator moderator = null;
-        int analyzedBy = rs.getInt("analyzed_by");
-        if (!rs.wasNull()) {
-            moderator = moderatorDAO.getModeratorById(analyzedBy);
-        }
-
-        Instant reportDate = null;
-        Timestamp ts = rs.getTimestamp("report_date");
-        if (ts != null) {
-            reportDate = ts.toInstant();
-        }
-
-        return new Report(
-                rs.getInt("id_reports"),
-                student,
-                question,
-                rs.getString("reason"),
-                rs.getString("stats"),
-                reportDate,
-                moderator
-        );
     }
 }

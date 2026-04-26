@@ -27,7 +27,7 @@ public class AlternativeController {
             return;
         }
 
-        alternativeDAO.insertAlternative(alternative);
+        alternativeDAO.insert(alternative);
     }
 
     public void insertAlternatives(List<Alternative> alternatives, int questionId) {
@@ -67,16 +67,17 @@ public class AlternativeController {
             return;
         }
 
-        alternativeDAO.insertAlternatives(alternatives, questionId);
+        alternativeDAO.insertAll(alternatives, questionId);
     }
 
     public List<Alternative> alternativesByQuestionId(int questionId) {
 
         if (questionId <= 0) {
             System.out.println("ID de questão inválido");
-            return new ArrayList<>();        }
+            return new ArrayList<>();
+        }
 
-        return alternativeDAO.alternativesByQuestionId(questionId);
+        return alternativeDAO.getAllByQuestion(questionId);
     }
 
     public void updateAlternative(Alternative alternative) {
@@ -96,7 +97,7 @@ public class AlternativeController {
             return;
         }
 
-        alternativeDAO.updateAlternative(alternative);
+        alternativeDAO.update(alternative);
     }
 
     public void deleteById(int id) {
@@ -106,7 +107,7 @@ public class AlternativeController {
             return;
         }
 
-        alternativeDAO.deleteById(id);
+        alternativeDAO.delete(id);
     }
 
     public void deleteAlternativeByQuestionId(int questionId) {
@@ -116,6 +117,6 @@ public class AlternativeController {
             return;
         }
 
-        alternativeDAO.deleteAlternativeByQuestionId(questionId);
+        alternativeDAO.deleteAllByQuestion(questionId);
     }
 }

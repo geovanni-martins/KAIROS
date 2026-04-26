@@ -25,7 +25,7 @@ public class AnswerController extends HttpServlet{
 		com.kairos.model.Answer ans = new com.kairos.model.Answer(studentId, questionId, gotRight, createdAt, type, baseAnswer);
 		
 		com.kairos.dao.AnswerDAO dao = new com.kairos.dao.AnswerDAO();
-		dao.create(ans);
+		dao.insert(ans);
 		
 		response.setStatus(201);
 	}
@@ -40,13 +40,13 @@ public class AnswerController extends HttpServlet{
 		
 		if(studentParam != null) {
 			int studentId = Integer.parseInt(studentParam);
-			java.util.List<com.kairos.model.Answer> list = dao.getByStudent(studentId);
+			java.util.List<com.kairos.model.Answer> list = dao.getAllByStudent(studentId);
 			
 			response.setStatus(200);
 			System.out.println("Fetched " + list.size() + " answers for student " + studentId);
 		} else if(questionParam != null){
 			int questionId = Integer.parseInt(questionParam);
-			java.util.List<com.kairos.model.Answer> list = dao.getByQuestion(questionId);
+			java.util.List<com.kairos.model.Answer> list = dao.getAllByQuestion(questionId);
 			
 			response.setStatus(200);
 			System.out.println("Fetched " + list.size() + " answers for question " + questionId);

@@ -9,40 +9,37 @@ public class StudentDAO {
 
     public void insert(int studentId) {
         String sql = "INSERT INTO student (id_student) VALUES (?);";
-        try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)
+
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)
         ) {
-            preparedStatement.setInt(1, studentId);
-            preparedStatement.executeUpdate();
+            stmt.setInt(1, studentId);
+            stmt.executeUpdate();
             System.out.println("Estudante cadastrado");
         } catch (SQLException e) {
             System.out.println("Erro ao inserir estudante: " + e.getMessage());
         }
     }
 
-    public Student getStudentById(int id) {
+    public Student getById(int id) {
         String sql =
-                "SELECT u.id_user, u.name, u.email, u.password, u.user_type, " +
-                        "s.level, s.xp " +
-                        "FROM users u " +
+                "SELECT u.id_user, u.name, u.email, u.password, u.user_type, s.level, s.xp " +
+                        "FROM user u " +
                         "INNER JOIN student s ON u.id_user = s.id_student " +
                         "WHERE u.id_user = ?;";
 
-        try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)
         ) {
-            preparedStatement.setInt(1, id);
+            stmt.setInt(1, id);
 
-            try (ResultSet rs = preparedStatement.executeQuery()) {
+            try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return new Student(
-                            rs.getInt("id_user"),
-                            rs.getString("name"),
-                            rs.getString("email"),
-                            rs.getString("password"),
+                            rs.getInt("id_user"), rs.getString("name"),
+                            rs.getString("email"), rs.getString("password"),
                             rs.getString("user_type"),
-                            rs.getInt("level"),
-                            rs.getInt("xp")
+                            rs.getInt("level"), rs.getInt("xp")
                     );
                 }
             }
@@ -54,28 +51,24 @@ public class StudentDAO {
         return null;
     }
 
-    public List<Student> getAllStudents() {
-        List<Student> studentList = new ArrayList<>();
+    public List<Student> getAll() {
+        List<Student> list = new ArrayList<>();
 
         String sql =
-                "SELECT u.id_user, u.name, u.email, u.password, u.user_type, " +
-                        "s.level, s.xp " +
-                        "FROM users u " +
+                "SELECT u.id_user, u.name, u.email, u.password, u.user_type, s.level, s.xp " +
+                        "FROM user u " +
                         "INNER JOIN student s ON u.id_user = s.id_student;";
 
-        try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-             ResultSet rs = preparedStatement.executeQuery()
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()
         ) {
             while (rs.next()) {
-                studentList.add(new Student(
-                        rs.getInt("id_user"),
-                        rs.getString("name"),
-                        rs.getString("email"),
-                        rs.getString("password"),
+                list.add(new Student(
+                        rs.getInt("id_user"), rs.getString("name"),
+                        rs.getString("email"), rs.getString("password"),
                         rs.getString("user_type"),
-                        rs.getInt("level"),
-                        rs.getInt("xp")
+                        rs.getInt("level"), rs.getInt("xp")
                 ));
             }
 
@@ -83,6 +76,6 @@ public class StudentDAO {
             System.out.println("Erro ao listar estudantes: " + e.getMessage());
         }
 
-        return studentList;
+        return list;
     }
 }

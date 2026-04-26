@@ -4,341 +4,248 @@ import com.kairos.model.Admin;
 import com.kairos.model.Moderator;
 import com.kairos.model.Student;
 import com.kairos.model.User;
-
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
 
     public int insert(User user) {
-        String sql = "INSERT INTO users (name, email, password, user_type) VALUES (?, ?, ?, ?);";
+        String sql = "INSERT INTO user (name, email, password, user_type) VALUES (?, ?, ?, ?);";
 
-        try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
         ) {
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getEmail());
-            preparedStatement.setString(3, user.getPassword());
-            preparedStatement.setString(4, user.getRole());
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getEmail());
+            stmt.setString(3, user.getPassword());
+            stmt.setString(4, user.getRole());
+            stmt.executeUpdate();
 
-            preparedStatement.executeUpdate();
-            System.out.println("Pessoa cadastrada");
-
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-
-            if (resultSet.next()) {
-                return resultSet.getInt(1);
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
             }
 
         } catch (SQLException e) {
-            System.out.println("Erro ao inserir user: " + e.getMessage());
+            System.out.println("Erro ao inserir usuário: " + e.getMessage());
         }
 
         return -1;
     }
 
-    public User getUserByEmail(String email) {
-        User user = null;
-
-        String sql = "SELECT * FROM users WHERE email = ?";
-
-        try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        ) {
-            preparedStatement.setString(1, email);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    user = new User(
-                            resultSet.getInt("id_user"),
-                            resultSet.getString("name"),
-                            resultSet.getString("email"),
-                            resultSet.getString("password"),
-                            resultSet.getString("user_type")
-                    );
-                }
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-        if (user == null) {
-            return null;
-        }
-
-        switch (user.getRole()) {
-            case "admin":
-                return new Admin(
-                        user.getId(),
-                        user.getName(),
-                        user.getEmail(),
-                        user.getPassword(),
-                        user.getRole()
-                );
-
-            case "moderator":
-                String sqlMod = "SELECT subject_owner FROM moderator WHERE id_moderator = ?;";
-
-                try (Connection connection2 = DBConnection.connect();
-                     PreparedStatement preparedStatement2 = connection2.prepareStatement(sqlMod);
-                ) {
-                    preparedStatement2.setInt(1, user.getId());
-                    try (ResultSet resultSet2 = preparedStatement2.executeQuery()) {
-
-                        if (resultSet2.next()) {
-                            return new Moderator(
-                                    user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.getRole(),
-                                    resultSet2.getString("subject_owner"));
-                        }
-                    }
-
-                } catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
-
-            case "student":
-                String sqlStudent = "SELECT level, xp FROM student WHERE id_student = ?;";
-
-                try (Connection connection2 = DBConnection.connect();
-                     PreparedStatement preparedStatement2 = connection2.prepareStatement(sqlStudent);
-                ) {
-                    preparedStatement2.setInt(1, user.getId());
-                    try (ResultSet resultSet2 = preparedStatement2.executeQuery()) {
-
-                        if (resultSet2.next()) {
-                            return new Student(
-                                    user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.getRole(),
-                                    resultSet2.getInt("level"),
-                                    resultSet2.getInt("xp")
-                            );
-                        }
-                    }
-
-                } catch (SQLException e) {
-                    System.out.println(e.getMessage());
-                }
-        }
-        return user;
-    }
-
-    public ArrayList<User> getUserList() {
-        ArrayList<User> userList = new ArrayList<>();
-
-        String sql = "SELECT u.id_user, u.name, u.email, u.password, u.user_type, " +
-                "a.id_admin, m.subject_owner, s.level, s.xp " +
-                "FROM users u " +
-                "LEFT JOIN admin a ON u.id_user = a.id_admin " +
-                "LEFT JOIN moderator m ON u.id_user = m.id_moderator " +
-                "LEFT JOIN student s ON u.id_user = s.id_student";
-
-        try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
-
-            while (resultSet.next()) {
-
-                String userType = resultSet.getString("user_type");
-
-                switch (userType.toLowerCase()) {
-
-                    case "admin":
-                        userList.add(new Admin(
-                                resultSet.getInt("id_user"),
-                                resultSet.getString("name"),
-                                resultSet.getString("email"),
-                                resultSet.getString("password"),
-                                userType
-                        ));
-                        break;
-
-                    case "moderator":
-                        userList.add(new Moderator(
-                                resultSet.getInt("id_user"),
-                                resultSet.getString("name"),
-                                resultSet.getString("email"),
-                                resultSet.getString("password"),
-                                userType,
-                                resultSet.getString("subject_owner")
-                        ));
-                        break;
-
-                    case "student":
-                        userList.add(new Student(
-                                resultSet.getInt("id_user"),
-                                resultSet.getString("name"),
-                                resultSet.getString("email"),
-                                resultSet.getString("password"),
-                                userType,
-                                resultSet.getInt("level"),
-                                resultSet.getInt("xp")
-                        ));
-                        break;
-                }
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-        return userList;
-    }
-
-    public User getUserById(int id) {
-        User user = null;
-
+    public User getById(int id) {
         String sql =
-                "SELECT " +
-                        "u.id_user, u.name, u.email, u.password, u.user_type, " +
-                        "m.subject_owner, " +
-                        "s.level, s.xp " +
-                        "FROM users u " +
+                "SELECT u.id_user, u.name, u.email, u.password, u.user_type, " +
+                        "m.subject_owner, s.level, s.xp " +
+                        "FROM user u " +
                         "LEFT JOIN moderator m ON u.id_user = m.id_moderator " +
                         "LEFT JOIN student s ON u.id_user = s.id_student " +
                         "WHERE u.id_user = ?";
 
-        try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)
         ) {
+            stmt.setInt(1, id);
 
-            preparedStatement.setInt(1, id);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-
-                if (!resultSet.next()) {
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (!rs.next()) {
                     return null;
                 }
 
-                String userType = resultSet.getString("user_type");
+                String userType = rs.getString("user_type");
 
                 switch (userType) {
                     case "admin":
                         return new Admin(
-                                resultSet.getInt("id_user"),
-                                resultSet.getString("name"),
-                                resultSet.getString("email"),
-                                resultSet.getString("password"),
-                                userType
+                                rs.getInt("id_user"), rs.getString("name"),
+                                rs.getString("email"), rs.getString("password"), userType
                         );
-
                     case "moderator":
                         return new Moderator(
-                                resultSet.getInt("id_user"),
-                                resultSet.getString("name"),
-                                resultSet.getString("email"),
-                                resultSet.getString("password"),
-                                userType,
-                                resultSet.getString("subject_owner")
+                                rs.getInt("id_user"), rs.getString("name"),
+                                rs.getString("email"), rs.getString("password"), userType,
+                                rs.getString("subject_owner")
                         );
-
-                    // TODO : FILTRAR OS TÓPICOS DE ESTUDANTE JUNTO AO PUXAR ELE
                     case "student":
                         return new Student(
-                                resultSet.getInt("id_user"),
-                                resultSet.getString("name"),
-                                resultSet.getString("email"),
-                                resultSet.getString("password"),
-                                userType,
-                                resultSet.getInt("level"),
-                                resultSet.getInt("xp")
+                                rs.getInt("id_user"), rs.getString("name"),
+                                rs.getString("email"), rs.getString("password"), userType,
+                                rs.getInt("level"), rs.getInt("xp")
                         );
                 }
             }
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erro ao buscar usuário: " + e.getMessage());
         }
+
         return null;
     }
 
-    public void updateById(User user) {
-        String sql = "UPDATE users SET name = ?, email = ?, password = ? WHERE id_user = ?;";
+    public User getByEmail(String email) {
+        String sql = "SELECT * FROM user WHERE email = ?";
 
-        try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)
         ) {
+            stmt.setString(1, email);
 
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getEmail());
-            preparedStatement.setString(3, user.getPassword());
-            preparedStatement.setInt(4, user.getId());
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (!rs.next()) {
+                    return null;
+                }
 
-            int linesAffected = preparedStatement.executeUpdate();
+                User user = new User(
+                        rs.getInt("id_user"), rs.getString("name"),
+                        rs.getString("email"), rs.getString("password"),
+                        rs.getString("user_type")
+                );
+
+                switch (user.getRole()) {
+                    case "admin":
+                        return new Admin(
+                                user.getId(), user.getName(),
+                                user.getEmail(), user.getPassword(), user.getRole()
+                        );
+                    case "moderator": {
+                        String sqlMod = "SELECT subject_owner FROM moderator WHERE id_moderator = ?;";
+                        try (Connection conn2 = DBConnection.connect();
+                             PreparedStatement stmt2 = conn2.prepareStatement(sqlMod)
+                        ) {
+                            stmt2.setInt(1, user.getId());
+                            try (ResultSet rs2 = stmt2.executeQuery()) {
+                                if (rs2.next()) {
+                                    return new Moderator(
+                                            user.getId(), user.getName(), user.getEmail(),
+                                            user.getPassword(), user.getRole(),
+                                            rs2.getString("subject_owner")
+                                    );
+                                }
+                            }
+                        }
+                        break;
+                    }
+                    case "student": {
+                        String sqlStudent = "SELECT level, xp FROM student WHERE id_student = ?;";
+                        try (Connection conn2 = DBConnection.connect();
+                             PreparedStatement stmt2 = conn2.prepareStatement(sqlStudent)
+                        ) {
+                            stmt2.setInt(1, user.getId());
+                            try (ResultSet rs2 = stmt2.executeQuery()) {
+                                if (rs2.next()) {
+                                    return new Student(
+                                            user.getId(), user.getName(), user.getEmail(),
+                                            user.getPassword(), user.getRole(),
+                                            rs2.getInt("level"), rs2.getInt("xp")
+                                    );
+                                }
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar usuário: " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    public List<User> getAll() {
+        List<User> list = new ArrayList<>();
+
+        String sql =
+                "SELECT u.id_user, u.name, u.email, u.password, u.user_type, " +
+                        "a.id_admin, m.subject_owner, s.level, s.xp " +
+                        "FROM user u " +
+                        "LEFT JOIN admin a ON u.id_user = a.id_admin " +
+                        "LEFT JOIN moderator m ON u.id_user = m.id_moderator " +
+                        "LEFT JOIN student s ON u.id_user = s.id_student";
+
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()
+        ) {
+            while (rs.next()) {
+                String userType = rs.getString("user_type");
+
+                switch (userType.toLowerCase()) {
+                    case "admin":
+                        list.add(new Admin(
+                                rs.getInt("id_user"), rs.getString("name"),
+                                rs.getString("email"), rs.getString("password"), userType
+                        ));
+                        break;
+                    case "moderator":
+                        list.add(new Moderator(
+                                rs.getInt("id_user"), rs.getString("name"),
+                                rs.getString("email"), rs.getString("password"), userType,
+                                rs.getString("subject_owner")
+                        ));
+                        break;
+                    case "student":
+                        list.add(new Student(
+                                rs.getInt("id_user"), rs.getString("name"),
+                                rs.getString("email"), rs.getString("password"), userType,
+                                rs.getInt("level"), rs.getInt("xp")
+                        ));
+                        break;
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar usuários: " + e.getMessage());
+        }
+
+        return list;
+    }
+
+    public void update(User user) {
+        String sql = "UPDATE user SET name = ?, email = ?, password = ? WHERE id_user = ?;";
+
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
+            stmt.setString(1, user.getName());
+            stmt.setString(2, user.getEmail());
+            stmt.setString(3, user.getPassword());
+            stmt.setInt(4, user.getId());
+
+            int linesAffected = stmt.executeUpdate();
 
             if (linesAffected > 0) {
-                System.out.println("User atualizado");
+                System.out.println("Usuário atualizado");
             } else {
                 System.out.println("Nenhum usuário atualizado");
             }
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erro ao atualizar usuário: " + e.getMessage());
         }
     }
 
-    public void updateByEmail(User user) {
-        String sql = "UPDATE users SET name = ?, password = ? WHERE email = ?;";
+    public void delete(int id) {
+        String sql = "DELETE FROM user WHERE id_user = ?;";
 
-        try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)
         ) {
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setString(3, user.getEmail());
+            stmt.setInt(1, id);
 
-            int linesAffected = preparedStatement.executeUpdate();
+            int linesAffected = stmt.executeUpdate();
 
             if (linesAffected > 0) {
-                System.out.println("User atualizado");
+                System.out.println("Usuário deletado");
             } else {
-                System.out.println("Nenhum usuário atualizado");
+                System.out.println("Nenhum usuário encontrado");
             }
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void deleteUserById(int id) {
-        String sql = "DELETE FROM users WHERE id_user = ?;";
-
-        try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        ) {
-
-            preparedStatement.setInt(1, id);
-            int linesAffected = preparedStatement.executeUpdate();
-
-            if (linesAffected > 0) {
-                System.out.println("user deletado");
-            } else {
-                System.out.println("Erro ao excluir");
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void deleteUserByEmail(String email) {
-        String sql = "DELETE FROM users WHERE email = ?;";
-
-        try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        ) {
-
-            preparedStatement.setString(1, email);
-            int linesAffected = preparedStatement.executeUpdate();
-
-            if (linesAffected > 0) {
-                System.out.println("user deletado");
-            } else {
-                System.out.println("Erro ao excluir");
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erro ao deletar usuário: " + e.getMessage());
         }
     }
 }
-

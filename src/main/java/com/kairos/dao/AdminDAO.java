@@ -9,36 +9,35 @@ public class AdminDAO {
 
     public void insert(int adminId) {
         String sql = "INSERT INTO admin (id_admin) VALUES (?);";
-        try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)
+
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)
         ) {
-            preparedStatement.setInt(1, adminId);
-            preparedStatement.executeUpdate();
+            stmt.setInt(1, adminId);
+            stmt.executeUpdate();
             System.out.println("Admin cadastrado");
         } catch (SQLException e) {
             System.out.println("Erro ao inserir admin: " + e.getMessage());
         }
     }
 
-    public Admin getAdminById(int id) {
+    public Admin getById(int id) {
         String sql =
                 "SELECT u.id_user, u.name, u.email, u.password, u.user_type " +
-                        "FROM users u " +
+                        "FROM user u " +
                         "INNER JOIN admin a ON u.id_user = a.id_admin " +
                         "WHERE u.id_user = ?;";
 
-        try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)
         ) {
-            preparedStatement.setInt(1, id);
+            stmt.setInt(1, id);
 
-            try (ResultSet rs = preparedStatement.executeQuery()) {
+            try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return new Admin(
-                            rs.getInt("id_user"),
-                            rs.getString("name"),
-                            rs.getString("email"),
-                            rs.getString("password"),
+                            rs.getInt("id_user"), rs.getString("name"),
+                            rs.getString("email"), rs.getString("password"),
                             rs.getString("user_type")
                     );
                 }
@@ -51,24 +50,22 @@ public class AdminDAO {
         return null;
     }
 
-    public List<Admin> getAllAdmins() {
-        List<Admin> adminList = new ArrayList<>();
+    public List<Admin> getAll() {
+        List<Admin> list = new ArrayList<>();
 
         String sql =
                 "SELECT u.id_user, u.name, u.email, u.password, u.user_type " +
-                        "FROM users u " +
+                        "FROM user u " +
                         "INNER JOIN admin a ON u.id_user = a.id_admin;";
 
-        try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-             ResultSet rs = preparedStatement.executeQuery()
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()
         ) {
             while (rs.next()) {
-                adminList.add(new Admin(
-                        rs.getInt("id_user"),
-                        rs.getString("name"),
-                        rs.getString("email"),
-                        rs.getString("password"),
+                list.add(new Admin(
+                        rs.getInt("id_user"), rs.getString("name"),
+                        rs.getString("email"), rs.getString("password"),
                         rs.getString("user_type")
                 ));
             }
@@ -77,18 +74,18 @@ public class AdminDAO {
             System.out.println("Erro ao listar admins: " + e.getMessage());
         }
 
-        return adminList;
+        return list;
     }
 
-    public void deleteAdminById(int id) {
-        String sql = "DELETE FROM users WHERE id_user = ?;";
+    public void delete(int id) {
+        String sql = "DELETE FROM user WHERE id_user = ?;";
 
-        try (Connection connection = DBConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)
         ) {
-            preparedStatement.setInt(1, id);
+            stmt.setInt(1, id);
 
-            int linesAffected = preparedStatement.executeUpdate();
+            int linesAffected = stmt.executeUpdate();
 
             if (linesAffected > 0) {
                 System.out.println("Admin deletado");

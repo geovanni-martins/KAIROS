@@ -1,11 +1,10 @@
 package com.kairos.controller;
 
 import com.kairos.dao.TopicDAO;
-import com.kairos.model.MultipleChoiceQuestion;
 import com.kairos.model.Topic;
 import com.kairos.model.User;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class TopicController {
 
@@ -38,17 +37,17 @@ public class TopicController {
             return;
         }
 
-        topicDAO.insertTopic(topic);
+        topicDAO.insert(topic);
     }
 
-    public ArrayList<Topic> listTopics() {
+    public List<Topic> listTopics() {
 
-        return topicDAO.listTopics();
+        return topicDAO.getAll();
     }
 
     public Topic searchTopicById(int topic_id) {
 
-        return topicDAO.searchTopicById(topic_id);
+        return topicDAO.getById(topic_id);
     }
 
     public void updateTopic(Topic topic, User user) {
@@ -63,7 +62,7 @@ public class TopicController {
             return;
         }
 
-        topicDAO.updateTopic(topic);
+        topicDAO.update(topic);
     }
 
     public void deleteTopic(int id, User user) {
@@ -78,6 +77,6 @@ public class TopicController {
             return;
         }
 
-        topicDAO.deleteTopic(id);
+        topicDAO.delete(id);
     }
 }

@@ -63,21 +63,22 @@ public class QuestionController {
             question.setStats("verified");
         }
 
-        questionDAO.insertQuestion(question);
+        questionDAO.insert(question);
     }
 
     public List<Question> listQuestions() {
 
-        return questionDAO.listQuestions();
+        return questionDAO.getAll();
     }
 
     public List<Question> listQuestionsPerTopic(int topicId) {
-        return questionDAO.listQuestionsPerTopic(topicId);
+
+        return questionDAO.getAllByTopic(topicId);
     }
 
     public Question searchQuestionById(int id) {
 
-        return questionDAO.searchQuestionById(id);
+        return questionDAO.getById(id);
     }
 
     public void updateQuestion(MultipleChoiceQuestion question, User user) {
@@ -92,7 +93,7 @@ public class QuestionController {
             return;
         }
 
-        questionDAO.updateQuestion(question);
+        questionDAO.update(question);
     }
 
     public void deleteQuestion(int id, User user) {
@@ -107,6 +108,6 @@ public class QuestionController {
             return;
         }
 
-        questionDAO.deleteQuestion(id);
+        questionDAO.delete(id);
     }
 }
