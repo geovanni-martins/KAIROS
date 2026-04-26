@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.kairos.model.Gap;
 
@@ -135,5 +137,39 @@ public class GapDAO {
 			System.err.println("Error solving gap: " + e.getMessage());
 			e.printStackTrace();
 		}
+	}
+	
+	public List<Gap> getByStudent(int studentId) {
+		List<Gap> gapList = new ArrayList<>();
+		
+		String sql = "SELECT * FROM gap WHERE student_id = ?";
+	
+		try(Connection conn = DBConnection.connect();
+				PreparedStatement ps = conn.prepareStatement(sql)){
+			
+			ps.setInt(1, studentId);
+			
+			try(ResultSet rs = ps.executeQuery()){
+				
+				while(rs.next()) {
+					Gap gap = new Gap(
+						rs.getInt("id_gap"),
+						rs.getInt("student_id"),
+						rs.getInt("topic_id"),
+						rs.getInt("qty_solved_questions"),
+						rs.getInt("correct_answers"),
+						rs.getTimestamp("identified_date").toInstant(),
+						rs.getString("stats")
+					);
+					gapList.add(gap);
+				}
+			}
+			
+		} catch(SQLException e) {
+			System.err.println("Error fetching gaps by student: " + e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return gapList;
 	}
 }

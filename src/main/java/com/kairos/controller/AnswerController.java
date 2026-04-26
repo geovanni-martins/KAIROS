@@ -32,6 +32,7 @@ public class AnswerController extends HttpServlet{
 	
 	@Override 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		
 		com.kairos.dao.AnswerDAO dao = new com.kairos.dao.AnswerDAO();
 		
 		String studentParam = request.getParameter("studentId");
