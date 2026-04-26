@@ -1,7 +1,5 @@
 package com.kairos.dao;
 
-import com.kairos.model.Student;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
