@@ -7,7 +7,7 @@ import java.util.List;
 
 public class AdminDAO {
 
-    public void insert(int adminId) {
+    public boolean insert(int adminId) {
         String sql = "INSERT INTO admin (id_admin) VALUES (?);";
 
         try (Connection conn = DBConnection.connect();
@@ -16,8 +16,12 @@ public class AdminDAO {
             stmt.setInt(1, adminId);
             stmt.executeUpdate();
             System.out.println("Admin cadastrado");
+            return true;
+
         } catch (SQLException e) {
             System.out.println("Erro ao inserir admin: " + e.getMessage());
+            return false;
+
         }
     }
 

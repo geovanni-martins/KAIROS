@@ -23,25 +23,27 @@ public class UserController {
         moderatorDAO = new ModeratorDAO();
     }
 
-    public void register(String name, String email, String passwordTyped, String role, String responsibleDiscipline) {
+    public boolean register(String name, String email, String passwordTyped, String role, String responsibleDiscipline) {
         Set<String> roles = Set.of("admin", "moderator", "student");
 
         if (name == null || email == null || passwordTyped == null ||
                 name.isBlank() || email.isBlank() || passwordTyped.isBlank()) {
-            return;
+            return false;
         }
 
         if (name.length() > 100 || email.length() > 100 || passwordTyped.length() > 100) {
-            return;
+            return false;
         }
 
         if (!roles.contains(role)) {
-            return;
+            return false;
         }
 
         if (role.equals("moderator") && (responsibleDiscipline == null || responsibleDiscipline.isBlank())) {
-            return;
+            return false;
         }
+
+        if (userDAO.getByEmail(email) != null) { return false;}
 
         String password = BCrypt.hashpw(passwordTyped, BCrypt.gensalt(12));
 
@@ -49,22 +51,21 @@ public class UserController {
         int userId = userDAO.insert(user);
 
         if (userId == -1) {
-            return;
+            return false;
         }
 
         switch (role) {
             case "admin":
-                adminDAO.insert(userId);
-                break;
+                return adminDAO.insert(userId);
 
             case "moderator":
-                moderatorDAO.insert(userId, responsibleDiscipline);
-                break;
+                return moderatorDAO.insert(userId, responsibleDiscipline);
 
             case "student":
-                studentDAO.insert(userId);
-                break;
+                return studentDAO.insert(userId);
         }
+
+        return false;
     }
 
     public User getUserByEmail(String email) {

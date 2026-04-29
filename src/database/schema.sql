@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS reports (
     report_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     reason TEXT NOT NULL,
     analyzed_by INT NULL,
-    stats ENUM('analyzed', 'pending', 'not_analyzed') NOT NULL,
+    stats ENUM('analyzed', 'not_analyzed') NOT NULL,
     FOREIGN KEY (student_id) REFERENCES student(id_student) ON DELETE CASCADE,
     FOREIGN KEY (question_id) REFERENCES question(id_question) ON DELETE CASCADE,
     FOREIGN KEY (analyzed_by) REFERENCES moderator(id_moderator) ON DELETE SET NULL

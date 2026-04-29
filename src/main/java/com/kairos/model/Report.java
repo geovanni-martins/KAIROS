@@ -7,7 +7,7 @@ public class Report {
     private Student student;
     private Question question;
     private String reason;
-    private String status; // "analyzed", "pending", "not_analyzed"
+    private String status; // "analyzed", "not_analyzed"
     private Instant createdAt;
     private Moderator analyzedBy;
 
