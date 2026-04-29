@@ -7,7 +7,7 @@ import java.util.List;
 
 public class StudentDAO {
 
-    public void insert(int studentId) {
+    public boolean insert(int studentId) {
         String sql = "INSERT INTO student (id_student) VALUES (?);";
 
         try (Connection conn = DBConnection.connect();
@@ -16,8 +16,11 @@ public class StudentDAO {
             stmt.setInt(1, studentId);
             stmt.executeUpdate();
             System.out.println("Estudante cadastrado");
+            return true;
+
         } catch (SQLException e) {
             System.out.println("Erro ao inserir estudante: " + e.getMessage());
+            return false;
         }
     }
 

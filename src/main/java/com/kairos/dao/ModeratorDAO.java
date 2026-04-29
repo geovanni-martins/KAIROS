@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ModeratorDAO {
 
-    public void insert(int moderatorId, String subjectOwner) {
+    public boolean insert(int moderatorId, String subjectOwner) {
         String sql = "INSERT INTO moderator (id_moderator, subject_owner) VALUES (?, ?);";
 
         try (Connection conn = DBConnection.connect();
@@ -17,8 +17,12 @@ public class ModeratorDAO {
             stmt.setString(2, subjectOwner);
             stmt.executeUpdate();
             System.out.println("Moderador cadastrado");
+            return true;
+
         } catch (SQLException e) {
             System.out.println("Erro ao inserir moderador: " + e.getMessage());
+            return false;
+
         }
     }
 
