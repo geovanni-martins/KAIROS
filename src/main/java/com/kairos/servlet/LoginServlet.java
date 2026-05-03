@@ -26,7 +26,10 @@ public class LoginServlet extends HttpServlet {
         User people = userController.login(email, password);
         if(people.getEmail().equals(userController.getUserByEmail(email).getEmail())) {
             HttpSession session = req.getSession(true);
+
             session.setAttribute("user", people);
+            session.setAttribute("userType", people.getRole());
+
             resp.sendRedirect(req.getContextPath() + "/home");
 
         } else {
