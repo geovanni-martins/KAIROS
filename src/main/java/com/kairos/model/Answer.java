@@ -8,29 +8,23 @@ public class Answer {
 	private int questionId;
 	private boolean gotRight;
 	private Instant createdAt;
-	private String type; //'Multiplique_Choice
-	private String baseAnswer;
 	
 	public Answer() {
 		
 	}
 	
-	public Answer(int studentId, int questionId, boolean gotRight, Instant createdAt, String type, String baseAnswer) {
+	public Answer(int studentId, int questionId, boolean gotRight, Instant createdAt) {
 		this.studentId = studentId;
 		this.questionId = questionId;
 		this.gotRight = gotRight;
 		this.createdAt = createdAt;
-		this.type = type;
-		this.baseAnswer = baseAnswer;
 	}
-	public Answer(int id, int studentId, int questionId, boolean gotRight, Instant createdAt, String type, String baseAnswer) {
+	public Answer(int id, int studentId, int questionId, boolean gotRight, Instant createdAt) {
 		this.id = id;
 		this.studentId = studentId;
 		this.questionId = questionId;
 		this.gotRight = gotRight;
 		this.createdAt = createdAt;
-		this.type = type;
-		this.baseAnswer = baseAnswer;
 	}
 
 	public int getId() {
@@ -71,21 +65,5 @@ public class Answer {
 
 	public void setCreatedAt(Instant createdAt) {
 		this.createdAt = createdAt;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getBaseAnswer() {
-		return baseAnswer;
-	}
-
-	public void setBaseAnswer(String baseAnswer) {
-		this.baseAnswer = baseAnswer;
 	}
 }

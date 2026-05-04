@@ -81,8 +81,6 @@ CREATE TABLE IF NOT EXISTS answer (
 CREATE TABLE IF NOT EXISTS multiple_choice_answer (
     answer_id INT PRIMARY KEY NOT NULL,
     alternative_id INT NOT NULL,
-    FOREIGN KEY (answer_id) REFERENCES answer(id_answer),
-    FOREIGN KEY (alternative_id) REFERENCES alternative(id_alternative),
     FOREIGN KEY (answer_id) REFERENCES answer(id_answer) ON DELETE CASCADE,
     FOREIGN KEY (alternative_id) REFERENCES alternative(id_alternative) ON DELETE CASCADE
     );

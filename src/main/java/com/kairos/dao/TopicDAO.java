@@ -22,6 +22,37 @@ public class TopicDAO {
         }
     }
 
+    public void insertTopicWithPreReqs(Topic topic, String[] preReqsIds) {
+        String sqlTopic = "INSERT INTO topic (name, subject) VALUES (?, ?)";
+        String sqlPreReq = "INSERT INTO topic_pre_requirements (topic_id, pre_requirement_id) VALUES (?, ?)";
+
+        try (Connection conn = DBConnection.connect()) {
+
+            try (PreparedStatement stmtTopic = conn.prepareStatement(sqlTopic, Statement.RETURN_GENERATED_KEYS)) {
+                stmtTopic.setString(1, topic.getName());
+                stmtTopic.setString(2, topic.getSubject());
+                stmtTopic.executeUpdate();
+
+                ResultSet rs = stmtTopic.getGeneratedKeys();
+                if (rs.next()) {
+                    int idGerado = rs.getInt(1);
+
+                    if (preReqsIds != null) {
+                        for (String preId : preReqsIds) {
+                            try (PreparedStatement stmtPre = conn.prepareStatement(sqlPreReq)) {
+                                stmtPre.setInt(1, idGerado);
+                                stmtPre.setInt(2, Integer.parseInt(preId));
+                                stmtPre.executeUpdate();
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro : " + e.getMessage());
+        }
+    }
+
     public Topic getById(int id) {
         String sql = "SELECT * FROM topic WHERE id_topic = ?";
 

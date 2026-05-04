@@ -3,12 +3,14 @@ package com.kairos.dao;
 import com.kairos.model.Answer;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AnswerDAO {
 
 	public void insert(Answer answer) {
-		String sql = "INSERT INTO answer (student_id, question_id, got_right, answer_date, type, base_answer) VALUES (?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO answer (student_id, question_id, got_right, answer_date) VALUES (?, ?, ?, ?)";
 
 		try (Connection conn = DBConnection.connect();
 		     PreparedStatement stmt = conn.prepareStatement(sql)
@@ -17,8 +19,6 @@ public class AnswerDAO {
 			stmt.setInt(2, answer.getQuestionId());
 			stmt.setBoolean(3, answer.isGotRight());
 			stmt.setTimestamp(4, Timestamp.from(answer.getCreatedAt()));
-			stmt.setString(5, answer.getType());
-			stmt.setString(6, answer.getBaseAnswer());
 			stmt.executeUpdate();
 			System.out.println("Resposta cadastrada");
 
@@ -43,9 +43,7 @@ public class AnswerDAO {
 							rs.getInt("student_id"),
 							rs.getInt("question_id"),
 							rs.getBoolean("got_right"),
-							rs.getTimestamp("answer_date").toInstant(),
-							rs.getString("type"),
-							rs.getString("base_answer")
+							rs.getTimestamp("answer_date").toInstant()
 					));
 				}
 			}
@@ -73,9 +71,7 @@ public class AnswerDAO {
 							rs.getInt("student_id"),
 							rs.getInt("question_id"),
 							rs.getBoolean("got_right"),
-							rs.getTimestamp("answer_date").toInstant(),
-							rs.getString("type"),
-							rs.getString("base_answer")
+							rs.getTimestamp("answer_date").toInstant()
 					));
 				}
 			}
@@ -85,5 +81,29 @@ public class AnswerDAO {
 		}
 
 		return list;
+	}
+
+	public Map<String, int[]> getWeeklyProgress(int studentId) {
+		// int[0] = hits, int[1] = misses
+		Map<String, int[]> weeklyData = new LinkedHashMap<>();
+		String sql = "SELECT DATE(answer_date) as date, " +
+				"SUM(CASE WHEN got_right = 1 THEN 1 ELSE 0 END) as hits, " +
+				"SUM(CASE WHEN got_right = 0 THEN 1 ELSE 0 END) as misses " +
+				"FROM answer " +
+				"WHERE student_id = ? AND answer_date >= DATE_SUB(CURDATE(), INTERVAL 6 DAY) " +
+				"GROUP BY DATE(answer_date) " +
+				"ORDER BY date ASC";
+
+		try (Connection conn = DBConnection.connect();
+		     PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, studentId);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				weeklyData.put(rs.getString("date"), new int[]{rs.getInt("hits"), rs.getInt("misses")});
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return weeklyData;
 	}
 }
