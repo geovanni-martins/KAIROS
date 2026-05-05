@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/kairosDB";
-    private static final String USER = "user";
-    private static final String PASSWORD = "";
+    private static final String URL = "jdbc:mysql://localhost:3306/KAIROS";
+    private static final String USER = "davi";
+    private static final String PASSWORD = "D@vi061206";
 
     public static Connection connect() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);

@@ -28,38 +28,9 @@
 </head>
 <body class="min-h-screen bg-fundo-geral text-texto-padrao font-sora flex flex-col md:flex-row">
 
-<aside class="flex flex-col shrink-0 w-full md:w-[220px] p-4 md:py-7 bg-fundo-card border-b md:border-b-0 md:border-r border-linha-divisoria shadow-lg shadow-black/20">
-    <div class="md:px-6 pb-4 md:pb-8 border-b border-linha-divisoria text-marca-kairos font-mono text-xl font-medium tracking-wider flex justify-between items-center">
-        <span>KAIROS</span>
-        <a href="${pageContext.request.contextPath}/logout" class="md:hidden text-[12px] text-status-vermelho font-semibold">Sair</a>
-    </div>
+<%@include file="nav.jsp"%>
 
-    <%
-        com.kairos.model.User usuarioLogado = (com.kairos.model.User) session.getAttribute("user");
-        String roleSidebar;
-        if (usuarioLogado != null) {
-            roleSidebar = usuarioLogado.getRole();
-        } else {
-            roleSidebar = "";
-        }
-    %>
-
-    <nav class="flex flex-row md:flex-col overflow-x-auto md:overflow-visible gap-2 md:gap-1 py-4 md:px-3 md:py-5">
-        <a href="${pageContext.request.contextPath}/home" class="flex shrink-0 items-center gap-2.5 px-3 py-2.5 rounded-lg text-texto-opaco text-[13px] hover:bg-fundo-hover hover:text-texto-padrao transition-colors duration-150">
-            <svg class="w-4 h-4 opacity-70" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
-            Dashboard
-        </a>
-
-        <% if ("moderator".equals(roleSidebar) || "admin".equals(roleSidebar)) { %>
-        <a href="${pageContext.request.contextPath}/moderator-panel" class="flex shrink-0 items-center gap-2.5 px-3 py-2.5 bg-marca-kairos/15 rounded-lg text-marca-kairos text-[13px] transition-colors duration-150">
-            <svg class="w-4 h-4 opacity-70" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12M2 8h8M2 12h10"/></svg>
-            Painel do Moderador
-        </a>
-        <% } %>
-    </nav>
-</aside>
-
-<main class="flex-1 p-4 md:p-9 overflow-y-auto flex flex-col items-start">
+<main class="flex-1 p-4 pt-16 md:p-9 md:pt-20 overflow-y-auto flex flex-col items-start">
 
     <a href="${pageContext.request.contextPath}/moderator-panel" class="self-start mb-6 inline-flex items-center gap-2 text-texto-padrao hover:text-marca-kairos transition-colors">
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>

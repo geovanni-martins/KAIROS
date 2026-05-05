@@ -34,83 +34,16 @@
 
 <div class="flex flex-col md:flex-row w-full min-h-screen">
 
-    <aside class="flex flex-col shrink-0 w-full md:w-[220px] p-4 md:py-7 bg-fundo-card border-b md:border-b-0 md:border-r border-linha-divisoria shadow-lg shadow-black/20">
+    <%@include file="nav.jsp"%>
 
-        <div class="md:px-6 pb-4 md:pb-8 border-b border-linha-divisoria text-marca-kairos font-mono text-xl font-medium tracking-wider flex justify-between items-center">
-            <span>KAIROS</span>
-            <a href="${pageContext.request.contextPath}/logout" class="md:hidden text-[12px] text-status-vermelho font-semibold">Sair</a>
-        </div>
-
-        <%
-            com.kairos.model.User usuarioLogado = (com.kairos.model.User) session.getAttribute("user");
-            String roleSidebar;
-            if (usuarioLogado != null) {
-                roleSidebar = usuarioLogado.getRole();
-            } else {
-                roleSidebar = "";
-            }
-        %>
-
-        <nav class="flex flex-row md:flex-col overflow-x-auto md:overflow-visible gap-2 md:gap-1 py-4 md:px-3 md:py-5">
-            <a href="${pageContext.request.contextPath}/home" class="flex shrink-0 items-center gap-2.5 px-3 py-2.5 bg-marca-kairos/15 rounded-lg text-marca-kairos text-[13px] transition-colors duration-150">
-                <svg class="w-4 h-4 opacity-70" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
-                Dashboard
-            </a>
-
-            <% if ("student".equals(roleSidebar)) { %>
-            <a href="${pageContext.request.contextPath}/questions" class="flex shrink-0 items-center gap-2.5 px-3 py-2.5 rounded-lg text-texto-opaco text-[13px] transition-colors duration-150 hover:bg-fundo-hover hover:text-texto-padrao">
-                <svg class="w-4 h-4 opacity-70" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
-                Questões
-            </a>
-            <a href="${pageContext.request.contextPath}/topics" class="flex shrink-0 items-center gap-2.5 px-3 py-2.5 rounded-lg text-texto-opaco text-[13px] transition-colors duration-150 hover:bg-fundo-hover hover:text-texto-padrao">
-                <svg class="w-4 h-4 opacity-70" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12M2 8h8M2 12h10"/></svg>
-                Tópicos
-            </a>
-            <a href="${pageContext.request.contextPath}/debt" class="flex shrink-0 items-center gap-2.5 px-3 py-2.5 rounded-lg text-texto-opaco text-[13px] transition-colors duration-150 hover:bg-fundo-hover hover:text-texto-padrao">
-                <svg class="w-4 h-4 opacity-70" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1l2 4 5 .7-3.5 3.4.8 5L8 12l-4.3 2.1.8-5L1 5.7 6 5z"/></svg>
-                Lacunas
-            </a>
-            <% } %>
-
-            <% if ("moderator".equals(roleSidebar) || "admin".equals(roleSidebar)) { %>
-            <a href="${pageContext.request.contextPath}/moderator-panel" class="flex shrink-0 items-center gap-2.5 px-3 py-2.5 rounded-lg text-texto-opaco text-[13px] transition-colors duration-150 hover:bg-fundo-hover hover:text-texto-padrao">
-                <svg class="w-4 h-4 opacity-70" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12M2 8h8M2 12h10"/></svg>
-                Painel de Moderador
-            </a>
-            <% } %>
-        </nav>
-
-        <div class="hidden md:block px-3 pt-5 mt-auto border-t border-linha-divisoria">
-            <div class="flex items-center gap-2.5 p-2.5 bg-fundo-hover rounded-lg">
-                <div id="iniciais-avatar" class="flex shrink-0 items-center justify-center w-7 h-7 bg-marca-kairos rounded-full text-white text-[11px] font-bold">--</div>
-                <div class="flex-1 truncate">
-                    <p id="nome-usuario-menu" class="text-[12px] font-semibold truncate"></p>
-                    <span id="papel-usuario-menu" class="text-[10px] text-texto-opaco"></span>
-                </div>
-                <a href="${pageContext.request.contextPath}/logout" class="p-1 hover:text-status-vermelho" title="Sair">
-                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-                </a>
-            </div>
-        </div>
-    </aside>
-
-    <main class="flex-1 p-4 md:p-9 overflow-y-auto">
-
-        <%
-            String userType;
-            if (usuarioLogado != null) {
-                userType = usuarioLogado.getRole();
-            } else {
-                userType = "";
-            }
-        %>
+    <main class="flex-1 p-4 pt-16 md:p-9 md:pt-20 overflow-y-auto">
 
         <header class="flex items-start justify-between mb-6 md:mb-9">
             <div>
                 <p class="mb-1 text-marca-kairos text-[11px] md:text-[12px] font-semibold tracking-widest uppercase">Bem-vindo(a)</p>
                 <h1 id="nome-usuario-titulo" class="text-texto-padrao text-[22px] md:text-[26px] font-bold">${user.name}</h1>
                 <p id="subtitulo-boas-vindas" class="mt-1 text-texto-opaco text-[12px] md:text-[13px]">
-                    <% if ("student".equals(userType)) { %>
+                    <% if ("student".equals(roleSidebar)) { %>
                     Continue de onde parou, você está indo bem
                     <% } else { %>
                     Gerencie o conteúdo do sistema
@@ -122,7 +55,7 @@
             </div>
         </header>
 
-        <% if ("student".equals(userType)) { %>
+        <% if ("student".equals(roleSidebar)) { %>
         <section id="secao-estudante">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-7">
                 <div class="relative overflow-hidden p-5 bg-fundo-card border border-linha-divisoria rounded-xl shadow-md shadow-black/10 transition-colors duration-200 hover:border-marca-kairos before:absolute before:top-0 before:left-0 before:w-[3px] before:h-full before:bg-marca-kairos before:rounded-l-xl">
@@ -203,10 +136,10 @@
         </section>
         <% } %>
 
-        <% if ("moderator".equals(userType) || "admin".equals(userType)) { %>
+        <% if ("moderator".equals(roleSidebar) || "admin".equals(roleSidebar)) { %>
         <section id="secao-moderador">
             <div class="p-5 bg-fundo-card border border-linha-divisoria rounded-xl shadow-md text-texto-opaco">
-                <p>Clique em "Painel de Moderador" no menu lateral para acessar as ferramentas</p>
+                <p>Clique em um dos botões do menu lateral para acessar as ferramentas</p>
             </div>
         </section>
         <% } %>
@@ -223,9 +156,6 @@
         return nome.split(" ").map(n => n[0]).slice(0,2).join("").toUpperCase();
     }
 
-    document.getElementById("nome-usuario-menu").textContent = userName;
-    document.getElementById("iniciais-avatar").textContent = obterIniciais(userName);
-    document.getElementById("papel-usuario-menu").textContent = userType;
     if(userType) {
         document.getElementById("badge-papel").textContent = userType.charAt(0).toUpperCase() + userType.slice(1);
     }
