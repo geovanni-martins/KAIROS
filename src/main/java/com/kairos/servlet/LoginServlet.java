@@ -27,6 +27,7 @@ public class LoginServlet extends HttpServlet {
 
         if (people != null) {
             HttpSession session = req.getSession(true);
+
             session.setAttribute("user", people);
             session.setAttribute("userType", people.getRole());
             resp.sendRedirect(req.getContextPath() + "/home");
