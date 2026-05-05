@@ -11,7 +11,6 @@ public class DBConnection {
     private static final String PASSWORD = "";
 
     public static Connection connect() throws SQLException {
-        // DriverManager.getConnection lança SQLException se falhar
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 }
