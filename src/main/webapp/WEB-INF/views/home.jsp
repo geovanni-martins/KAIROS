@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="com.kairos.model.StudentTopic" %>
 <%@ page import="java.util.List" %>
@@ -7,33 +7,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kairos ? Dashboard</title>
+    <title>Kairos - Dashboard</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'fundo-geral': '#0B101E',
-                        'fundo-card': '#161F35',
-                        'fundo-hover': '#1D2B48',
-                        'linha-divisoria': '#1D2B48',
-                        'marca-kairos': '#E16144',
-                        'texto-padrao': '#ffffff',
-                        'texto-opaco': '#8494b0',
-                        'status-verde': '#22c55e',
-                        'status-amarelo': '#f59e0b',
-                        'status-vermelho': '#E16144',
-                    },
-                    fontFamily: { sora: ['Sora', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
-                }
-            }
+    <style type="text/tailwindcss">
+        @theme {
+            --color-fundo-geral: #0B101E;
+            --color-fundo-card: #161F35;
+            --color-fundo-hover: #1D2B48;
+            --color-linha-divisoria: #1D2B48;
+            --color-marca-kairos: #E16144;
+            --color-texto-padrao: #ffffff;
+            --color-texto-opaco: #8494b0;
+            --color-status-verde: #22c55e;
+            --color-status-amarelo: #f59e0b;
+            --color-status-vermelho: #E16144;
+            --font-sora: "Sora", sans-serif;
+            --font-mono: "JetBrains Mono", monospace;
         }
-    </script>
+    </style>
 </head>
 <body class="flex min-h-screen bg-fundo-geral text-texto-padrao font-sora">
 
@@ -116,9 +111,9 @@
                 <h1 id="nome-usuario-titulo" class="text-texto-padrao text-[22px] md:text-[26px] font-bold">${user.name}</h1>
                 <p id="subtitulo-boas-vindas" class="mt-1 text-texto-opaco text-[12px] md:text-[13px]">
                     <% if ("student".equals(userType)) { %>
-                    Continue de onde parou, voc est indo bem
+                    Continue de onde parou, você está indo bem
                     <% } else { %>
-                    Gerencie o contedo do sistema
+                    Gerencie o conteúdo do sistema
                     <% } %>
                 </p>
             </div>
@@ -131,7 +126,7 @@
         <section id="secao-estudante">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-7">
                 <div class="relative overflow-hidden p-5 bg-fundo-card border border-linha-divisoria rounded-xl shadow-md shadow-black/10 transition-colors duration-200 hover:border-marca-kairos before:absolute before:top-0 before:left-0 before:w-[3px] before:h-full before:bg-marca-kairos before:rounded-l-xl">
-                    <p class="mb-3 text-texto-padrao text-[11px] font-semibold tracking-wider uppercase">Questes respondidas</p>
+                    <p class="mb-3 text-texto-padrao text-[11px] font-semibold tracking-wider uppercase">Questões respondidas</p>
                     <p class="text-texto-padrao font-mono text-[28px] md:text-[32px] font-bold leading-none"><% if (request.getAttribute("solvedQuestions") != null) { %>${solvedQuestions}<% } else { %>0<% } %></p>
                     <p class="flex items-center gap-1 mt-2.5 text-status-verde text-[12px]">Foco na meta!</p>
                 </div>
@@ -139,7 +134,7 @@
                 <div class="relative overflow-hidden p-5 bg-fundo-card border border-linha-divisoria rounded-xl shadow-md shadow-black/10 transition-colors duration-200 hover:border-marca-kairos before:absolute before:top-0 before:left-0 before:w-[3px] before:h-full before:bg-marca-kairos before:rounded-l-xl">
                     <p class="mb-3 text-texto-padrao text-[11px] font-semibold tracking-wider uppercase">Percentual de acertos</p>
                     <p class="text-texto-padrao font-mono text-[28px] md:text-[32px] font-bold leading-none"><% if (request.getAttribute("percentageCorrectAnswers") != null) { %>${percentageCorrectAnswers}<% } else { %>0<% } %><span class="text-texto-opaco text-[16px] font-normal">%</span></p>
-                    <p class="flex items-center gap-1 mt-2.5 text-status-verde text-[12px]">Sua mdia geral</p>
+                    <p class="flex items-center gap-1 mt-2.5 text-status-verde text-[12px]">Sua média geral</p>
                 </div>
 
                 <div class="relative overflow-hidden p-5 bg-fundo-card border border-linha-divisoria rounded-xl shadow-md shadow-black/10 transition-colors duration-200 hover:border-status-amarelo before:absolute before:top-0 before:left-0 before:w-[3px] before:h-full before:bg-status-amarelo before:rounded-l-xl">
@@ -153,7 +148,7 @@
                 <div class="flex flex-col md:flex-row md:items-center justify-between mb-5 gap-3">
                     <div>
                         <p class="text-texto-padrao text-[14px] font-semibold">Desempenho recente</p>
-                        <p class="mt-0.5 text-texto-opaco text-[12px]">Acertos e erros por sesso</p>
+                        <p class="mt-0.5 text-texto-opaco text-[12px]">Acertos e erros por sessão</p>
                     </div>
                     <div class="flex gap-4">
                         <div class="flex items-center gap-1.5 text-texto-padrao text-[12px]"><div class="w-2 h-2 rounded-full bg-status-verde"></div>Acertos</div>
@@ -165,7 +160,7 @@
                 </div>
             </div>
 
-            <p class="mb-3.5 text-texto-opaco text-[11px] font-semibold tracking-widest uppercase">Progresso por tpico</p>
+            <p class="mb-3.5 text-texto-opaco text-[11px] font-semibold tracking-widest uppercase">Progresso por tópico</p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <%
@@ -195,7 +190,7 @@
                     <div class="flex shrink-0 items-center justify-center w-9 h-9 bg-marca-kairos/15 rounded-lg text-[16px] font-bold">#</div>
                     <div class="flex-1">
                         <p class="mb-1 text-[13px] font-semibold"><%= st.getTopic().getName() %></p>
-                        <p class="text-texto-opaco text-[11px]"><%= total %> questes  <%= percentual %>% de acerto</p>
+                        <p class="text-texto-opaco text-[11px]"><%= total %> questões  <%= percentual %>% de acerto</p>
                         <div class="h-1 mt-1.5 bg-fundo-hover rounded-full overflow-hidden">
                             <div class="h-full <%= corStatus %> rounded-full transition-all duration-700" style="width:<%= percentual %>%"></div>
                         </div>
@@ -237,7 +232,7 @@
 
     const grafic = document.getElementById("graficoDesempenho");
     if (grafic) {
-        let labelsDias = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sb", "Dom"];
+        let labelsDias = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
         let dadosAcertos = [0, 0, 0, 0, 0, 0, 0];
         let dadosErros = [0, 0, 0, 0, 0, 0, 0];
 

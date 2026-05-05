@@ -1,38 +1,30 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ page import="com.kairos.model.Topic, java.util.List" %>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kairos ? Criar Questo</title>
+    <title>Kairos - Criar Questão</title>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'fundo-geral':     '#0B101E',
-                        'fundo-card':      '#161F35',
-                        'fundo-hover':     '#1D2B48',
-                        'linha-divisoria': '#1D2B48',
-                        'marca-kairos':    '#E16144',
-                        'marca-escuro':    '#C9523A',
-                        'texto-padrao':    '#ffffff',
-                        'texto-opaco':     '#8494b0',
-                        'status-verde':    '#22c55e',
-                        'status-amarelo':  '#f59e0b',
-                        'status-vermelho': '#E16144',
-                    },
-                    fontFamily: {
-                        sora: ['Sora', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace']
-                    }
-                }
-            }
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @theme {
+            --color-fundo-geral: #0B101E;
+            --color-fundo-card: #161F35;
+            --color-fundo-hover: #1D2B48;
+            --color-linha-divisoria: #1D2B48;
+            --color-marca-kairos: #E16144;
+            --color-marca-escuro: #C9523A;
+            --color-texto-padrao: #ffffff;
+            --color-texto-opaco: #8494b0;
+            --color-status-verde: #22c55e;
+            --color-status-amarelo: #f59e0b;
+            --color-status-vermelho: #E16144;
+            --font-sora: "Sora", sans-serif;
+            --font-mono: "JetBrains Mono", monospace;
         }
-    </script>
+    </style>
 </head>
 <body class="min-h-screen bg-fundo-geral text-texto-padrao font-sora flex flex-col md:flex-row">
 
@@ -88,14 +80,14 @@
     </a>
     <div class="w-full max-w-3xl mx-auto">
         <header class="mb-8">
-            <p class="text-marca-kairos text-[11px] font-semibold tracking-widest uppercase mb-1">Moderao</p>
-            <h1 class="text-[24px] md:text-[26px] font-bold">Criar nova questo</h1>
+            <p class="text-marca-kairos text-[11px] font-semibold tracking-widest uppercase mb-1">Moderação</p>
+            <h1 class="text-[24px] md:text-[26px] font-bold">Criar nova questão</h1>
             <p class="text-texto-opaco text-[12px] md:text-[13px] mt-1">Preencha todos os campos</p>
         </header>
 
         <% if ("true".equals(request.getParameter("success"))) { %>
         <div id="success-alert" class="flex items-center gap-3 mb-6 p-4 bg-status-verde/10 border border-status-verde/30 rounded-xl text-status-verde text-[13px] font-semibold transition-opacity duration-500">
-            Questo criada com sucesso!
+            Questão criada com sucesso!
         </div>
         <% } %>
 
@@ -109,10 +101,10 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="space-y-2">
-                    <label class="block text-[11px] font-semibold tracking-widest uppercase text-texto-opaco">Tpico</label>
+                    <label class="block text-[11px] font-semibold tracking-widest uppercase text-texto-opaco">Tópico</label>
                     <select name="topicId" required
                             class="w-full px-4 py-3 bg-fundo-card border border-linha-divisoria rounded-xl text-[13px] text-texto-padrao outline-none focus:border-marca-kairos transition-colors">
-                        <option value="" disabled selected>Selecione um tpico</option>
+                        <option value="" disabled selected>Selecione um tópico</option>
                         <%
                             List<Topic> topics = (List<Topic>) request.getAttribute("topics");
                             if (topics != null) {
@@ -129,21 +121,21 @@
                     <select name="difficulty" required
                             class="w-full px-4 py-3 bg-fundo-card border border-linha-divisoria rounded-xl text-[13px] text-texto-padrao outline-none focus:border-marca-kairos transition-colors">
                         <option value="" disabled selected>Selecione</option>
-                        <option value="easy">Fcil</option>
-                        <option value="medium">Mdia</option>
-                        <option value="hard">Difcil</option>
+                        <option value="easy">Fácil</option>
+                        <option value="medium">Média</option>
+                        <option value="hard">Difícil</option>
                     </select>
                 </div>
             </div>
 
             <div class="space-y-2">
                 <label class="block text-[11px] font-semibold tracking-widest uppercase text-texto-opaco">Enunciado</label>
-                <textarea name="statement" rows="4" required placeholder="Digite o enunciado da questo..."
+                <textarea name="statement" rows="4" required placeholder="Digite o enunciado da questão..."
                           class="w-full px-4 py-3 bg-fundo-card border border-linha-divisoria rounded-xl text-[13px] text-texto-padrao outline-none focus:border-marca-kairos transition-colors resize-none"></textarea>
             </div>
 
             <div class="space-y-2">
-                <label class="block text-[11px] font-semibold tracking-widest uppercase text-texto-opaco">Alternativas ? marque a correta</label>
+                <label class="block text-[11px] font-semibold tracking-widest uppercase text-texto-opaco">Alternativas — marque a correta</label>
                 <div class="space-y-3" id="alternatives">
                     <% String[] letters = {"A","B","C","D","E"};
                         for (int i = 0; i < 5; i++) { %>
@@ -167,7 +159,7 @@
                 </div>
                 <div class="space-y-2">
                     <label class="block text-[11px] font-semibold tracking-widest uppercase text-texto-opaco">Justificativa</label>
-                    <input type="text" name="justification" required placeholder="Explique o porqu da resposta..."
+                    <input type="text" name="justification" required placeholder="Explique o porquê da resposta..."
                            class="w-full px-4 py-3 bg-fundo-card border border-linha-divisoria rounded-xl text-[13px] text-texto-padrao outline-none focus:border-marca-kairos transition-colors">
                 </div>
             </div>
@@ -175,7 +167,7 @@
             <div class="flex justify-end pt-4">
                 <button type="submit"
                         class="w-full md:w-auto px-8 py-3.5 md:py-3 bg-gradient-to-r from-marca-kairos to-marca-escuro text-white text-[14px] font-semibold rounded-xl hover:opacity-90 active:scale-[.98] transition-all">
-                    Criar questo
+                    Criar questão
                 </button>
             </div>
 
