@@ -7,11 +7,10 @@ import com.kairos.model.Answer;
 
 public class AnswerController{
 
-	public void processNewAnswer(int studentId, int questionId, boolean gotRight, String type, String baseAnswer) {
+	public void processNewAnswer(int studentId, int questionId, boolean gotRight) {
 		
 		java.time.Instant createdAt = java.time.Instant.now();
-		Answer ans = new Answer(studentId, questionId, gotRight, createdAt, type, baseAnswer);
-		
+		Answer ans = new Answer(studentId, questionId, gotRight);
 		AnswerDAO dao = new AnswerDAO();
 		dao.insert(ans);
 	}

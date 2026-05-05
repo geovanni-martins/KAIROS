@@ -22,11 +22,9 @@ public class AnswerServlet extends HttpServlet{
 		int studentId = Integer.parseInt(request.getParameter("studentId"));
 		int questionId = Integer.parseInt(request.getParameter("questionId"));
 		boolean gotRight = Boolean.parseBoolean(request.getParameter("gotRight"));
-		String type = request.getParameter("type");
-		String baseAnswer = request.getParameter("baseAnswer");
 		
 		AnswerController controller = new AnswerController();
-		controller.processNewAnswer(studentId, questionId, gotRight, type, baseAnswer);
+		controller.processNewAnswer(studentId, questionId, gotRight);
 		
 		response.setStatus(201);
 	}
