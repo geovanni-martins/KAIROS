@@ -24,16 +24,16 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         User people = userController.login(email, password);
-        if(people.getEmail().equals(userController.getUserByEmail(email).getEmail())) {
+
+        if (people != null) {
             HttpSession session = req.getSession(true);
 
             session.setAttribute("user", people);
             session.setAttribute("userType", people.getRole());
-
             resp.sendRedirect(req.getContextPath() + "/home");
 
         } else {
-            req.setAttribute("erro", "Erro ao logar.");
+            req.setAttribute("erro", "Email ou senha incorretos.");
             req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
         }
     }
