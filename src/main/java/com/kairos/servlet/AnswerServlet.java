@@ -21,10 +21,11 @@ public class AnswerServlet extends HttpServlet{
 		
 		int studentId = Integer.parseInt(request.getParameter("studentId"));
 		int questionId = Integer.parseInt(request.getParameter("questionId"));
+		int topicId = Integer.parseInt(request.getParameter("topicId"));
 		boolean gotRight = Boolean.parseBoolean(request.getParameter("gotRight"));
 		
 		AnswerController controller = new AnswerController();
-		controller.processNewAnswer(studentId, questionId, gotRight);
+		controller.processNewAnswer(studentId, questionId, topicId, gotRight);
 		
 		response.setStatus(201);
 	}

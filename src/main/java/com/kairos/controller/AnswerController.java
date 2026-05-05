@@ -1,26 +1,30 @@
 package com.kairos.controller;
 
 import java.util.List;
-
 import com.kairos.dao.AnswerDAO;
+import com.kairos.dao.StudentTopicDAO;
 import com.kairos.model.Answer;
 
-public class AnswerController{
+public class AnswerController {
 
-	public void processNewAnswer(int studentId, int questionId, boolean gotRight) {
+	public void processNewAnswer(int studentId, int questionId, int topicId, boolean gotRight) {
 		
 		java.time.Instant createdAt = java.time.Instant.now();
-		Answer ans = new Answer(studentId, questionId, gotRight);
+		Answer ans = new Answer(studentId, questionId, gotRight, createdAt);
+		
 		AnswerDAO dao = new AnswerDAO();
 		dao.insert(ans);
+		
+		StudentTopicDAO studentTopicDAO = new StudentTopicDAO();
+		studentTopicDAO.upsertProgress(studentId, topicId, gotRight);
 	}
 	
-	public List<Answer> getAnswersByStudent(int studentId){
+	public List<Answer> getAnswersByStudent(int studentId) {
 		AnswerDAO dao = new AnswerDAO();
 		return dao.getAllByStudent(studentId);
 	}
 	
-	public List<Answer> getAnswersByQuestion(int questionId){
+	public List<Answer> getAnswersByQuestion(int questionId) {
 		AnswerDAO dao = new AnswerDAO();
 		return dao.getAllByQuestion(questionId);
 	}

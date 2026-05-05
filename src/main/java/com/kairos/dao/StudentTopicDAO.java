@@ -160,4 +160,31 @@ public class StudentTopicDAO {
             System.out.println("Erro ao atualizar studentTopic: " + e.getMessage());
         }
     }
+
+    public void upsertProgress(int studentId, int topicId, boolean gotRight) { //vira um insert se no existe e um update se j existe
+        int erroValue;
+        if (gotRight) {
+            erroValue = 0;
+        } else {
+            erroValue = 1;
+        }
+
+        String sql = "INSERT INTO student_topic (student_id, topic_id, qty_solved_questions, qty_wrong_questions) " +
+                "VALUES (?, ?, 1, ?) " +
+                "ON DUPLICATE KEY UPDATE " +
+                "qty_solved_questions = qty_solved_questions + 1, " +
+                "qty_wrong_questions = qty_wrong_questions + ?";
+
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, studentId);
+            stmt.setInt(2, topicId);
+            stmt.setInt(3, erroValue);
+            stmt.setInt(4, erroValue);
+            stmt.executeUpdate();
+            System.out.println("Progresso do estudante atualizado");
+        } catch (SQLException e) {
+            System.out.println("Erro ao processar upsert: " + e.getMessage());
+        }
+    }
 }
