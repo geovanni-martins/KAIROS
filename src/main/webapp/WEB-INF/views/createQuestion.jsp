@@ -110,11 +110,6 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="space-y-2">
-                    <label class="block text-[11px] font-semibold tracking-widest uppercase text-texto-opaco">Gabarito</label>
-                    <input type="text" name="template" required placeholder="Ex: Alternativa C"
-                           class="w-full px-4 py-3 bg-fundo-card border border-linha-divisoria rounded-xl text-[13px] text-texto-padrao outline-none focus:border-marca-kairos transition-colors">
-                </div>
-                <div class="space-y-2">
                     <label class="block text-[11px] font-semibold tracking-widest uppercase text-texto-opaco">Justificativa</label>
                     <input type="text" name="justification" required placeholder="Explique o porquê da resposta..."
                            class="w-full px-4 py-3 bg-fundo-card border border-linha-divisoria rounded-xl text-[13px] text-texto-padrao outline-none focus:border-marca-kairos transition-colors">

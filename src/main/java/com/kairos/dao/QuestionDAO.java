@@ -82,10 +82,10 @@ public class QuestionDAO {
 
     public List<Question> getAll() {
         List<Question> list = new ArrayList<>();
-        String sql =
-                "SELECT q.*, a.id_alternative, a.text, a.is_correct " +
+        String sql = "SELECT q.*, a.id_alternative, a.text, a.is_correct " +
                         "FROM question q " +
-                        "LEFT JOIN alternative a ON q.id_question = a.question_id";
+                        "LEFT JOIN alternative a ON q.id_question = a.question_id " +
+                        "ORDER BY q.id_question ASC, a.id_alternative ASC";
 
         try (Connection conn = DBConnection.connect();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -106,10 +106,13 @@ public class QuestionDAO {
                     list.add(current);
                 }
 
-                current.getAlternatives().add(new Alternative(
-                        rs.getInt("id_alternative"), rs.getString("text"),
-                        rs.getBoolean("is_correct"), current
-                ));
+                int altId = rs.getInt("id_alternative");
+                if (!rs.wasNull()) {
+                    current.getAlternatives().add(new Alternative(
+                            altId, rs.getString("text"),
+                            rs.getBoolean("is_correct"), current
+                    ));
+                }
             }
 
         } catch (SQLException e) {
@@ -121,11 +124,11 @@ public class QuestionDAO {
 
     public List<Question> getAllByTopic(int topicId) {
         List<Question> list = new ArrayList<>();
-        String sql =
-                "SELECT q.*, a.id_alternative, a.text, a.is_correct " +
+        String sql = "SELECT q.*, a.id_alternative, a.text, a.is_correct " +
                         "FROM question q " +
                         "LEFT JOIN alternative a ON q.id_question = a.question_id " +
-                        "WHERE q.topic_id = ?";
+                        "WHERE q.topic_id = ? " +
+                        "ORDER BY q.id_question ASC, a.id_alternative ASC";
 
         try (Connection conn = DBConnection.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)
@@ -148,10 +151,13 @@ public class QuestionDAO {
                         list.add(current);
                     }
 
-                    current.getAlternatives().add(new Alternative(
-                            rs.getInt("id_alternative"), rs.getString("text"),
-                            rs.getBoolean("is_correct"), current
-                    ));
+                    int altId = rs.getInt("id_alternative");
+                    if (!rs.wasNull()) {
+                        current.getAlternatives().add(new Alternative(
+                                altId, rs.getString("text"),
+                                rs.getBoolean("is_correct"), current
+                        ));
+                    }
                 }
             }
 
