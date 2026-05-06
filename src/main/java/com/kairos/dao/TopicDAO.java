@@ -1,6 +1,8 @@
 package com.kairos.dao;
 
 import com.kairos.model.Topic;
+import com.kairos.util.DBConnection;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

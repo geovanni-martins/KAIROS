@@ -4,6 +4,8 @@ import com.kairos.model.Moderator;
 import com.kairos.model.Question;
 import com.kairos.model.Report;
 import com.kairos.model.Student;
+import com.kairos.util.DBConnection;
+
 import java.sql.*;
 import java.time.Instant;
 import java.util.ArrayList;
