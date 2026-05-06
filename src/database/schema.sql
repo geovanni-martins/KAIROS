@@ -55,7 +55,6 @@ CREATE TABLE IF NOT EXISTS question (
 
 CREATE TABLE IF NOT EXISTS multiple_choice_question (
     question_id INT PRIMARY KEY NOT NULL,
-    template TEXT NOT NULL,
     justification TEXT NOT NULL,
     FOREIGN KEY (question_id) REFERENCES question(id_question) ON DELETE CASCADE
 );

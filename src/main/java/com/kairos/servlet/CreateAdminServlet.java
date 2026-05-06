@@ -49,7 +49,6 @@ public class CreateAdminServlet extends HttpServlet {
         String email    = req.getParameter("email");
         String password = req.getParameter("password");
 
-        // null passed for responsibleDiscipline — not required for admins
         boolean success = userController.register(name, email, password, "admin", null);
 
         if (success) {

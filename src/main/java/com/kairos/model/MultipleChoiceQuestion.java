@@ -4,27 +4,17 @@ import java.time.Instant;
 
 public class MultipleChoiceQuestion extends Question {
 
-    private String template;
+
     private String justification;
 
-    public MultipleChoiceQuestion(int id, String statement, String stats, String difficulty, Topic topic, Instant createAt, String template, String justification) {
+    public MultipleChoiceQuestion(int id, String statement, String stats, String difficulty, Topic topic, Instant createAt, String justification) {
         super(id, statement, stats, difficulty, topic, createAt);
-        this.template = template;
         this.justification = justification;
     }
 
-    public MultipleChoiceQuestion(String statement, String stats, String difficulty, Topic topic, String template, String justification) {
+    public MultipleChoiceQuestion(String statement, String stats, String difficulty, Topic topic, String justification) {
         super(statement, stats, difficulty, topic);
-        this.template = template;
         this.justification = justification;
-    }
-
-    public String getTemplate() {
-        return template;
-    }
-
-    public void setTemplate(String template) {
-        this.template = template;
     }
 
     public String getJustification() {
