@@ -1,7 +1,6 @@
-package com.kairos.dao;
+package com.kairos.util;
 
 import  java.sql.Connection;
-//import  com.kairos.dao.DBConnection;
 
 public class TestConnectionDB {
     public static void main(String[] args) {
