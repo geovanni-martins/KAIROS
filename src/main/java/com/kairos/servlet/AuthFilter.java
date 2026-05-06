@@ -15,7 +15,8 @@ public class AuthFilter implements Filter {
     private static final Set<String> PUBLIC_PATHS = Set.of(
             "/login",
             "/register",
-            "/logout"
+            "/logout",
+            "/new-password"
     );
 
     @Override
