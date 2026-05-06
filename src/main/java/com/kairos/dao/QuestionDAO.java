@@ -4,6 +4,8 @@ import com.kairos.model.Alternative;
 import com.kairos.model.MultipleChoiceQuestion;
 import com.kairos.model.Question;
 import com.kairos.model.Topic;
+import com.kairos.util.DBConnection;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

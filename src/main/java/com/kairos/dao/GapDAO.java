@@ -1,6 +1,8 @@
 package com.kairos.dao;
 
 import com.kairos.model.Gap;
+import com.kairos.util.DBConnection;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +93,7 @@ public class GapDAO {
 						"WHERE student_id = ? AND topic_id = ? AND stats = 'NOT_SOLVED'";
 
 		try (Connection conn = DBConnection.connect();
-		     PreparedStatement stmt = conn.prepareStatement(sql)
+             PreparedStatement stmt = conn.prepareStatement(sql)
 		) {
 			stmt.setInt(1, gotRight ? 1 : 0);
 			stmt.setInt(2, studentId);

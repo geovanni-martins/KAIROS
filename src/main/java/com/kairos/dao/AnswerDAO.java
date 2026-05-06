@@ -1,6 +1,8 @@
 package com.kairos.dao;
 
 import com.kairos.model.Answer;
+import com.kairos.util.DBConnection;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -95,7 +97,7 @@ public class AnswerDAO {
 				"ORDER BY date ASC";
 
 		try (Connection conn = DBConnection.connect();
-		     PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setInt(1, studentId);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
