@@ -153,7 +153,8 @@ kairos/
 │   │   │       ├── controller/
 │   │   │       ├── dao/
 │   │   │       ├── model/
-│   │   │       └── servlet/
+│   │   │       ├── servlet/
+|   |   |       └── util/
 │   │   └── resources/
 │   └── webapp/
 │       ├── icons/
