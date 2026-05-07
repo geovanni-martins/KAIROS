@@ -43,7 +43,7 @@ public class AnswerServlet extends HttpServlet{
 				List<Answer> list = controller.getAnswersByStudent(studentId);
 			
 				request.setAttribute("listaRespostas", list);
-				request.getRequestDispatcher("/desempenho.jsp").forward(request, response);
+				request.getRequestDispatcher("/WEB-INF/views/performance.jsp").forward(request, response);
 
 		} else if(questionParam !=  null) {
 				int questionId = Integer.parseInt(questionParam);
