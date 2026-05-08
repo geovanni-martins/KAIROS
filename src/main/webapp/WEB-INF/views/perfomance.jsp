@@ -23,6 +23,7 @@
 </head>
 
 <body class="bg-[#161F35] flex justify-center min-h-screen p-4 md:p-8">
+	<jsp:include page="/WEB-INF/views/nav.jsp" />
 
     <main class="bg-[#1D2B48] w-full max-w-3xl p-6 md:p-8 rounded-2xl shadow-lg h-fit mt-4 md:mt-10">
         
