@@ -31,7 +31,7 @@
 <%@include file="nav.jsp"%>
 
 <main class="flex-1 p-4 pt-16 md:p-9 md:pt-20 overflow-y-auto flex flex-col">
-    <a href="${pageContext.request.contextPath}/moderator-panel" class="self-start mb-6 inline-flex items-center gap-2 text-texto-padrao hover:text-marca-kairos transition-colors">
+    <a href="${pageContext.request.contextPath}/manageQuestions" class="self-start mb-6 inline-flex items-center gap-2 text-texto-padrao hover:text-marca-kairos transition-colors">
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
         Voltar
     </a>

@@ -33,10 +33,12 @@ public class StudentQuestionsServlet extends HttpServlet {
         List<Question> questions;
         List<Topic> allTopics = topicDAO.getAll();
 
+        int studentId = user.getId();
+
         if (topicParam != null && !topicParam.isEmpty()) {
-            questions = questionDAO.getAllByTopic(Integer.parseInt(topicParam));
+            questions = questionDAO.getUnansweredByTopic(Integer.parseInt(topicParam), studentId);
         } else {
-            questions = questionDAO.getAll();
+            questions = questionDAO.getUnanswered(studentId);
         }
 
         for (Question q : questions) {

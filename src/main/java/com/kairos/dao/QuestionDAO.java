@@ -29,11 +29,10 @@ public class QuestionDAO {
                     int generatedId = rs.getInt(1);
 
                     PreparedStatement stmt2 = conn.prepareStatement(
-                            "INSERT INTO multiple_choice_question (question_id, template, justification) VALUES (?, ?, ?)"
+                            "INSERT INTO multiple_choice_question (question_id, justification) VALUES (?, ?)"
                     );
                     stmt2.setInt(1, generatedId);
-                    stmt2.setString(2, question.getTemplate());
-                    stmt2.setString(3, question.getJustification());
+                    stmt2.setString(2, question.getJustification());
                     stmt2.executeUpdate();
 
                     PreparedStatement stmt3 = conn.prepareStatement(
@@ -184,11 +183,10 @@ public class QuestionDAO {
             stmt.executeUpdate();
 
             PreparedStatement stmt2 = conn.prepareStatement(
-                    "UPDATE multiple_choice_question SET template = ?, justification = ? WHERE question_id = ?"
+                    "UPDATE multiple_choice_question SET justification = ? WHERE question_id = ?"
             );
-            stmt2.setString(1, question.getTemplate());
-            stmt2.setString(2, question.getJustification());
-            stmt2.setInt(3, question.getId());
+            stmt2.setString(1, question.getJustification());
+            stmt2.setInt(2, question.getId());
             stmt2.executeUpdate();
 
             PreparedStatement stmtDelete = conn.prepareStatement(
@@ -234,5 +232,97 @@ public class QuestionDAO {
         } catch (SQLException e) {
             System.out.println("Erro ao deletar questão: " + e.getMessage());
         }
+    }
+    public List<Question> getUnanswered(int studentId) { //lista as questões que o aluno ainda n respondeu
+        List<Question> list = new ArrayList<>();
+        String sql =
+                "SELECT q.*, a.id_alternative, a.text, a.is_correct " +
+                        "FROM question q " +
+                        "LEFT JOIN alternative a ON q.id_question = a.question_id " +
+                        "WHERE q.id_question NOT IN (SELECT question_id FROM answer WHERE student_id = ?) " +
+                        "ORDER BY q.id_question ASC, a.id_alternative ASC";
+
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, studentId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                Question current = null;
+
+                while (rs.next()) {
+                    int id = rs.getInt("id_question");
+                    Topic topic = new Topic(rs.getInt("topic_id"), null, null);
+
+                    if (current == null || current.getId() != id) {
+                        current = new Question(
+                                id, rs.getString("statement"), rs.getString("stats"),
+                                rs.getString("difficulty"), topic,
+                                rs.getTimestamp("created_at").toInstant()
+                        );
+                        list.add(current);
+                    }
+
+                    int altId = rs.getInt("id_alternative");
+                    if (!rs.wasNull()) {
+                        current.getAlternatives().add(new Alternative(
+                                altId, rs.getString("text"),
+                                rs.getBoolean("is_correct"), current
+                        ));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar questões não respondidas: " + e.getMessage());
+        }
+
+        return list;
+    }
+
+    public List<Question> getUnansweredByTopic(int topicId, int studentId) { //pega as questões de um tópico que o aluno ainda n respondeu
+        List<Question> list = new ArrayList<>();
+        String sql =
+                "SELECT q.*, a.id_alternative, a.text, a.is_correct " +
+                        "FROM question q " +
+                        "LEFT JOIN alternative a ON q.id_question = a.question_id " +
+                        "WHERE q.topic_id = ? AND q.id_question NOT IN (SELECT question_id FROM answer WHERE student_id = ?) " +
+                        "ORDER BY q.id_question ASC, a.id_alternative ASC";
+
+        try (Connection conn = DBConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, topicId);
+            stmt.setInt(2, studentId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                Question current = null;
+
+                while (rs.next()) {
+                    int id = rs.getInt("id_question");
+                    Topic topic = new Topic(rs.getInt("topic_id"), null, null);
+
+                    if (current == null || current.getId() != id) {
+                        current = new Question(
+                                id, rs.getString("statement"), rs.getString("stats"),
+                                rs.getString("difficulty"), topic,
+                                rs.getTimestamp("created_at").toInstant()
+                        );
+                        list.add(current);
+                    }
+
+                    int altId = rs.getInt("id_alternative");
+                    if (!rs.wasNull()) {
+                        current.getAlternatives().add(new Alternative(
+                                altId, rs.getString("text"),
+                                rs.getBoolean("is_correct"), current
+                        ));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar questões não respondidas por tópico: " + e.getMessage());
+        }
+
+        return list;
     }
 }

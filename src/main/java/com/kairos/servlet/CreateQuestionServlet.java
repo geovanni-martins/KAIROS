@@ -48,7 +48,6 @@ public class CreateQuestionServlet extends HttpServlet {
             int topicId = Integer.parseInt(req.getParameter("topicId"));
             String statement = req.getParameter("statement");
             String difficulty = req.getParameter("difficulty");
-            String template = req.getParameter("template");
             String justification = req.getParameter("justification");
 
             Topic topic = topicController.searchTopicById(topicId);
@@ -64,7 +63,7 @@ public class CreateQuestionServlet extends HttpServlet {
             }
 
             MultipleChoiceQuestion question = new MultipleChoiceQuestion(
-                    statement, "not_verified", difficulty, topic, template, justification
+                    statement, "not_verified", difficulty, topic, justification
             );
             question.setAlternatives(alternatives);
 

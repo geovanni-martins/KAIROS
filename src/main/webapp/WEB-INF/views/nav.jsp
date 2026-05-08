@@ -46,7 +46,7 @@
                 classAdmin = activeClasses;
             }
 
-            if (uri.contains("moderator-panel") || uri.contains("moderatorPanel") || uri.contains("createQuestion") || uri.contains("createTopic") || uri.contains("reports")) {
+            if (uri.contains("moderator-panel") || uri.contains("moderatorPanel") || uri.contains("manageQuestions") || uri.contains("createQuestion") || uri.contains("createTopic") || uri.contains("reports")) {
                 classMod = activeClasses;
             }
         }
