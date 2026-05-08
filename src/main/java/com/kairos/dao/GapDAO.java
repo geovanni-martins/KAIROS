@@ -29,7 +29,11 @@ public class GapDAO {
 
 	public List<Gap> getAllByStudent(int studentId) {
 		List<Gap> list = new ArrayList<>();
-		String sql = "SELECT * FROM gap WHERE student_id = ?";
+		
+		String sql = "SELECT g.*, t.name AS topic_name, t.subject "
+				+ "FROM gap g "
+				+ "INNER JOIN topic t ON g.topic_id = t.id_topic "
+				+ "WHERE g.student_id = ?";
 
 		try (Connection conn = DBConnection.connect();
 		     PreparedStatement stmt = conn.prepareStatement(sql)
@@ -38,7 +42,7 @@ public class GapDAO {
 
 			try (ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
-					list.add(new Gap(
+					Gap gap = new Gap(
 							rs.getInt("id_gap"),
 							rs.getInt("student_id"),
 							rs.getInt("topic_id"),
@@ -46,7 +50,12 @@ public class GapDAO {
 							rs.getInt("correct_answers"),
 							rs.getTimestamp("identified_date").toInstant(),
 							rs.getString("stats")
-					));
+					);
+					
+					gap.setTopicName(rs.getString("topic_name"));
+					gap.setSubject(rs.getString("subject"));
+					
+					list.add(gap);
 				}
 			}
 
