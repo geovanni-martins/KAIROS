@@ -38,9 +38,9 @@ public class GapServlet extends HttpServlet {
 		if(studentParam != null) {
 			int studentId = Integer.parseInt(studentParam);
 			List<Gap> list = controller.getGapsByStudent(studentId);
-			
-			response.setStatus(200);
-			System.out.println("Fetched " + list.size() + " gaps for student " + studentId);
+
+			request.setAttribute("listaLacunas", list);
+			request.getRequestDispatcher("/WEB-INF/views/gap.jsp").forward(request, response);
 		}
 	}
 }

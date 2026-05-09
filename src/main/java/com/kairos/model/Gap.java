@@ -10,6 +10,8 @@ public class Gap {
 	private int correctAnswers;
 	private Instant createdAt;
 	private String stats; //'solved', 'not_solved'
+	private String topicName;
+	private String subject;
 	
 	public Gap() {
 		
@@ -72,5 +74,17 @@ public class Gap {
 	}
 	public void setStats(String stats) {
 		this.stats = stats;
+	}
+	public String getTopicName() {
+		return topicName;
+	}
+	public void setTopicName(String topicName) {
+		this.topicName = topicName;
+	}
+	public String getSubject() {
+		return subject;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
 }
