@@ -1,24 +1,5 @@
 -- dados
 
--- users
-INSERT INTO user (name, email, senha, user_type) VALUES
-                                                     ('João Silva',  'joao@email.com',   '123456', 'STUDENT'),
-                                                     ('Maria Souza', 'maria@email.com',  '123456', 'STUDENT'),
-                                                     ('Carlos Lima', 'carlos@email.com', '123456', 'MODERATOR'),
-                                                     ('Admin Root',  'admin@email.com',  '123456', 'ADMIN');
-
--- students
-INSERT INTO student (id_student, current_streak, bigger_streak) VALUES
-                                                                    (1, 3, 10),
-                                                                    (2, 0, 5);
-
--- moderator
-INSERT INTO moderator (id_moderator, subject_owner) VALUES
-    (3, 'MATH');
-
--- admin
-INSERT INTO admin (id_admin) VALUES (4);
-
 -- topics (sem difficulty)
 INSERT INTO topic (name, subject) VALUES
                                       ('Frações',              'MATH'),
@@ -417,3 +398,16 @@ INSERT INTO alternatives (question_id, text, is_correct) VALUES
 (103, '5',   false), (103, '50',  false), (103, '25',  true),
 -- Q104 (18)
 (104, '12',  false), (104, '54',  false), (104, '18',  true);
+
+
+-- gaps (lacunas de aprendizado)
+INSERT INTO gap (student_id, topic_id, qty_solved_questions, correct_answers, identified_date, stats) VALUES
+                                                                                                          (5, 1, 20, 8, CURRENT_TIMESTAMP, 'NOT_SOLVED'),
+                                                                                                          (5, 2, 30, 20, CURRENT_TIMESTAMP, 'NOT_SOLVED'),
+                                                                                                          (5, 3, 40, 36, CURRENT_TIMESTAMP, 'SOLVED');
+
+-- answers
+INSERT INTO answer (student_id, question_id, got_right) VALUES
+                                                            (1, 1, true),
+                                                            (1, 2, false),
+                                                            (1, 3, true);
