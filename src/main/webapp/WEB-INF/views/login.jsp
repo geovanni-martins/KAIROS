@@ -31,12 +31,32 @@
             color: var(--color-text);
         }
 
+        #alert-erro {
+            transition: opacity 0.3s ease;
+        }
+
         ::placeholder {
             color: rgba(232, 237, 248, 0.48);
         }
     </style>
 </head>
 <body class="min-h-screen bg-[var(--color-principal-sec)] text-slate-100">
+
+<%
+    String erro = (String) request.getAttribute("erro");
+%>
+
+<% if (erro != null) { %>
+<div id="alert-erro" class="mb-4 flex items-center justify-between rounded-xl bg-red-500/20 border border-red-500/40 text-red-300 px-4 py-3 text-sm">
+
+    <span><%= erro %></span>
+
+    <button onclick="fecharAlerta('alert-erro')" class="ml-4 text-red-300 hover:text-white text-lg font-bold">
+        &times;
+    </button>
+</div>
+<% } %>
+
 <main class="min-h-screen flex items-center justify-center px-4 py-8">
     <section class="w-full max-w-lg rounded-[28px] border border-white/10 bg-slate-900/90 p-6 shadow-[0_25px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:p-8">
         <form action="${pageContext.request.contextPath}/login" method="post" class="space-y-6">
@@ -66,5 +86,16 @@
 </main>
 
 </body>
+
+<script>
+    function fecharAlerta(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.style.opacity = '0';
+            setTimeout(() => el.remove(), 300);
+        }
+    }
+</script>
+
 </html>
 
