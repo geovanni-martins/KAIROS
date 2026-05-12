@@ -36,11 +36,13 @@
         String classTopics = inactiveClasses;
         String classAdmin = inactiveClasses;
         String classMod = inactiveClasses;
+        String classGap = inactiveClasses;
 
         if (uri != null) {
             if (uri.contains("home")) { classHome = activeClasses; }
             if (uri.contains("questions")) { classQuestions = activeClasses; }
             if (uri.contains("topics")) { classTopics = activeClasses; }
+            if (uri.contains("gap")) { classGap = activeClasses; }
 
             if (uri.contains("admin-panel") || uri.contains("adminPanel")) {
                 classAdmin = activeClasses;
@@ -69,10 +71,11 @@
             Tópicos
         </a>
 
-        <a href="#" class="flex items-center gap-3 px-3 py-3 rounded-xl text-[13px] text-texto-opaco font-medium transition-colors duration-200 hover:bg-fundo-hover hover:text-texto-padrao">
+        <a href="${pageContext.request.contextPath}/gap" class="flex items-center gap-3 px-3 py-3 rounded-xl text-[13px] transition-colors duration-200 <%= classGap %>">
             <svg class="w-4 h-4 opacity-70" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1l2 4 5 .7-3.5 3.4.8 5L8 12l-4.3 2.1.8-5L1 5.7 6 5z"/></svg>
             Lacunas
         </a>
+
         <% } %>
 
         <% if ("admin".equals(roleSidebar)) { %>

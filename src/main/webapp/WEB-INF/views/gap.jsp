@@ -8,119 +8,146 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lacunas - Kairos</title>
-    
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>Σ</text></svg>">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
-    
-    <style>
-        body { font-family: 'DM Serif Text', serif; }
-        .fonte-logo { font-family: 'Archivo Black', sans-serif; }
-        .fonte-ui { font-family: system-ui, -apple-system, sans-serif; }
-    </style>
-    
+
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style type="text/tailwindcss">
+        @theme {
+            --color-fundo-geral: #0B101E;
+            --color-fundo-card: #161F35;
+            --color-fundo-hover: #1D2B48;
+            --color-linha-divisoria: #1D2B48;
+            --color-marca-kairos: #E16144;
+            --color-marca-escuro: #C9523A;
+            --color-texto-padrao: #ffffff;
+            --color-texto-opaco: #8494b0;
+            --color-status-verde: #22c55e;
+            --color-status-amarelo: #f59e0b;
+            --color-status-vermelho: #E16144;
+            --font-sora: "Sora", sans-serif;
+            --font-mono: "JetBrains Mono", monospace;
+        }
+    </style>
 </head>
 
-<body class="bg-[#161F35] flex justify-center min-h-screen p-4 md:p-8">
-	<jsp:include page="/WEB-INF/views/nav.jsp" />	
+<body class="min-h-screen bg-fundo-geral text-texto-padrao font-sora flex flex-col md:flex-row">
 
-    <main class="bg-[#1D2B48] w-full max-w-3xl p-6 md:p-8 rounded-2xl shadow-lg h-fit mt-4 md:mt-10">
-        
-        <header class="mb-6">
-            <h1 class="text-3xl font-bold text-white mb-2">Lacunas de Aprendizado</h1>
-            <p class="text-gray-400 text-sm">Identificamos pontos de atenção baseados no seu desempenho recente.</p>
+<jsp:include page="/WEB-INF/views/nav.jsp" />
+
+<main class="flex-1 p-4 pt-16 md:p-9 md:pt-20 overflow-y-auto">
+
+    <div class="w-full max-w-3xl mx-auto">
+        <header class="mb-8">
+            <p class="text-marca-kairos text-[11px] font-semibold tracking-widest uppercase mb-1">Desempenho</p>
+            <h1 class="text-[24px] md:text-[26px] font-bold">Lacunas de Aprendizado</h1>
+            <p class="text-texto-opaco text-[12px] md:text-[13px] mt-1">Identificamos pontos de atenção baseados no seu desempenho recente.</p>
         </header>
 
-        <div class="flex flex-wrap gap-3 mb-8 border-b border-gray-700 pb-6 fonte-ui text-sm">
-            <button class="bg-[#E16144] text-white px-5 py-2 rounded-full font-semibold transition-transform hover:scale-105 cursor-pointer">
+        <div class="flex flex-wrap gap-3 mb-8 border-b border-linha-divisoria pb-6 text-[13px]">
+            <button class="bg-marca-kairos text-white px-5 py-2 rounded-xl font-semibold transition-transform hover:scale-105 cursor-pointer">
                 Todos
             </button>
-            
-            <button class="bg-[#161F35] border border-gray-600 text-gray-300 px-4 py-2 rounded-full font-medium flex items-center gap-2 hover:bg-gray-800 transition-colors cursor-pointer">
-                <div class="w-2 h-2 rounded-full bg-blue-500"></div> Novas
+            <button class="bg-fundo-card border border-linha-divisoria text-texto-opaco px-4 py-2 rounded-xl font-medium flex items-center gap-2 hover:text-white hover:border-marca-kairos transition-colors cursor-pointer">
+                <div class="w-2 h-2 rounded-full bg-marca-kairos"></div> Novas
             </button>
-            
-            <button class="bg-[#161F35] border border-gray-600 text-gray-300 px-4 py-2 rounded-full font-medium flex items-center gap-2 hover:bg-gray-800 transition-colors cursor-pointer">
-                <div class="w-2 h-2 rounded-full bg-yellow-500"></div> Em revisão
+            <button class="bg-fundo-card border border-linha-divisoria text-texto-opaco px-4 py-2 rounded-xl font-medium flex items-center gap-2 hover:text-white hover:border-status-amarelo transition-colors cursor-pointer">
+                <div class="w-2 h-2 rounded-full bg-status-amarelo"></div> Em revisão
             </button>
         </div>
 
-        <div class="flex flex-col gap-5">
-            
-            <% 
-            List<Gap> lacunas = (List<Gap>) request.getAttribute("listaLacunas");
-            
-            if (lacunas != null && !lacunas.isEmpty()) {
-                for (Gap lacuna : lacunas) {
-                    
-                    int total = lacuna.getQtySolvedQuestions();
-                    int corretas = lacuna.getCorrectAnswers();
-                    int porcentagem = (total == 0) ? 0 : (corretas * 100) / total;
-                    
-                    String corBorda, corBg, corTexto, labelStatus;
-                    
-                    if ("SOLVED".equalsIgnoreCase(lacuna.getStats())) {
-                        corBorda = "bg-green-500";
-                        corBg = "bg-green-500/20";
-                        corTexto = "text-green-400";
-                        labelStatus = "RESOLVIDA";
-                    } else if (porcentagem < 50) {
-                        corBorda = "bg-[#E16144]";
-                        corBg = "bg-[#E16144]/20";
-                        corTexto = "text-[#E16144]";
-                        labelStatus = "NOVA";
-                    } else {
-                        corBorda = "bg-yellow-500";
-                        corBg = "bg-yellow-500/20";
-                        corTexto = "text-yellow-500";
-                        labelStatus = "EM REVISÃO";
-                    }
+        <div class="space-y-5">
+            <%
+                List<Gap> lacunas = (List<Gap>) request.getAttribute("listaLacunas");
+
+                if (lacunas != null && !lacunas.isEmpty()) {
+                    for (Gap lacuna : lacunas) {
+
+                        int total = lacuna.getQtySolvedQuestions();
+                        int corretas = lacuna.getCorrectAnswers();
+                        int porcentagem = 0;
+
+                        if (total != 0) {
+                            porcentagem = (corretas * 100) / total;
+                        }
+
+                        String corBorda = "";
+                        String corBg = "";
+                        String corTexto = "";
+                        String labelStatus = "";
+                        String opacityClass = "";
+                        String subjectColorClass = "";
+                        String titleColorClass = "";
+
+                        if ("SOLVED".equalsIgnoreCase(lacuna.getStats())) {
+                            corBorda = "bg-status-verde";
+                            corBg = "bg-status-verde/10 border-status-verde/30";
+                            corTexto = "text-status-verde";
+                            labelStatus = "RESOLVIDA";
+                            opacityClass = "opacity-60";
+                            subjectColorClass = "text-texto-opaco";
+                            titleColorClass = "text-texto-opaco line-through";
+
+                        } else if (porcentagem < 50) {
+                            corBorda = "bg-marca-kairos";
+                            corBg = "bg-marca-kairos/10 border-marca-kairos/30";
+                            corTexto = "text-marca-kairos";
+                            labelStatus = "NOVA";
+                            opacityClass = "";
+                            subjectColorClass = "text-marca-kairos";
+                            titleColorClass = "text-white";
+
+                        } else {
+                            corBorda = "bg-status-amarelo";
+                            corBg = "bg-status-amarelo/10 border-status-amarelo/30";
+                            corTexto = "text-status-amarelo";
+                            labelStatus = "EM REVISÃO";
+                            opacityClass = "";
+                            subjectColorClass = "text-status-amarelo";
+                            titleColorClass = "text-white";
+                        }
             %>
 
-            <div class="bg-[#161F35] border border-gray-700 rounded-xl p-5 relative overflow-hidden transition-all hover:border-gray-500 <%= "SOLVED".equalsIgnoreCase(lacuna.getStats()) ? "opacity-75" : "" %>">
+            <div data-status="<%= labelStatus %>" class="lacuna-card bg-fundo-card border border-linha-divisoria rounded-2xl p-5 md:p-6 relative overflow-hidden transition-all hover:border-marca-kairos/50 shadow-lg <%= opacityClass %>">
                 <div class="absolute left-0 top-0 bottom-0 w-1.5 <%= corBorda %>"></div>
-                
-                <div class="fonte-ui inline-flex items-center gap-1.5 <%= corBg %> <%= corTexto %> px-2.5 py-1 rounded-full text-xs font-bold mb-3 uppercase tracking-wider">
+
+                <div class="inline-flex items-center gap-1.5 <%= corBg %> <%= corTexto %> border px-3 py-1 rounded-lg text-[11px] font-bold mb-4 uppercase tracking-widest">
                     <div class="w-1.5 h-1.5 rounded-full <%= corBorda %>"></div> <%= labelStatus %>
                 </div>
-                
-                <div class="text-xs text-gray-400 fonte-ui font-medium mb-1 flex items-center gap-2">
-                    <span class="<%= "SOLVED".equalsIgnoreCase(lacuna.getStats()) ? "text-gray-500" : "text-[#E16144]" %>"><%= lacuna.getSubject() %></span>
-                    <span>›</span>
+
+                <div class="text-[11px] text-texto-opaco font-semibold mb-1 flex items-center gap-2 tracking-widest uppercase">
+                    <span class="<%= subjectColorClass %>"><%= lacuna.getSubject() %></span>
+                    <span class="text-linha-divisoria">•</span>
                     <span><%= lacuna.getTopicName() %></span>
                 </div>
-                
-                <h3 class="text-xl font-bold <%= "SOLVED".equalsIgnoreCase(lacuna.getStats()) ? "text-gray-300 line-through" : "text-white" %> mb-4">
+
+                <h3 class="text-[18px] md:text-[20px] font-bold <%= titleColorClass %> mb-6">
                     Revisão de <%= lacuna.getTopicName() %>
                 </h3>
-                
-                <div class="flex flex-wrap items-center gap-4 text-sm fonte-ui border-t border-gray-700 pt-3">
-                    <div class="flex items-center gap-1.5">
-                        <span class="text-gray-400">Acertos:</span>
-                        <span class="<%= corTexto %> font-bold"><%= porcentagem %>%</span>
+
+                <div class="flex flex-wrap items-center gap-6 text-[13px] border-t border-linha-divisoria pt-4">
+                    <div class="flex items-center gap-2">
+                        <span class="text-texto-opaco">Acertos:</span>
+                        <span class="<%= corTexto %> font-bold text-[14px]"><%= porcentagem %>%</span>
                     </div>
-                    <div class="flex items-center gap-1.5">
-                        <span class="text-gray-400">Questões respondidas:</span>
-                        <span class="text-white font-bold"><%= total %></span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-texto-opaco">Questões respondidas:</span>
+                        <span class="text-white font-bold text-[14px]"><%= total %></span>
                     </div>
                 </div>
             </div>
 
-            <% 
+            <%
                 }
-            } else { 
+            } else {
             %>
-                <div class="bg-[#161F35] border border-gray-700 rounded-xl p-8 text-center">
-                    <p class="text-gray-400">Nenhuma lacuna de aprendizado identificada até o momento. Parabéns!</p>
-                </div>
+            <div class="bg-fundo-card border border-linha-divisoria rounded-2xl p-8 text-center shadow-lg">
+                <p class="text-texto-opaco text-[14px] font-medium">Nenhuma lacuna de aprendizado identificada até o momento</p>
+            </div>
             <% } %>
 
         </div>
-
-    </main>
-
+    </div>
+</main>
 </body>
 </html>
