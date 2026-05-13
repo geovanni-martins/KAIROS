@@ -45,13 +45,13 @@
         </header>
 
         <div class="flex flex-wrap gap-3 mb-8 border-b border-linha-divisoria pb-6 text-[13px]">
-            <button class="bg-marca-kairos text-white px-5 py-2 rounded-xl font-semibold transition-transform hover:scale-105 cursor-pointer">
+            <button onclick="filtrar('TODOS', this)" class="btn-filtro bg-marca-kairos text-white px-5 py-2 rounded-xl font-semibold transition-transform hover:scale-105 cursor-pointer border border-marca-kairos">
                 Todos
             </button>
-            <button class="bg-fundo-card border border-linha-divisoria text-texto-opaco px-4 py-2 rounded-xl font-medium flex items-center gap-2 hover:text-white hover:border-marca-kairos transition-colors cursor-pointer">
+            <button onclick="filtrar('NOVA', this)" class="btn-filtro bg-fundo-card border border-linha-divisoria text-texto-opaco px-4 py-2 rounded-xl font-medium flex items-center gap-2 hover:text-white transition-colors cursor-pointer">
                 <div class="w-2 h-2 rounded-full bg-marca-kairos"></div> Novas
             </button>
-            <button class="bg-fundo-card border border-linha-divisoria text-texto-opaco px-4 py-2 rounded-xl font-medium flex items-center gap-2 hover:text-white hover:border-status-amarelo transition-colors cursor-pointer">
+            <button onclick="filtrar('EM REVISÃO', this)" class="btn-filtro bg-fundo-card border border-linha-divisoria text-texto-opaco px-4 py-2 rounded-xl font-medium flex items-center gap-2 hover:text-white transition-colors cursor-pointer">
                 <div class="w-2 h-2 rounded-full bg-status-amarelo"></div> Em revisão
             </button>
         </div>
@@ -149,5 +149,33 @@
         </div>
     </div>
 </main>
+
+<script>
+    function filtrar(statusEscolhido, btnClicado) {
+        const cards = document.querySelectorAll('.lacuna-card');
+        cards.forEach(card => {
+            const statusDoCard = card.getAttribute('data-status');
+            if (statusEscolhido === 'TODOS' || statusDoCard === statusEscolhido) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        const botoes = document.querySelectorAll('.btn-filtro');
+        botoes.forEach(btn => {
+            btn.className = "btn-filtro bg-fundo-card border border-linha-divisoria text-texto-opaco px-4 py-2 rounded-xl font-medium flex items-center gap-2 hover:text-white transition-colors cursor-pointer";
+        });
+
+        if (statusEscolhido === 'TODOS') {
+            btnClicado.className = "btn-filtro bg-marca-kairos text-white px-5 py-2 rounded-xl font-semibold transition-transform hover:scale-105 cursor-pointer border border-marca-kairos";
+        } else if (statusEscolhido === 'NOVA') {
+            btnClicado.className = "btn-filtro bg-fundo-card border border-marca-kairos text-white px-4 py-2 rounded-xl font-medium flex items-center gap-2 transition-colors cursor-pointer";
+        } else if (statusEscolhido === 'EM REVISÃO') {
+            btnClicado.className = "btn-filtro bg-fundo-card border border-status-amarelo text-white px-4 py-2 rounded-xl font-medium flex items-center gap-2 transition-colors cursor-pointer";
+        }
+    }
+</script>
+
 </body>
 </html>
