@@ -173,7 +173,7 @@
                 for (Map.Entry<String, int[]> entry : weeklyData.entrySet()) {
                     if (i < 7) {
         %>
-        labelsDias[<%= i %>] = "<%= entry.getKey().substring(5) %>";
+        labelsDias[<%= i %>] = "<%= entry.getKey() %>";
         dadosAcertos[<%= i %>] = <%= entry.getValue()[0] %>;
         dadosErros[<%= i %>] = <%= entry.getValue()[1] %>;
         <%

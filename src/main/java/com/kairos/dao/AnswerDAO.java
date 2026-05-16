@@ -86,8 +86,14 @@ public class AnswerDAO {
 	}
 
 	public Map<String, int[]> getWeeklyProgress(int studentId) {
-		// int[0] = hits, int[1] = misses
-		Map<String, int[]> weeklyData = new LinkedHashMap<>();
+		Map<String, int[]> tempData = new LinkedHashMap<>();
+		java.time.LocalDate today = java.time.LocalDate.now();
+
+		for (int i = 6; i >= 0; i--) {
+			String dateStr = today.minusDays(i).toString();
+			tempData.put(dateStr, new int[]{0, 0});
+		}
+
 		String sql = "SELECT DATE(answer_date) as date, " +
 				"SUM(CASE WHEN got_right = 1 THEN 1 ELSE 0 END) as hits, " +
 				"SUM(CASE WHEN got_right = 0 THEN 1 ELSE 0 END) as misses " +
@@ -97,15 +103,29 @@ public class AnswerDAO {
 				"ORDER BY date ASC";
 
 		try (Connection conn = DBConnection.connect();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+		     PreparedStatement ps = conn.prepareStatement(sql)) {
 			ps.setInt(1, studentId);
 			ResultSet rs = ps.executeQuery();
+
 			while (rs.next()) {
-				weeklyData.put(rs.getString("date"), new int[]{rs.getInt("hits"), rs.getInt("misses")});
+				String date = rs.getString("date");
+				if (tempData.containsKey(date)) {
+					tempData.put(date, new int[]{rs.getInt("hits"), rs.getInt("misses")});
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return weeklyData;
+
+		Map<String, int[]> finalData = new LinkedHashMap<>();
+		String[] nomesDias = {"Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"};
+
+		for (Map.Entry<String, int[]> entry : tempData.entrySet()) {
+			java.time.LocalDate date = java.time.LocalDate.parse(entry.getKey());
+			int index = date.getDayOfWeek().getValue() - 1;
+			finalData.put(nomesDias[index], entry.getValue());
+		}
+
+		return finalData;
 	}
 }
