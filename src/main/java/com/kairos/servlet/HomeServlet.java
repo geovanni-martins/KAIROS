@@ -3,6 +3,7 @@ package com.kairos.servlet;
 import com.kairos.controller.StudentTopicController;
 import com.kairos.dao.AnswerDAO;
 import com.kairos.dao.GapDAO;
+import com.kairos.model.Answer;
 import com.kairos.model.Gap;
 import com.kairos.model.StudentTopic;
 import com.kairos.model.User;
@@ -62,7 +63,39 @@ public class HomeServlet extends HttpServlet {
                 req.setAttribute("percentageCorrectAnswers", percentageCorrectAnswers);
                 req.setAttribute("activeGaps", activeGaps);
                 req.setAttribute("topics", topics);
-                req.setAttribute("weeklyData", answerDAO.getWeeklyProgress(studentId)); //grafico
+
+                List<Answer> answers = answerDAO.getAnswersLast7Days(studentId);
+
+                String[] labelsDias = new String[7];
+                int[] dadosAcertos = new int[7];
+                int[] dadosErros = new int[7];
+
+                java.time.LocalDate hoje = java.time.LocalDate.now();
+                String[] nomesSemana = {"Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"};
+
+                for (int i = 0; i < 7; i++) {
+                    java.time.LocalDate diaCalculado = hoje.minusDays(6 - i);
+                    int diaSemanaIndex = diaCalculado.getDayOfWeek().getValue() - 1;
+                    labelsDias[i] = nomesSemana[diaSemanaIndex];
+                }
+
+                for (Answer answer : answers) {
+                    java.time.LocalDate dataResposta = java.time.LocalDateTime.ofInstant(answer.getCreatedAt(), java.time.ZoneId.systemDefault()).toLocalDate();
+                    long diasAtras = java.time.temporal.ChronoUnit.DAYS.between(dataResposta, hoje);
+
+                    if (diasAtras >= 0 && diasAtras <= 6) {
+                        int graficDay = 6 - (int) diasAtras;
+                        if (answer.isGotRight()) {
+                            dadosAcertos[graficDay]++;
+                        } else {
+                            dadosErros[graficDay]++;
+                        }
+                    }
+                }
+
+                req.setAttribute("labelsDias", labelsDias);
+                req.setAttribute("dadosAcertos", dadosAcertos);
+                req.setAttribute("dadosErros", dadosErros);
             }
         }
 
@@ -73,7 +106,6 @@ public class HomeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         req.setCharacterEncoding("UTF-8");
-
 
     }
 }

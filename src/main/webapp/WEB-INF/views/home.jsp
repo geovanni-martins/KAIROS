@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<%@ page import="java.util.Map" %>
 <%@ page import="com.kairos.model.StudentTopic" %>
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
@@ -162,26 +161,47 @@
 
     const grafic = document.getElementById("graficoDesempenho");
     if (grafic) {
-        let labelsDias = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
-        let dadosAcertos = [0, 0, 0, 0, 0, 0, 0];
-        let dadosErros = [0, 0, 0, 0, 0, 0, 0];
-
-        <%
-            Map<String, int[]> weeklyData = (Map<String, int[]>) request.getAttribute("weeklyData");
-            if (weeklyData != null && !weeklyData.isEmpty()) {
-                int i = 0;
-                for (Map.Entry<String, int[]> entry : weeklyData.entrySet()) {
-                    if (i < 7) {
-        %>
-        labelsDias[<%= i %>] = "<%= entry.getKey() %>";
-        dadosAcertos[<%= i %>] = <%= entry.getValue()[0] %>;
-        dadosErros[<%= i %>] = <%= entry.getValue()[1] %>;
-        <%
-                        i++;
+        let labelsDias = [
+            <%
+            String[] dias = (String[]) request.getAttribute("labelsDias");
+            if (dias != null) {
+                for(int i = 0; i < 7; i++) {
+                    out.print("'" + dias[i] + "'");
+                    if (i < 6) {
+                        out.print(",");
                     }
                 }
             }
-        %>
+            %>
+        ];
+
+        let dadosAcertos = [
+            <%
+            int[] acertos = (int[]) request.getAttribute("dadosAcertos");
+            if (acertos != null) {
+                for(int i = 0; i < 7; i++) {
+                    out.print(acertos[i]);
+                    if (i < 6) {
+                        out.print(",");
+                    }
+                }
+            }
+            %>
+        ];
+
+        let dadosErros = [
+            <%
+            int[] erros = (int[]) request.getAttribute("dadosErros");
+            if (erros != null) {
+                for(int i = 0; i < 7; i++) {
+                    out.print(erros[i]);
+                    if (i < 6) {
+                        out.print(",");
+                    }
+                }
+            }
+            %>
+        ];
 
         new Chart(grafic, {
             type: "bar",
