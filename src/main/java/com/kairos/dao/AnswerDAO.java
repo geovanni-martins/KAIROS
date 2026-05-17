@@ -5,9 +5,7 @@ import com.kairos.util.DBConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class AnswerDAO {
 
@@ -85,27 +83,29 @@ public class AnswerDAO {
 		return list;
 	}
 
-	public Map<String, int[]> getWeeklyProgress(int studentId) {
-		// int[0] = hits, int[1] = misses
-		Map<String, int[]> weeklyData = new LinkedHashMap<>();
-		String sql = "SELECT DATE(answer_date) as date, " +
-				"SUM(CASE WHEN got_right = 1 THEN 1 ELSE 0 END) as hits, " +
-				"SUM(CASE WHEN got_right = 0 THEN 1 ELSE 0 END) as misses " +
-				"FROM answer " +
-				"WHERE student_id = ? AND answer_date >= DATE_SUB(CURDATE(), INTERVAL 6 DAY) " +
-				"GROUP BY DATE(answer_date) " +
-				"ORDER BY date ASC";
+	public List<Answer> getAnswersLast7Days(int studentId) {
+		List<Answer> list = new ArrayList<>();
+		String sql = "SELECT got_right, answer_date FROM answer " +
+				"WHERE student_id = ? AND answer_date >= DATE_SUB(CURDATE(), INTERVAL 6 DAY)";
 
 		try (Connection conn = DBConnection.connect();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+		     PreparedStatement ps = conn.prepareStatement(sql)) {
+
 			ps.setInt(1, studentId);
 			ResultSet rs = ps.executeQuery();
+
 			while (rs.next()) {
-				weeklyData.put(rs.getString("date"), new int[]{rs.getInt("hits"), rs.getInt("misses")});
+				list.add(new Answer(
+						0,
+						studentId,
+						0,
+						rs.getBoolean("got_right"),
+						rs.getTimestamp("answer_date").toInstant()
+				));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return weeklyData;
+		return list;
 	}
 }

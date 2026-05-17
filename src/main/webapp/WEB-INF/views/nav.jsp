@@ -41,7 +41,6 @@
         if (uri != null) {
             if (uri.contains("home")) { classHome = activeClasses; }
             if (uri.contains("questions")) { classQuestions = activeClasses; }
-            if (uri.contains("topics")) { classTopics = activeClasses; }
             if (uri.contains("gap")) { classGap = activeClasses; }
 
             if (uri.contains("admin-panel") || uri.contains("adminPanel")) {
@@ -65,10 +64,6 @@
         <a href="${pageContext.request.contextPath}/questions" class="flex items-center gap-3 px-3 py-3 rounded-xl text-[13px] transition-colors duration-200 <%= classQuestions %>">
             <svg class="w-4 h-4 opacity-70" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
             Questões
-        </a>
-        <a href="${pageContext.request.contextPath}/topics" class="flex items-center gap-3 px-3 py-3 rounded-xl text-[13px] transition-colors duration-200 <%= classTopics %>">
-            <svg class="w-4 h-4 opacity-70" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12M2 8h8M2 12h10"/></svg>
-            Tópicos
         </a>
 
         <a href="${pageContext.request.contextPath}/gap" class="flex items-center gap-3 px-3 py-3 rounded-xl text-[13px] transition-colors duration-200 <%= classGap %>">
