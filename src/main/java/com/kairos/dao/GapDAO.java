@@ -31,7 +31,7 @@ public class GapDAO {
 
 	public List<Gap> getAllByStudent(int studentId) {
 		List<Gap> list = new ArrayList<>();
-		
+
 		String sql = "SELECT g.*, t.name AS topic_name, t.subject "
 				+ "FROM gap g "
 				+ "INNER JOIN topic t ON g.topic_id = t.id_topic "
@@ -53,10 +53,10 @@ public class GapDAO {
 							rs.getTimestamp("identified_date").toInstant(),
 							rs.getString("stats")
 					);
-					
+
 					gap.setTopicName(rs.getString("topic_name"));
 					gap.setSubject(rs.getString("subject"));
-					
+
 					list.add(gap);
 				}
 			}
@@ -102,7 +102,7 @@ public class GapDAO {
 						"WHERE student_id = ? AND topic_id = ? AND stats = 'NOT_SOLVED'";
 
 		try (Connection conn = DBConnection.connect();
-             PreparedStatement stmt = conn.prepareStatement(sql)
+		     PreparedStatement stmt = conn.prepareStatement(sql)
 		) {
 			stmt.setInt(1, gotRight ? 1 : 0);
 			stmt.setInt(2, studentId);
@@ -115,10 +115,9 @@ public class GapDAO {
 		}
 	}
 
-	public void checkAndSolveGap(int studentId, int topicId) {
+	public Gap getByStudentAndTopic(int studentId, int topicId) {
 		String sql =
-				"SELECT qty_solved_questions, correct_answers " +
-						"FROM gap WHERE student_id = ? AND topic_id = ? AND stats = 'NOT_SOLVED'";
+				"SELECT * FROM gap WHERE student_id = ? AND topic_id = ? AND stats = 'NOT_SOLVED'";
 
 		try (Connection conn = DBConnection.connect();
 		     PreparedStatement stmt = conn.prepareStatement(sql)
@@ -128,22 +127,26 @@ public class GapDAO {
 
 			try (ResultSet rs = stmt.executeQuery()) {
 				if (rs.next()) {
-					int total = rs.getInt("qty_solved_questions");
-					int corrects = rs.getInt("correct_answers");
-					double performance = (total > 0) ? (double) corrects / total : 0;
-
-					if (total >= 30 && performance >= 0.70) {
-						solveGap(studentId, topicId);
-					}
+					return new Gap(
+							rs.getInt("id_gap"),
+							rs.getInt("student_id"),
+							rs.getInt("topic_id"),
+							rs.getInt("qty_solved_questions"),
+							rs.getInt("correct_answers"),
+							rs.getTimestamp("identified_date").toInstant(),
+							rs.getString("stats")
+					);
 				}
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Erro ao verificar resolução do gap: " + e.getMessage());
+			System.out.println("Erro ao buscar gap: " + e.getMessage());
 		}
+
+		return null;
 	}
 
-	private void solveGap(int studentId, int topicId) {
+	public void markAsSolved(int studentId, int topicId) {
 		String sql = "UPDATE gap SET stats = 'SOLVED' WHERE student_id = ? AND topic_id = ?";
 
 		try (Connection conn = DBConnection.connect();
