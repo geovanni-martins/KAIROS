@@ -1,0 +1,18 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: kairos-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: '0000'
+      MYSQL_DATABASE: 'kairosDB'
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+      - ./src/database/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
+      - ./src/database/data.sql:/docker-entrypoint-initdb.d/2-data.sql
+
+networks:
+  default:
+    name: kairos-network
