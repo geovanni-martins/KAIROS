@@ -7,6 +7,10 @@ USE kairosdb;
 --  hash BCrypt válido de custo 12 para fins de seed/teste)
 -- ============================================================
 
+SET NAMES utf8mb4;
+SET CHARACTER SET utf8mb4;
+SET character_set_connection = utf8mb4;
+ALTER DATABASE kairosDB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 INSERT INTO user (name, email, password, user_type) VALUES
                                                         ('Admin Geral',       'admin@kairos.com',      '$2a$12$YNV5lQlzWfdvoG9FFfpQReDtq2GifySUvc.1Z8Rf6ARffhW2bLD3e', 'admin'),
