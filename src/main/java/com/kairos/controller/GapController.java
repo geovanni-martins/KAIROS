@@ -17,29 +17,53 @@ public class GapController {
 	}
 
 	public void processGapUpdate(int studentId, int topicId, boolean gotRight) {
-		gapDAO.updatePerformance(studentId, topicId, gotRight);
-		checkAndSolveGap(studentId, topicId);
+
+			gapDAO.updatePerformance(studentId, topicId, gotRight);
+			checkAndSolveGap(studentId, topicId);
 	}
 
 	public List<Gap> getGapsByStudent(int studentId) {
-		return gapDAO.getAllByStudent(studentId);
+			return gapDAO.getAllByStudent(studentId);
 	}
 
 	public int getErrorCountByTopic(int studentId, int topicId) {
-		return gapDAO.countErrorsByTopic(studentId, topicId);
+			return gapDAO.countErrorsByTopic(studentId, topicId);
 	}
 
 	private void checkAndSolveGap(int studentId, int topicId) {
-		Gap gap = gapDAO.getByStudentAndTopic(studentId, topicId);
+		
+			Gap gap = gapDAO.getByStudentAndTopic(studentId, topicId);
 
-		if (gap == null) return;
+			if (gap == null) return;
+			
+			int total = gap.getQtySolvedQuestions();
+			int corrects = gap.getCorrectAnswers();
+			double performance = (total > 0) ? (double) corrects / total : 0;
 
-		int total = gap.getQtySolvedQuestions();
-		int corrects = gap.getCorrectAnswers();
-		double performance = (total > 0) ? (double) corrects / total : 0;
+			if (total >= MIN_QUESTIONS_TO_SOLVE && performance >= MIN_PERFORMANCE_TO_SOLVE) {
+					gapDAO.markAsSolved(studentId, topicId);
+			}
+	}
+	public void evaluateNewGap(int studentId, int topicId) {
 
-		if (total >= MIN_QUESTIONS_TO_SOLVE && performance >= MIN_PERFORMANCE_TO_SOLVE) {
-			gapDAO.markAsSolved(studentId, topicId);
-		}
+			int totalRespostas = gapDAO.countTotalAnswersByTopic(studentId, topicId);
+			if (totalRespostas >= 10) {
+					int totalErros = gapDAO.countErrorsByTopic(studentId, topicId);
+					double taxaErro = (double) totalErros / totalRespostas;
+					
+					if(taxaErro >= 0.50) {
+							Gap lacunaExistente = gapDAO.getByStudentAndTopic(studentId, topicId);
+							
+							if(lacunaExistente == null) {
+									Gap novaLacuna = new Gap();
+									novaLacuna.setStudentId(studentId);
+									novaLacuna.setTopicId(topicId);
+									novaLacuna.setCreatedAt(java.time.Instant.now());
+									
+									gapDAO.insert(novaLacuna);
+									System.out.println("CRÍTICO: Aluno " + studentId + " atingiu 50% de erro. Nova lacuna criada no tópico " + topicId);
+							}
+					}
+			}
 	}
 }
