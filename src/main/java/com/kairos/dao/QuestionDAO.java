@@ -56,7 +56,11 @@ public class QuestionDAO {
     }
 
     public Question getById(int id) {
-        String sql = "SELECT * FROM question WHERE id_question = ?";
+        String sql = "SELECT q.*, a.id_alternative, a.text, a.is_correct " +
+                "FROM question q " +
+                "LEFT JOIN alternative a ON q.id_question = a.question_id " +
+                "WHERE q.id_question = ? " +
+                "ORDER BY a.id_alternative ASC";
 
         try (Connection conn = DBConnection.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)
@@ -64,14 +68,27 @@ public class QuestionDAO {
             stmt.setInt(1, id);
 
             try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    Topic topic = new Topic(rs.getInt("topic_id"), null, null);
-                    return new Question(
-                            rs.getInt("id_question"), rs.getString("statement"),
-                            rs.getString("stats"), rs.getString("difficulty"),
-                            topic, rs.getTimestamp("created_at").toInstant()
-                    );
+                Question current = null;
+
+                while (rs.next()) {
+                    if (current == null) {
+                        Topic topic = new Topic(rs.getInt("topic_id"), null, null);
+                        current = new Question(
+                                rs.getInt("id_question"), rs.getString("statement"),
+                                rs.getString("stats"), rs.getString("difficulty"),
+                                topic, rs.getTimestamp("created_at").toInstant()
+                        );
+                    }
+
+                    int altId = rs.getInt("id_alternative");
+                    if (!rs.wasNull()) {
+                        current.getAlternatives().add(new Alternative(
+                                altId, rs.getString("text"),
+                                rs.getBoolean("is_correct"), current
+                        ));
+                    }
                 }
+                return current;
             }
 
         } catch (SQLException e) {

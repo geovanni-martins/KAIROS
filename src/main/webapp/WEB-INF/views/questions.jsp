@@ -38,10 +38,17 @@
         <p class="text-texto-opaco text-[12px] md:text-[13px] mt-1">Teste seus conhecimentos</p>
     </header>
 
+    <% if ("true".equals(request.getParameter("reported"))) { %>
+    <div class="flex items-center gap-3 mb-6 p-4 bg-status-amarelo/10 border border-status-amarelo/30 rounded-xl text-status-amarelo text-[13px] font-semibold">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        Obrigado! Sua denúncia foi enviada e será analisada pelos moderadores
+    </div>
+    <% } %>
+
     <% if ("true".equals(request.getParameter("answered"))) {
         if ("true".equals(request.getParameter("correct"))) { %>
     <div class="flex items-center gap-3 mb-6 p-4 bg-status-verde/10 border border-status-verde/30 rounded-xl text-status-verde text-[13px] font-semibold">
-        Resposta correta! Seu progresso foi computado no sistema
+        Resposta correta! Seu progresso foi computado no sistema.
     </div>
     <% } else { %>
     <div class="flex items-center gap-3 mb-6 p-4 bg-status-vermelho/10 border border-status-vermelho/30 rounded-xl text-status-vermelho text-[13px] font-semibold">
@@ -110,12 +117,20 @@
                     <% } %>
                 </div>
 
-                <div class="flex justify-end pt-3 border-t border-linha-divisoria mt-4">
+                <div class="flex justify-end pt-3 mt-4">
                     <button type="submit" class="w-full md:w-auto px-6 py-2.5 bg-gradient-to-r from-marca-kairos to-marca-escuro text-white text-[13px] font-semibold rounded-xl hover:opacity-90 active:scale-[.98] transition-all">
                         Enviar Resposta
                     </button>
                 </div>
             </form>
+
+            <div class="flex justify-end pt-3 mt-4 border-t border-linha-divisoria">
+                <a href="${pageContext.request.contextPath}/reportQuestion?questionId=<%= q.getId() %>&topicId=<%= q.getTopic().getId() %>" class="inline-flex items-center gap-1 text-[11px] font-semibold text-status-vermelho hover:text-texto-padrao transition-colors">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path></svg>
+                    Reportar erro na questão
+                </a>
+            </div>
+
         </div>
         <%
             }
@@ -124,7 +139,7 @@
         <div class="p-8 bg-fundo-card border border-linha-divisoria rounded-2xl text-center">
             <svg class="w-12 h-12 mx-auto text-linha-divisoria mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
             <p class="text-texto-padrao text-[15px] font-bold">Nenhuma questão encontrada</p>
-            <p class="text-texto-opaco text-[13px] mt-1">Ainda não existem perguntas cadastradas para este tópico.</p>
+            <p class="text-texto-opaco text-[13px] mt-1">Ainda não existem perguntas cadastradas para este tópico</p>
         </div>
         <% } %>
     </div>

@@ -33,7 +33,6 @@
 
         String classHome = inactiveClasses;
         String classQuestions = inactiveClasses;
-        String classTopics = inactiveClasses;
         String classAdmin = inactiveClasses;
         String classMod = inactiveClasses;
         String classGap = inactiveClasses;
@@ -42,12 +41,13 @@
             if (uri.contains("home")) { classHome = activeClasses; }
             if (uri.contains("questions")) { classQuestions = activeClasses; }
             if (uri.contains("gap")) { classGap = activeClasses; }
+            if (uri.contains("reportQuestion")) { classQuestions = activeClasses; }
 
             if (uri.contains("admin-panel") || uri.contains("adminPanel")) {
                 classAdmin = activeClasses;
             }
 
-            if (uri.contains("moderator-panel") || uri.contains("moderatorPanel") || uri.contains("manageQuestions") || uri.contains("createQuestion") || uri.contains("createTopic") || uri.contains("reports")) {
+            if (uri.contains("moderator-panel") || uri.contains("moderatorPanel") || uri.contains("manageQuestions") || uri.contains("createQuestion") || uri.contains("createTopic") || uri.contains("reports") || uri.contains("editQuestion") ) {
                 classMod = activeClasses;
             }
         }
