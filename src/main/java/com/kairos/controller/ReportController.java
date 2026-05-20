@@ -18,7 +18,7 @@ public class ReportController {
         if (question == null) { return; }
         if (reason == null || reason.isBlank()) { return; }
 
-        Report report = new Report(student, question, reason, "pending");
+        Report report = new Report(student, question, reason, "not_analyzed");
         reportDAO.insert(report);
     }
 
