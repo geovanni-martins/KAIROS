@@ -94,6 +94,32 @@ public class GapDAO {
 
 		return errorCount;
 	}
+	
+	public int countTotalAnswersByTopic(int studentId, int topicId) {
+		int totalCount = 0;
+		String sql = 
+					  "SELECT COUNT(*) AS total_respostas "
+					+ "FROM answer a "
+					+ "INNER JOIN question q ON a.question_id = q.id_question "
+					+ "WHERE a.student_id = ? AND q.topic_id = ?";
+		
+		try(Connection conn = DBConnection.connect();
+				PreparedStatement stmt = conn.prepareStatement(sql))
+		{
+					stmt.setInt(1, studentId);
+					stmt.setInt(2, topicId);
+					
+					try(ResultSet rs = stmt.executeQuery()){
+							if(rs.next()) {
+									totalCount = rs.getInt("total_respostas");
+							}
+					}
+		} catch(SQLException e) {
+				System.out.println("Erro ao contar total de respostas por tópicos: " + e.getMessage());
+		}
+		
+		return totalCount;
+	}
 
 	public void updatePerformance(int studentId, int topicId, boolean gotRight) {
 		String sql =

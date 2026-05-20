@@ -9,23 +9,23 @@ public class AnswerController {
 
 	public void processNewAnswer(int studentId, int questionId, int topicId, boolean gotRight) {
 		
-		java.time.Instant createdAt = java.time.Instant.now();
-		Answer ans = new Answer(studentId, questionId, gotRight, createdAt);
-		
-		AnswerDAO dao = new AnswerDAO();
-		dao.insert(ans);
-		
-		StudentTopicDAO studentTopicDAO = new StudentTopicDAO();
-		studentTopicDAO.upsertProgress(studentId, topicId, gotRight);
+			java.time.Instant createdAt = java.time.Instant.now();
+			Answer ans = new Answer(studentId, questionId, gotRight, createdAt);
+			
+			AnswerDAO dao = new AnswerDAO();
+			dao.insert(ans);
+			
+			StudentTopicDAO studentTopicDAO = new StudentTopicDAO();
+			studentTopicDAO.upsertProgress(studentId, topicId, gotRight);
 	}
 	
 	public List<Answer> getAnswersByStudent(int studentId) {
-		AnswerDAO dao = new AnswerDAO();
-		return dao.getAllByStudent(studentId);
+			AnswerDAO dao = new AnswerDAO();
+			return dao.getAllByStudent(studentId);
 	}
 	
 	public List<Answer> getAnswersByQuestion(int questionId) {
-		AnswerDAO dao = new AnswerDAO();
-		return dao.getAllByQuestion(questionId);
+			AnswerDAO dao = new AnswerDAO();
+			return dao.getAllByQuestion(questionId);
 	}
 }
