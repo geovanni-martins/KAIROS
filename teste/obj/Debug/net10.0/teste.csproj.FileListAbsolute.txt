@@ -1,0 +1,15 @@
+/home/geovanni/projetos/kairos/teste/bin/Debug/net10.0/teste
+/home/geovanni/projetos/kairos/teste/bin/Debug/net10.0/teste.deps.json
+/home/geovanni/projetos/kairos/teste/bin/Debug/net10.0/teste.runtimeconfig.json
+/home/geovanni/projetos/kairos/teste/bin/Debug/net10.0/teste.dll
+/home/geovanni/projetos/kairos/teste/bin/Debug/net10.0/teste.pdb
+/home/geovanni/projetos/kairos/teste/obj/Debug/net10.0/teste.GeneratedMSBuildEditorConfig.editorconfig
+/home/geovanni/projetos/kairos/teste/obj/Debug/net10.0/teste.AssemblyInfoInputs.cache
+/home/geovanni/projetos/kairos/teste/obj/Debug/net10.0/teste.AssemblyInfo.cs
+/home/geovanni/projetos/kairos/teste/obj/Debug/net10.0/teste.csproj.CoreCompileInputs.cache
+/home/geovanni/projetos/kairos/teste/obj/Debug/net10.0/teste.sourcelink.json
+/home/geovanni/projetos/kairos/teste/obj/Debug/net10.0/teste.dll
+/home/geovanni/projetos/kairos/teste/obj/Debug/net10.0/refint/teste.dll
+/home/geovanni/projetos/kairos/teste/obj/Debug/net10.0/teste.pdb
+/home/geovanni/projetos/kairos/teste/obj/Debug/net10.0/teste.genruntimeconfig.cache
+/home/geovanni/projetos/kairos/teste/obj/Debug/net10.0/ref/teste.dll
