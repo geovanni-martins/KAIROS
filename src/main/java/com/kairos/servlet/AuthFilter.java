@@ -31,6 +31,8 @@ public class AuthFilter implements Filter {
         boolean isPublic = PUBLIC_PATHS.contains(path)
                 || path.startsWith("/css/")
                 || path.startsWith("/js/")
+                || path.startsWith("/termos")
+                
                 || path.startsWith("/images/");
 
         HttpSession session = req.getSession(false);

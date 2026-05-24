@@ -90,10 +90,8 @@
 
                 <label for="terms" class="text-sm leading-6 text-slate-200">
                     Li e concordo com os
-                    <%-- TODO --%>
-                    <a href="#" class="font-semibold text-[var(--color-sec)]">Termos de Uso</a>
-                    e
-                    <a href="#" class="font-semibold text-[var(--color-sec)]">Política de Privacidade</a>.</label>
+                    <a href="${pageContext.request.contextPath}/termos" class="font-semibold text-[var(--color-sec)] hover:underline">Termos de Uso e Política de Privacidade</a>.
+                </label>
             </div>
 
             <input type="hidden" name="role" value="student">
