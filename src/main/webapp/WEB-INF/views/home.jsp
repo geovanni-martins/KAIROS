@@ -28,6 +28,7 @@
             --font-mono: "JetBrains Mono", monospace;
         }
     </style>
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/icons/favicon.png">
 </head>
 <body class="flex min-h-screen bg-fundo-geral text-texto-padrao font-sora">
 

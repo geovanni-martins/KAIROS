@@ -31,7 +31,9 @@ public class AuthFilter implements Filter {
         boolean isPublic = PUBLIC_PATHS.contains(path)
                 || path.startsWith("/css/")
                 || path.startsWith("/js/")
-                || path.startsWith("/images/");
+                || path.startsWith("/images/")
+                || path.startsWith("/icons/");
+        			
 
         HttpSession session = req.getSession(false);
         boolean logged = (session != null && session.getAttribute("user") != null);
