@@ -17,6 +17,8 @@
         body { font-family: 'DM Serif Text', serif; }
         .fonte-logo { font-family: 'Archivo Black', sans-serif; }
     </style>
+	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/icons/favicon.png">
+    
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
