@@ -32,7 +32,6 @@ public class AuthFilter implements Filter {
                 || path.startsWith("/css/")
                 || path.startsWith("/js/")
                 || path.startsWith("/termos")
-                
                 || path.startsWith("/images/");
 
         HttpSession session = req.getSession(false);
