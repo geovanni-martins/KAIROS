@@ -55,7 +55,7 @@ public class CreateModeratorServlet extends HttpServlet {
         if (success) {
             resp.sendRedirect(req.getContextPath() + "/admin/createModerator?success=true");
         } else {
-            req.setAttribute("erro", "Não foi possível cadastrar o moderador. Verifique os dados e tente novamente.");
+            req.setAttribute("error", "Não foi possível cadastrar o moderador. Verifique os dados e tente novamente.");
             req.getRequestDispatcher("/WEB-INF/views/createModerator.jsp").forward(req, resp);
         }
     }

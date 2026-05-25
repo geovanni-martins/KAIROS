@@ -10,27 +10,12 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
-    <style type="text/tailwindcss">
-        @theme {
-            --color-fundo-geral: #0B101E;
-            --color-fundo-card: #161F35;
-            --color-fundo-hover: #1D2B48;
-            --color-linha-divisoria: #1D2B48;
-            --color-marca-kairos: #E16144;
-            --color-texto-padrao: #ffffff;
-            --color-texto-opaco: #8494b0;
-            --color-status-verde: #22c55e;
-            --color-status-amarelo: #f59e0b;
-            --color-status-vermelho: #E16144;
-            --font-sora: "Sora", sans-serif;
-            --font-mono: "JetBrains Mono", monospace;
-        }
-    </style>
-    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/icons/favicon.png">
+    <%@ include file="styles.jsp" %>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/favicon.png">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico">
 </head>
-<body class="flex min-h-screen bg-fundo-geral text-texto-padrao font-sora">
+<body class="flex min-h-screen bg-background text-content font-sora">
 
 <div class="flex flex-col md:flex-row w-full min-h-screen">
 
@@ -40,9 +25,9 @@
 
         <header class="flex items-start justify-between mb-6 md:mb-9">
             <div>
-                <p class="mb-1 text-marca-kairos text-[11px] md:text-[12px] font-semibold tracking-widest uppercase">Bem-vindo(a)</p>
-                <h1 id="nome-usuario-titulo" class="text-texto-padrao text-[22px] md:text-[26px] font-bold">${user.name}</h1>
-                <p id="subtitulo-boas-vindas" class="mt-1 text-texto-opaco text-[12px] md:text-[13px]">
+                <p class="mb-1 text-brand text-[11px] md:text-[12px] font-semibold tracking-widest uppercase">Bem-vindo(a)</p>
+                <h1 id="user-name-title" class="text-content text-[22px] md:text-[26px] font-bold">${user.name}</h1>
+                <p id="welcome-subtitle" class="mt-1 text-muted text-[12px] md:text-[13px]">
                     <% if ("student".equals(roleSidebar)) { %>
                     Continue de onde parou, você está indo bem
                     <% } else { %>
@@ -51,49 +36,49 @@
                 </p>
             </div>
             <div class="flex items-center">
-                <span id="badge-papel" class="px-3 py-1.5 bg-marca-kairos/15 rounded-full text-marca-kairos text-[10px] md:text-[11px] font-semibold tracking-wide uppercase">...</span>
+                <span id="role-badge" class="px-3 py-1.5 bg-brand/15 rounded-full text-brand text-[10px] md:text-[11px] font-semibold tracking-wide uppercase">...</span>
             </div>
         </header>
 
         <% if ("student".equals(roleSidebar)) { %>
-        <section id="secao-estudante">
+        <section id="student-section">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-7">
-                <div class="relative overflow-hidden p-5 bg-fundo-card border border-linha-divisoria rounded-xl shadow-md shadow-black/10 transition-colors duration-200 hover:border-marca-kairos before:absolute before:top-0 before:left-0 before:w-[3px] before:h-full before:bg-marca-kairos before:rounded-l-xl">
-                    <p class="mb-3 text-texto-padrao text-[11px] font-semibold tracking-wider uppercase">Questões respondidas</p>
-                    <p class="text-texto-padrao font-mono text-[28px] md:text-[32px] font-bold leading-none"><% if (request.getAttribute("solvedQuestions") != null) { %>${solvedQuestions}<% } else { %>0<% } %></p>
-                    <p class="flex items-center gap-1 mt-2.5 text-status-verde text-[12px]">Foco na meta!</p>
+                <div class="relative overflow-hidden p-5 bg-surface border border-divider rounded-xl shadow-md shadow-black/10 transition-colors duration-200 hover:border-brand before:absolute before:top-0 before:left-0 before:w-[3px] before:h-full before:bg-brand before:rounded-l-xl">
+                    <p class="mb-3 text-content text-[11px] font-semibold tracking-wider uppercase">Questões respondidas</p>
+                    <p class="text-content font-mono text-[28px] md:text-[32px] font-bold leading-none"><% if (request.getAttribute("solvedQuestions") != null) { %>${solvedQuestions}<% } else { %>0<% } %></p>
+                    <p class="flex items-center gap-1 mt-2.5 text-success text-[12px]">Foco na meta!</p>
                 </div>
 
-                <div class="relative overflow-hidden p-5 bg-fundo-card border border-linha-divisoria rounded-xl shadow-md shadow-black/10 transition-colors duration-200 hover:border-marca-kairos before:absolute before:top-0 before:left-0 before:w-[3px] before:h-full before:bg-marca-kairos before:rounded-l-xl">
-                    <p class="mb-3 text-texto-padrao text-[11px] font-semibold tracking-wider uppercase">Percentual de acertos</p>
-                    <p class="text-texto-padrao font-mono text-[28px] md:text-[32px] font-bold leading-none"><% if (request.getAttribute("percentageCorrectAnswers") != null) { %>${percentageCorrectAnswers}<% } else { %>0<% } %><span class="text-texto-opaco text-[16px] font-normal">%</span></p>
-                    <p class="flex items-center gap-1 mt-2.5 text-status-verde text-[12px]">Sua média geral</p>
+                <div class="relative overflow-hidden p-5 bg-surface border border-divider rounded-xl shadow-md shadow-black/10 transition-colors duration-200 hover:border-brand before:absolute before:top-0 before:left-0 before:w-[3px] before:h-full before:bg-brand before:rounded-l-xl">
+                    <p class="mb-3 text-content text-[11px] font-semibold tracking-wider uppercase">Percentual de acertos</p>
+                    <p class="text-content font-mono text-[28px] md:text-[32px] font-bold leading-none"><% if (request.getAttribute("percentageCorrectAnswers") != null) { %>${percentageCorrectAnswers}<% } else { %>0<% } %><span class="text-muted text-[16px] font-normal">%</span></p>
+                    <p class="flex items-center gap-1 mt-2.5 text-success text-[12px]">Sua média geral</p>
                 </div>
 
-                <div class="relative overflow-hidden p-5 bg-fundo-card border border-linha-divisoria rounded-xl shadow-md shadow-black/10 transition-colors duration-200 hover:border-status-amarelo before:absolute before:top-0 before:left-0 before:w-[3px] before:h-full before:bg-status-amarelo before:rounded-l-xl">
-                    <p class="mb-3 text-texto-padrao text-[11px] font-semibold tracking-wider uppercase">Lacunas ativas</p>
-                    <p class="text-status-amarelo font-mono text-[28px] md:text-[32px] font-bold leading-none"><% if (request.getAttribute("activeGaps") != null) { %>${activeGaps}<% } else { %>0<% } %></p>
-                    <p class="flex items-center gap-1 mt-2.5 text-status-amarelo text-[12px]">Assuntos pendentes</p>
+                <div class="relative overflow-hidden p-5 bg-surface border border-divider rounded-xl shadow-md shadow-black/10 transition-colors duration-200 hover:border-warning before:absolute before:top-0 before:left-0 before:w-[3px] before:h-full before:bg-warning before:rounded-l-xl">
+                    <p class="mb-3 text-content text-[11px] font-semibold tracking-wider uppercase">Lacunas ativas</p>
+                    <p class="text-warning font-mono text-[28px] md:text-[32px] font-bold leading-none"><% if (request.getAttribute("activeGaps") != null) { %>${activeGaps}<% } else { %>0<% } %></p>
+                    <p class="flex items-center gap-1 mt-2.5 text-warning text-[12px]">Assuntos pendentes</p>
                 </div>
             </div>
 
-            <div class="p-4 md:p-6 mb-7 bg-fundo-card border border-linha-divisoria rounded-xl shadow-md shadow-black/10">
+            <div class="p-4 md:p-6 mb-7 bg-surface border border-divider rounded-xl shadow-md shadow-black/10">
                 <div class="flex flex-col md:flex-row md:items-center justify-between mb-5 gap-3">
                     <div>
-                        <p class="text-texto-padrao text-[14px] font-semibold">Desempenho recente</p>
-                        <p class="mt-0.5 text-texto-opaco text-[12px]">Acertos e erros por sessão</p>
+                        <p class="text-content text-[14px] font-semibold">Desempenho recente</p>
+                        <p class="mt-0.5 text-muted text-[12px]">Acertos e erros por sessão</p>
                     </div>
                     <div class="flex gap-4">
-                        <div class="flex items-center gap-1.5 text-texto-padrao text-[12px]"><div class="w-2 h-2 rounded-full bg-status-verde"></div>Acertos</div>
-                        <div class="flex items-center gap-1.5 text-texto-padrao text-[12px]"><div class="w-2 h-2 rounded-full bg-status-vermelho"></div>Erros</div>
+                        <div class="flex items-center gap-1.5 text-content text-[12px]"><div class="w-2 h-2 rounded-full bg-success"></div>Acertos</div>
+                        <div class="flex items-center gap-1.5 text-content text-[12px]"><div class="w-2 h-2 rounded-full bg-danger"></div>Erros</div>
                     </div>
                 </div>
                 <div class="relative h-[200px] md:h-[220px]">
-                    <canvas id="graficoDesempenho"></canvas>
+                    <canvas id="performance-chart"></canvas>
                 </div>
             </div>
 
-            <p class="mb-3.5 text-texto-opaco text-[11px] font-semibold tracking-widest uppercase">Progresso por tópico</p>
+            <p class="mb-3.5 text-muted text-[11px] font-semibold tracking-widest uppercase">Progresso por tópico</p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <%
@@ -103,29 +88,29 @@
                             int total = st.getQtySolvedQuestions();
                             int wrong = st.getQtyWrongQuestions();
 
-                            int percentual;
+                            int percentage;
                             if (total > 0) {
-                                percentual = (int) Math.round(((double)(total - wrong) / total) * 100);
+                                percentage = (int) Math.round(((double)(total - wrong) / total) * 100);
                             } else {
-                                percentual = 0;
+                                percentage = 0;
                             }
 
-                            String corStatus;
-                            if (percentual >= 70) {
-                                corStatus = "bg-status-verde";
-                            } else if (percentual >= 50) {
-                                corStatus = "bg-status-amarelo";
+                            String statusColor;
+                            if (percentage >= 70) {
+                                statusColor = "bg-success";
+                            } else if (percentage >= 50) {
+                                statusColor = "bg-warning";
                             } else {
-                                corStatus = "bg-status-vermelho";
+                                statusColor = "bg-danger";
                             }
                 %>
-                <div class="flex items-center gap-3.5 p-4 bg-fundo-card border border-linha-divisoria rounded-[10px] shadow-sm shadow-black/5 transition-colors duration-200 hover:border-marca-kairos">
-                    <div class="flex shrink-0 items-center justify-center w-9 h-9 bg-marca-kairos/15 rounded-lg text-[16px] font-bold">#</div>
+                <div class="flex items-center gap-3.5 p-4 bg-surface border border-divider rounded-[10px] shadow-sm shadow-black/5 transition-colors duration-200 hover:border-brand">
+                    <div class="flex shrink-0 items-center justify-center w-9 h-9 bg-brand/15 rounded-lg text-[16px] font-bold">#</div>
                     <div class="flex-1">
                         <p class="mb-1 text-[13px] font-semibold"><%= st.getTopic().getName() %></p>
-                        <p class="text-texto-opaco text-[11px]"><%= total %> questões  <%= percentual %>% de acerto</p>
-                        <div class="h-1 mt-1.5 bg-fundo-hover rounded-full overflow-hidden">
-                            <div class="h-full <%= corStatus %> rounded-full transition-all duration-700" style="width:<%= percentual %>%"></div>
+                        <p class="text-muted text-[11px]"><%= total %> questões  <%= percentage %>% de acerto</p>
+                        <div class="h-1 mt-1.5 bg-surface-hover rounded-full overflow-hidden">
+                            <div class="h-full <%= statusColor %> rounded-full transition-all duration-700" style="width:<%= percentage %>%"></div>
                         </div>
                     </div>
                 </div>
@@ -137,8 +122,8 @@
         <% } %>
 
         <% if ("moderator".equals(roleSidebar) || "admin".equals(roleSidebar)) { %>
-        <section id="secao-moderador">
-            <div class="p-5 bg-fundo-card border border-linha-divisoria rounded-xl shadow-md text-texto-opaco">
+        <section id="moderator-section">
+            <div class="p-5 bg-surface border border-divider rounded-xl shadow-md text-muted">
                 <p>Clique em um dos botões do menu lateral para acessar as ferramentas</p>
             </div>
         </section>
@@ -150,24 +135,27 @@
 <script>
     const userType = "<%= roleSidebar %>";
     const userName = "${user.name}";
+    const themeStyles = getComputedStyle(document.documentElement);
+    const successColor = themeStyles.getPropertyValue('--color-success').trim();
+    const dangerColor = themeStyles.getPropertyValue('--color-danger').trim();
 
-    function obterIniciais(nome) {
-        if(!nome) return "--";
-        return nome.split(" ").map(n => n[0]).slice(0,2).join("").toUpperCase();
+    function getInitials(name) {
+        if(!name) return "--";
+        return name.split(" ").map(n => n[0]).slice(0,2).join("").toUpperCase();
     }
 
     if(userType) {
-        document.getElementById("badge-papel").textContent = userType.charAt(0).toUpperCase() + userType.slice(1);
+        document.getElementById("role-badge").textContent = userType.charAt(0).toUpperCase() + userType.slice(1);
     }
 
-    const grafic = document.getElementById("graficoDesempenho");
-    if (grafic) {
-        let labelsDias = [
+    const chartCanvas = document.getElementById("performance-chart");
+    if (chartCanvas) {
+        let dayLabels = [
             <%
-            String[] dias = (String[]) request.getAttribute("labelsDias");
-            if (dias != null) {
+            String[] days = (String[]) request.getAttribute("dayLabels");
+            if (days != null) {
                 for(int i = 0; i < 7; i++) {
-                    out.print("'" + dias[i] + "'");
+                    out.print("'" + days[i] + "'");
                     if (i < 6) {
                         out.print(",");
                     }
@@ -176,12 +164,12 @@
             %>
         ];
 
-        let dadosAcertos = [
+        let correctAnswerData = [
             <%
-            int[] acertos = (int[]) request.getAttribute("dadosAcertos");
-            if (acertos != null) {
+            int[] correctAnswers = (int[]) request.getAttribute("correctAnswerData");
+            if (correctAnswers != null) {
                 for(int i = 0; i < 7; i++) {
-                    out.print(acertos[i]);
+                    out.print(correctAnswers[i]);
                     if (i < 6) {
                         out.print(",");
                     }
@@ -190,12 +178,12 @@
             %>
         ];
 
-        let dadosErros = [
+        let wrongAnswerData = [
             <%
-            int[] erros = (int[]) request.getAttribute("dadosErros");
-            if (erros != null) {
+            int[] wrongAnswers = (int[]) request.getAttribute("wrongAnswerData");
+            if (wrongAnswers != null) {
                 for(int i = 0; i < 7; i++) {
-                    out.print(erros[i]);
+                    out.print(wrongAnswers[i]);
                     if (i < 6) {
                         out.print(",");
                     }
@@ -204,13 +192,13 @@
             %>
         ];
 
-        new Chart(grafic, {
+        new Chart(chartCanvas, {
             type: "bar",
             data: {
-                labels: labelsDias,
+                labels: dayLabels,
                 datasets: [
-                    { label: 'Acertos', data: dadosAcertos, backgroundColor: "#22c55e", borderRadius: 4 },
-                    { label: 'Erros', data: dadosErros, backgroundColor: "#E16144", borderRadius: 4 }
+                    { label: 'Acertos', data: correctAnswerData, backgroundColor: successColor, borderRadius: 4 },
+                    { label: 'Erros', data: wrongAnswerData, backgroundColor: dangerColor, borderRadius: 4 }
                 ]
             },
             options: {

@@ -54,7 +54,7 @@ public class CreateAdminServlet extends HttpServlet {
         if (success) {
             resp.sendRedirect(req.getContextPath() + "/admin/createAdmin?success=true");
         } else {
-            req.setAttribute("erro", "Não foi possível cadastrar o administrador. O e-mail pode já estar em uso.");
+            req.setAttribute("error", "Não foi possível cadastrar o administrador. O e-mail pode já estar em uso.");
             req.getRequestDispatcher("/WEB-INF/views/createAdmin.jsp").forward(req, resp);
         }
     }

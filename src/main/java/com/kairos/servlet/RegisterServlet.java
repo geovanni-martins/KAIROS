@@ -36,7 +36,7 @@ public class RegisterServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/home");
 
         } else {
-            req.setAttribute("erro", "Erro ao cadastrar, algo está incorreto.");
+            req.setAttribute("error", "Erro ao cadastrar, algo está incorreto.");
             req.getRequestDispatcher("/WEB-INF/views/register.jsp").forward(req, resp);
         }
     }
