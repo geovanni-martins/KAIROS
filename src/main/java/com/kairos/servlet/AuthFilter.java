@@ -31,6 +31,8 @@ public class AuthFilter implements Filter {
         boolean isPublic = PUBLIC_PATHS.contains(path)
                 || path.startsWith("/css/")
                 || path.startsWith("/js/")
+                || path.startsWith("/images/")
+                || path.startsWith("/icons/");
                 || path.startsWith("/termos")
                 || path.startsWith("/images/");
 

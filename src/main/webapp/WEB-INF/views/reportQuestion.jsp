@@ -19,6 +19,7 @@
             --font-sora: "Sora", sans-serif;
         }
     </style>
+     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/icons/favicon.png">
 </head>
 <body class="min-h-screen bg-fundo-geral text-texto-padrao font-sora flex flex-col md:flex-row">
 

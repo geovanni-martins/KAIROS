@@ -40,6 +40,7 @@
             color: rgba(232, 237, 248, 0.48);
         }
     </style>
+     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/icons/favicon.png">
 </head>
 <body class="min-h-screen bg-[var(--color-principal-sec)] text-slate-100">
 
