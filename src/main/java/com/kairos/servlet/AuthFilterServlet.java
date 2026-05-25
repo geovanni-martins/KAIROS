@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Set;
 
 @WebFilter("/*")
-public class AuthFilter implements Filter {
+public class AuthFilterServlet implements Filter {
 
     private static final Set<String> PUBLIC_PATHS = Set.of(
             "/login",
@@ -31,8 +31,7 @@ public class AuthFilter implements Filter {
         boolean isPublic = PUBLIC_PATHS.contains(path)
                 || path.startsWith("/css/")
                 || path.startsWith("/js/")
-                || path.startsWith("/images/")
-                || path.startsWith("/icons/");
+                || path.startsWith("/icons/")
                 || path.startsWith("/termos")
                 || path.startsWith("/images/");
 
