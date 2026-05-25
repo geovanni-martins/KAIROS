@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 
-<button onclick="toggleSidebar()" class="absolute top-4 left-4 z-40 p-2 bg-fundo-card border border-linha-divisoria rounded-lg text-texto-opaco hover:text-marca-kairos transition-colors shadow-md cursor-pointer">
+<button onclick="toggleSidebar()" class="absolute top-4 left-4 z-40 p-2 bg-surface border border-divider rounded-lg text-muted hover:text-brand transition-colors shadow-md cursor-pointer">
     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
     </svg>
@@ -8,28 +8,28 @@
 
 <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/50 z-40 hidden transition-opacity duration-300 cursor-pointer"></div>
 
-<aside id="sidebar" class="fixed top-0 left-0 z-50 flex flex-col w-[260px] h-screen p-5 bg-fundo-card border-r border-linha-divisoria shadow-2xl shadow-black/50 transform -translate-x-full transition-transform duration-300 ease-in-out font-sora">
+<aside id="sidebar" class="fixed top-0 left-0 z-50 flex flex-col w-[260px] h-screen p-5 bg-surface border-r border-divider shadow-2xl shadow-black/50 transform -translate-x-full transition-transform duration-300 ease-in-out font-sora">
 
-    <div class="px-2 pb-6 border-b border-linha-divisoria flex justify-between items-center">
-        <span class="text-marca-kairos font-mono text-xl font-medium tracking-wider">KAIROS</span>
-        <button onclick="toggleSidebar()" class="text-texto-opaco hover:text-status-vermelho transition-colors cursor-pointer p-1">
+    <div class="px-2 pb-6 border-b border-divider flex justify-between items-center">
+        <span class="text-brand font-mono text-xl font-medium tracking-wider">KAIROS</span>
+        <button onclick="toggleSidebar()" class="text-muted hover:text-danger transition-colors cursor-pointer p-1">
             <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
     </div>
 
     <%
-        com.kairos.model.User usuarioLogado = (com.kairos.model.User) session.getAttribute("user");
+        com.kairos.model.User loggedUser = (com.kairos.model.User) session.getAttribute("user");
         String roleSidebar;
-        if (usuarioLogado != null) {
-            roleSidebar = usuarioLogado.getRole();
+        if (loggedUser != null) {
+            roleSidebar = loggedUser.getRole();
         } else {
             roleSidebar = "";
         }
 
         String uri = request.getRequestURI();
 
-        String activeClasses = "bg-marca-kairos/15 text-marca-kairos font-semibold";
-        String inactiveClasses = "text-texto-opaco font-medium hover:bg-fundo-hover hover:text-texto-padrao";
+        String activeClasses = "bg-brand/15 text-brand font-semibold";
+        String inactiveClasses = "text-muted font-medium hover:bg-surface-hover hover:text-content";
 
         String classHome = inactiveClasses;
         String classQuestions = inactiveClasses;
@@ -97,16 +97,16 @@
         </a>
     </nav>
 
-    <div class="pt-5 mt-auto border-t border-linha-divisoria">
-        <div class="flex items-center gap-3 p-3 bg-fundo-hover rounded-xl">
-            <div class="flex shrink-0 items-center justify-center w-8 h-8 bg-marca-kairos rounded-full text-white text-[12px] font-bold">
+    <div class="pt-5 mt-auto border-t border-divider">
+        <div class="flex items-center gap-3 p-3 bg-surface-hover rounded-xl">
+            <div class="flex shrink-0 items-center justify-center w-8 h-8 bg-brand rounded-full text-white text-[12px] font-bold">
                 ${user.name.substring(0,1).toUpperCase()}
             </div>
             <div class="flex-1 truncate">
-                <p class="text-[13px] text-texto-padrao font-semibold truncate">${user.name}</p>
-                <span class="text-[11px] text-texto-opaco capitalize">${user.role}</span>
+                <p class="text-[13px] text-content font-semibold truncate">${user.name}</p>
+                <span class="text-[11px] text-muted capitalize">${user.role}</span>
             </div>
-            <a href="${pageContext.request.contextPath}/logout" class="p-1.5 text-texto-opaco hover:text-status-vermelho transition-colors cursor-pointer" title="Sair">
+            <a href="${pageContext.request.contextPath}/logout" class="p-1.5 text-muted hover:text-danger transition-colors cursor-pointer" title="Sair">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
             </a>
         </div>

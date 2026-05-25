@@ -53,7 +53,7 @@ public class AdminUsersServlet extends HttpServlet {
 
             // Guard: prevent admin from deleting themselves
             if (userId == currentUser.getId()) {
-                req.setAttribute("erro", "Você não pode remover sua própria conta.");
+                req.setAttribute("error", "Você não pode remover sua própria conta.");
                 req.setAttribute("users", userController.userList());
                 req.getRequestDispatcher("/WEB-INF/views/adminUsers.jsp").forward(req, resp);
                 return;

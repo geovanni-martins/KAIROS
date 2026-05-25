@@ -29,12 +29,12 @@ public class NewPasswordServlet extends HttpServlet {
         if (people != null) {
             userController.updatePassword(email, newPassword);
 
-            req.setAttribute("sucesso", "Senha atualizada com sucesso");
+            req.setAttribute("success", "Senha atualizada com sucesso");
             req.getRequestDispatcher("/WEB-INF/views/new-password.jsp").forward(req, resp);
 
         } else {
 
-            req.setAttribute("erro", "Email ou senha incorretos.");
+            req.setAttribute("error", "Email ou senha incorretos.");
             req.getRequestDispatcher("/WEB-INF/views/new-password.jsp").forward(req, resp);
         }
     }

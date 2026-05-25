@@ -51,7 +51,7 @@ public class GapServlet extends HttpServlet {
 		GapController controller = new GapController();
 		List<Gap> list = controller.getGapsByStudent(studentId);
 
-		request.setAttribute("listaLacunas", list);
+		request.setAttribute("gapList", list);
 		request.getRequestDispatcher("/WEB-INF/views/gap.jsp").forward(request, response);
 	}
 }

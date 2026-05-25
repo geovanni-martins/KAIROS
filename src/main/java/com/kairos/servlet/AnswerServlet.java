@@ -46,14 +46,14 @@ public class AnswerServlet extends HttpServlet{
 					int studentId = Integer.parseInt(studentParam);
 					List<Answer> list = controller.getAnswersByStudent(studentId);
 			
-					request.setAttribute("listaRespostas", list);
+					request.setAttribute("answerList", list);
 					request.getRequestDispatcher("/WEB-INF/views/performance.jsp").forward(request, response);
 
 			} else if(questionParam !=  null) {
 					int questionId = Integer.parseInt(questionParam);
 					List<Answer> list = controller.getAnswersByQuestion(questionId);
 				
-					request.setAttribute("listaRespostas", list);
+					request.setAttribute("answerList", list);
 					request.getRequestDispatcher("/WEB-INF/views/performance.jsp").forward(request, response);
 			}
 	}

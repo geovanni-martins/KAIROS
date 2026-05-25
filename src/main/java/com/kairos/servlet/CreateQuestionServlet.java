@@ -72,7 +72,7 @@ public class CreateQuestionServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/createQuestion?success=true");
 
         } catch (Exception e) {
-            req.setAttribute("erro", "Erro ao criar questão: " + e.getMessage());
+            req.setAttribute("error", "Erro ao criar questão: " + e.getMessage());
             req.setAttribute("topics", topicController.listTopics());
             req.getRequestDispatcher("/WEB-INF/views/createQuestion.jsp").forward(req, resp);
         }

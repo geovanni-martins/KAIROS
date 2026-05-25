@@ -71,7 +71,7 @@ public class GapDAO {
 	public int countErrorsByTopic(int studentId, int topicId) {
 		int errorCount = 0;
 		String sql =
-				"SELECT COUNT(*) AS total_erros " +
+				"SELECT COUNT(*) AS total_errors " +
 						"FROM answer a " +
 						"INNER JOIN question q ON a.question_id = q.id_question " +
 						"WHERE a.student_id = ? AND q.topic_id = ? AND a.got_right = false";
@@ -84,7 +84,7 @@ public class GapDAO {
 
 			try (ResultSet rs = stmt.executeQuery()) {
 				if (rs.next()) {
-					errorCount = rs.getInt("total_erros");
+					errorCount = rs.getInt("total_errors");
 				}
 			}
 
@@ -98,7 +98,7 @@ public class GapDAO {
 	public int countTotalAnswersByTopic(int studentId, int topicId) {
 		int totalCount = 0;
 		String sql = 
-					  "SELECT COUNT(*) AS total_respostas "
+					  "SELECT COUNT(*) AS total_answers "
 					+ "FROM answer a "
 					+ "INNER JOIN question q ON a.question_id = q.id_question "
 					+ "WHERE a.student_id = ? AND q.topic_id = ?";
@@ -111,7 +111,7 @@ public class GapDAO {
 					
 					try(ResultSet rs = stmt.executeQuery()){
 							if(rs.next()) {
-									totalCount = rs.getInt("total_respostas");
+									totalCount = rs.getInt("total_answers");
 							}
 					}
 		} catch(SQLException e) {

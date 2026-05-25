@@ -16,7 +16,10 @@ public class AuthFilterServlet implements Filter {
             "/login",
             "/register",
             "/logout",
-            "/new-password"
+            "/new-password",
+            "/termos",
+            "/favicon.png",
+            "/favicon.ico"
     );
 
     @Override

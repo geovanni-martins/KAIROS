@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/home");
 
         } else {
-            req.setAttribute("erro", "Email ou senha incorretos.");
+            req.setAttribute("error", "Email ou senha incorretos.");
             req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
         }
     }

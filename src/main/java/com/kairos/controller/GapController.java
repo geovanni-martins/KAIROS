@@ -46,21 +46,21 @@ public class GapController {
 	}
 	public void evaluateNewGap(int studentId, int topicId) {
 
-			int totalRespostas = gapDAO.countTotalAnswersByTopic(studentId, topicId);
-			if (totalRespostas >= 10) {
-					int totalErros = gapDAO.countErrorsByTopic(studentId, topicId);
-					double taxaErro = (double) totalErros / totalRespostas;
+			int totalAnswers = gapDAO.countTotalAnswersByTopic(studentId, topicId);
+			if (totalAnswers >= 10) {
+					int totalErrors = gapDAO.countErrorsByTopic(studentId, topicId);
+					double errorRate = (double) totalErrors / totalAnswers;
 					
-					if(taxaErro >= 0.50) {
-							Gap lacunaExistente = gapDAO.getByStudentAndTopic(studentId, topicId);
+					if(errorRate >= 0.50) {
+							Gap existingGap = gapDAO.getByStudentAndTopic(studentId, topicId);
 							
-							if(lacunaExistente == null) {
-									Gap novaLacuna = new Gap();
-									novaLacuna.setStudentId(studentId);
-									novaLacuna.setTopicId(topicId);
-									novaLacuna.setCreatedAt(java.time.Instant.now());
+							if(existingGap == null) {
+									Gap newGap = new Gap();
+									newGap.setStudentId(studentId);
+									newGap.setTopicId(topicId);
+									newGap.setCreatedAt(java.time.Instant.now());
 									
-									gapDAO.insert(novaLacuna);
+									gapDAO.insert(newGap);
 									System.out.println("CRÍTICO: Aluno " + studentId + " atingiu 50% de erro. Nova lacuna criada no tópico " + topicId);
 							}
 					}
