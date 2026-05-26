@@ -29,6 +29,7 @@ public class AnswerServlet extends HttpServlet{
 			controller.processNewAnswer(studentId, questionId, topicId, gotRight);
 		
 			GapController gapController = new GapController();
+			//Aqui é onde o modulo de Respostas se integra com a de Lacunas. Essa avaliação de desempenho do aluno acontece em tempo real e não acumulado em batch
 			gapController.evaluateNewGap(studentId, topicId);
 		
 			response.setStatus(201);
