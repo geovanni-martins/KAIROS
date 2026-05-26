@@ -14,56 +14,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kairos - Gerenciar Usuários</title>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style type="text/tailwindcss">
-        @theme {
-            --color-fundo-geral: #0B101E;
-            --color-fundo-card: #161F35;
-            --color-fundo-hover: #1D2B48;
-            --color-linha-divisoria: #1D2B48;
-            --color-marca-kairos: #E16144;
-            --color-marca-escuro: #C9523A;
-            --color-texto-padrao: #ffffff;
-            --color-texto-opaco: #8494b0;
-            --color-status-verde: #22c55e;
-            --color-status-vermelho: #E16144;
-            --font-sora: "Sora", sans-serif;
-            --font-mono: "JetBrains Mono", monospace;
-        }
-    </style>
-     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/icons/favicon.png">
+    <%@ include file="styles.jsp" %>
+    <script src="https://cdn.tailwindcss.com"></script>
+     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/favicon.png">
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico">
 </head>
-<body class="min-h-screen bg-fundo-geral text-texto-padrao font-sora flex flex-col md:flex-row">
+<body class="min-h-screen bg-background text-content font-sora flex flex-col md:flex-row">
 
 <%@include file="nav.jsp"%>
 
 <main class="flex-1 p-4 pt-16 md:p-9 md:pt-20 overflow-y-auto flex flex-col">
 
-    <a href="${pageContext.request.contextPath}/admin-panel" class="self-start mb-6 inline-flex items-center gap-2 text-texto-padrao hover:text-marca-kairos transition-colors">
+    <a href="${pageContext.request.contextPath}/admin-panel" class="self-start mb-6 inline-flex items-center gap-2 text-content hover:text-brand transition-colors">
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
         Voltar
     </a>
 
     <div class="w-full max-w-5xl mx-auto">
         <header class="mb-8">
-            <p class="text-marca-kairos text-[11px] font-semibold tracking-widest uppercase mb-1">Administração</p>
+            <p class="text-brand text-[11px] font-semibold tracking-widest uppercase mb-1">Administração</p>
             <h1 class="text-[24px] md:text-[26px] font-bold">Gerenciar Usuários</h1>
-            <p class="text-texto-opaco text-[12px] md:text-[13px] mt-1">Visualize e remova usuários do sistema</p>
+            <p class="text-muted text-[12px] md:text-[13px] mt-1">Visualize e remova usuários do sistema</p>
         </header>
 
         <% if ("true".equals(request.getParameter("deleted"))) { %>
-        <div id="success-alert" class="flex items-center gap-3 mb-6 p-4 bg-status-verde/10 border border-status-verde/30 rounded-xl text-status-verde text-[13px] font-semibold transition-opacity duration-500">
+        <div id="success-alert" class="flex items-center gap-3 mb-6 p-4 bg-success/10 border border-success/30 rounded-xl text-success text-[13px] font-semibold transition-opacity duration-500">
             Usuário removido com sucesso!
         </div>
         <% } %>
 
         <div class="flex flex-col md:flex-row gap-3 mb-6">
             <div class="relative flex-1">
-                <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-texto-opaco" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                <input type="text" id="searchInput" placeholder="Buscar por nome ou e-mail..."
-                       class="w-full pl-10 pr-4 py-3 bg-fundo-card border border-linha-divisoria rounded-xl text-[13px] text-texto-padrao outline-none focus:border-marca-kairos transition-colors">
+                <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="searchInput" placeholder="Buscar por name ou e-mail..."
+                       class="w-full pl-10 pr-4 py-3 bg-surface border border-divider rounded-xl text-[13px] text-content outline-none focus:border-brand transition-colors">
             </div>
-            <select id="roleFilter" class="px-4 py-3 bg-fundo-card border border-linha-divisoria rounded-xl text-[13px] text-texto-padrao outline-none focus:border-marca-kairos transition-colors">
+            <select id="roleFilter" class="px-4 py-3 bg-surface border border-divider rounded-xl text-[13px] text-content outline-none focus:border-brand transition-colors">
                 <option value="">Todos os perfis</option>
                 <option value="admin">Administrador</option>
                 <option value="moderator">Moderador</option>
@@ -71,14 +57,14 @@
             </select>
         </div>
 
-        <div class="bg-fundo-card border border-linha-divisoria rounded-2xl overflow-hidden">
+        <div class="bg-surface border border-divider rounded-2xl overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full" id="usersTable">
                     <thead>
-                    <tr class="border-b border-linha-divisoria">
-                        <th class="text-left px-6 py-4 text-[11px] font-semibold tracking-widest uppercase text-texto-opaco">Usuário</th>
-                        <th class="text-left px-6 py-4 text-[11px] font-semibold tracking-widest uppercase text-texto-opaco hidden md:table-cell">E-mail</th>
-                        <th class="text-left px-6 py-4 text-[11px] font-semibold tracking-widest uppercase text-texto-opaco">Perfil</th>
+                    <tr class="border-b border-divider">
+                        <th class="text-left px-6 py-4 text-[11px] font-semibold tracking-widest uppercase text-muted">Usuário</th>
+                        <th class="text-left px-6 py-4 text-[11px] font-semibold tracking-widest uppercase text-muted hidden md:table-cell">E-mail</th>
+                        <th class="text-left px-6 py-4 text-[11px] font-semibold tracking-widest uppercase text-muted">Perfil</th>
                         <th class="px-6 py-4"></th>
                     </tr>
                     </thead>
@@ -95,7 +81,7 @@
                                 switch (role) {
                                     case "admin":
                                         roleLabel = "Admin";
-                                        roleBadge = "bg-marca-kairos/15 text-marca-kairos";
+                                        roleBadge = "bg-brand/15 text-brand";
                                         break;
                                     case "moderator":
                                         roleLabel = "Moderador";
@@ -103,27 +89,27 @@
                                         break;
                                     default:
                                         roleLabel = "Aluno";
-                                        roleBadge = "bg-status-verde/15 text-status-verde";
+                                        roleBadge = "bg-success/15 text-success";
                                         break;
                                 }
 
                                 String name = u.getName();
                                 String initials = name.substring(0, Math.min(2, name.length())).toUpperCase();
                     %>
-                    <tr class="border-b border-linha-divisoria last:border-0 hover:bg-fundo-hover/50 transition-colors user-row"
+                    <tr class="border-b border-divider last:border-0 hover:bg-surface-hover/50 transition-colors user-row"
                         data-name="<%= u.getName().toLowerCase() %>"
                         data-email="<%= u.getEmail().toLowerCase() %>"
                         data-role="<%= u.getRole() %>">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
-                                <div class="w-9 h-9 rounded-full bg-marca-kairos/10 border border-marca-kairos/20 flex items-center justify-center text-marca-kairos text-[12px] font-bold font-mono shrink-0">
+                                <div class="w-9 h-9 rounded-full bg-brand/10 border border-brand/20 flex items-center justify-center text-brand text-[12px] font-bold font-mono shrink-0">
                                     <%= initials %>
                                 </div>
-                                <span class="text-[13px] font-semibold text-texto-padrao"><%= u.getName() %></span>
+                                <span class="text-[13px] font-semibold text-content"><%= u.getName() %></span>
                             </div>
                         </td>
                         <td class="px-6 py-4 hidden md:table-cell">
-                            <span class="text-[13px] text-texto-opaco"><%= u.getEmail() %></span>
+                            <span class="text-[13px] text-muted"><%= u.getEmail() %></span>
                         </td>
                         <td class="px-6 py-4">
                                 <span class="inline-block px-3 py-1 rounded-full text-[11px] font-semibold <%= roleBadge %>">
@@ -132,7 +118,7 @@
                         </td>
                         <td class="px-6 py-4 text-right">
                             <button onclick="confirmDelete(<%= u.getId() %>, '<%= u.getName().replace("'", "\\'") %>')"
-                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-semibold text-status-vermelho border border-status-vermelho/30 hover:bg-status-vermelho hover:text-white transition-all">
+                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-semibold text-danger border border-danger/30 hover:bg-danger hover:text-white transition-all">
                                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
                                 Remover
                             </button>
@@ -141,7 +127,7 @@
                     <%      }
                     } else { %>
                     <tr>
-                        <td colspan="4" class="px-6 py-12 text-center text-texto-opaco text-[13px]">Nenhum usuário cadastrado.</td>
+                        <td colspan="4" class="px-6 py-12 text-center text-muted text-[13px]">Nenhum usuário cadastrado.</td>
                     </tr>
                     <%  } %>
                     </tbody>
@@ -149,23 +135,23 @@
             </div>
         </div>
 
-        <p id="emptySearch" class="hidden text-center text-texto-opaco text-[13px] mt-8">Nenhum usuário encontrado para essa busca.</p>
+        <p id="emptySearch" class="hidden text-center text-muted text-[13px] mt-8">Nenhum usuário encontrado para essa busca.</p>
     </div>
 
     <div id="deleteModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-        <div class="bg-fundo-card border border-linha-divisoria rounded-2xl p-6 w-full max-w-sm shadow-2xl">
-            <div class="w-12 h-12 rounded-full bg-status-vermelho/10 flex items-center justify-center text-status-vermelho mx-auto mb-4">
+        <div class="bg-surface border border-divider rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+            <div class="w-12 h-12 rounded-full bg-danger/10 flex items-center justify-center text-danger mx-auto mb-4">
                 <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
             </div>
             <h3 class="text-[16px] font-bold text-center mb-2">Remover usuário</h3>
-            <p class="text-texto-opaco text-[13px] text-center mb-6">Tem certeza que deseja remover <span id="modalUserName" class="text-texto-padrao font-semibold"></span>? Esta ação não pode ser desfeita.</p>
+            <p class="text-muted text-[13px] text-center mb-6">Tem certeza que deseja remover <span id="modalUserName" class="text-content font-semibold"></span>? Esta ação não pode ser desfeita.</p>
             <div class="flex gap-3">
-                <button onclick="closeModal()" class="flex-1 px-4 py-2.5 bg-fundo-hover border border-linha-divisoria rounded-xl text-[13px] font-semibold hover:border-texto-opaco transition-colors">
+                <button onclick="closeModal()" class="flex-1 px-4 py-2.5 bg-surface-hover border border-divider rounded-xl text-[13px] font-semibold hover:border-muted transition-colors">
                     Cancelar
                 </button>
                 <form id="deleteForm" action="${pageContext.request.contextPath}/admin/deleteUser" method="POST" class="flex-1">
                     <input type="hidden" name="userId" id="deleteUserId">
-                    <button type="submit" class="w-full px-4 py-2.5 bg-status-vermelho text-white rounded-xl text-[13px] font-semibold hover:opacity-90 transition-all">
+                    <button type="submit" class="w-full px-4 py-2.5 bg-danger text-white rounded-xl text-[13px] font-semibold hover:opacity-90 transition-all">
                         Remover
                     </button>
                 </form>

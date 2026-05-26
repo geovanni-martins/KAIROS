@@ -42,7 +42,7 @@ public class CreateTopicServlet extends HttpServlet {
             req.setAttribute("topics", topics);
         } catch (Exception e) {
             e.printStackTrace();
-            req.setAttribute("erro", "Erro ao carregar a lista de tópicos");
+            req.setAttribute("error", "Erro ao carregar a lista de tópicos");
         }
 
         req.getRequestDispatcher("/WEB-INF/views/createTopic.jsp").forward(req, resp);
@@ -72,19 +72,19 @@ public class CreateTopicServlet extends HttpServlet {
                 }
 
                 if (topicExists) {
-                    req.setAttribute("erro", "Este tópico já está cadastrado no sistema.");
+                    req.setAttribute("error", "Este tópico já está cadastrado no sistema.");
                     req.setAttribute("topics", allTopics);
                     req.getRequestDispatcher("/WEB-INF/views/createTopic.jsp").forward(req, resp);
                 } else {
-                    Topic novoTopico = new Topic(name, subject);
-                    dao.insertTopicWithPreReqs(novoTopico, preReqs);
+                    Topic newTopic = new Topic(name, subject);
+                    dao.insertTopicWithPreReqs(newTopic, preReqs);
                     resp.sendRedirect(req.getContextPath() + "/createTopic?success=true");
                 }
 
             } catch (Exception e) {
 
                 e.printStackTrace();
-                req.setAttribute("erro", "Erro: " + e.getMessage());
+                req.setAttribute("error", "Erro: " + e.getMessage());
 
                 TopicDAO dao = new TopicDAO();
                 req.setAttribute("topics", dao.getAll());

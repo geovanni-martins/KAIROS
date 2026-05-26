@@ -66,36 +66,36 @@ public class HomeServlet extends HttpServlet {
 
                 List<Answer> answers = answerDAO.getAnswersLast7Days(studentId);
 
-                String[] labelsDias = new String[7];
-                int[] dadosAcertos = new int[7];
-                int[] dadosErros = new int[7];
+                String[] dayLabels = new String[7];
+                int[] correctAnswerData = new int[7];
+                int[] wrongAnswerData = new int[7];
 
-                java.time.LocalDate hoje = java.time.LocalDate.now();
-                String[] nomesSemana = {"Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"};
+                java.time.LocalDate today = java.time.LocalDate.now();
+                String[] weekDayNames = {"Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"};
 
                 for (int i = 0; i < 7; i++) {
-                    java.time.LocalDate diaCalculado = hoje.minusDays(6 - i);
-                    int diaSemanaIndex = diaCalculado.getDayOfWeek().getValue() - 1;
-                    labelsDias[i] = nomesSemana[diaSemanaIndex];
+                    java.time.LocalDate calculatedDay = today.minusDays(6 - i);
+                    int weekDayIndex = calculatedDay.getDayOfWeek().getValue() - 1;
+                    dayLabels[i] = weekDayNames[weekDayIndex];
                 }
 
                 for (Answer answer : answers) {
-                    java.time.LocalDate dataResposta = java.time.LocalDateTime.ofInstant(answer.getCreatedAt(), java.time.ZoneId.systemDefault()).toLocalDate();
-                    long diasAtras = java.time.temporal.ChronoUnit.DAYS.between(dataResposta, hoje);
+                    java.time.LocalDate answerDate = java.time.LocalDateTime.ofInstant(answer.getCreatedAt(), java.time.ZoneId.systemDefault()).toLocalDate();
+                    long daysAgo = java.time.temporal.ChronoUnit.DAYS.between(answerDate, today);
 
-                    if (diasAtras >= 0 && diasAtras <= 6) {
-                        int graficDay = 6 - (int) diasAtras;
+                    if (daysAgo >= 0 && daysAgo <= 6) {
+                        int chartDay = 6 - (int) daysAgo;
                         if (answer.isGotRight()) {
-                            dadosAcertos[graficDay]++;
+                            correctAnswerData[chartDay]++;
                         } else {
-                            dadosErros[graficDay]++;
+                            wrongAnswerData[chartDay]++;
                         }
                     }
                 }
 
-                req.setAttribute("labelsDias", labelsDias);
-                req.setAttribute("dadosAcertos", dadosAcertos);
-                req.setAttribute("dadosErros", dadosErros);
+                req.setAttribute("dayLabels", dayLabels);
+                req.setAttribute("correctAnswerData", correctAnswerData);
+                req.setAttribute("wrongAnswerData", wrongAnswerData);
             }
         }
 
