@@ -9,10 +9,25 @@ services:
     ports:
       - '3307:3306'
     volumes:
-      - ./mysql_data:/var/lib/mysql
       - ./src/database/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
       - ./src/database/data.sql:/docker-entrypoint-initdb.d/2-data.sql
+    networks:
+      - kairos-net
+
+  web:
+    build: .
+    container_name: kairos-web
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=kairos-db
+      - DB_PORT=3306
+    depends_on:
+      - db
+    networks:
+      - kairos-net
 
 networks:
-  default:
-    name: kairos-network
+  kairos-net:
+    driver: bridge
