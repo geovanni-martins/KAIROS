@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ page import="com.kairos.model.User, java.util.List" %>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -117,11 +118,16 @@
                                 </span>
                         </td>
                         <td class="px-6 py-4 text-right">
-                            <button onclick="confirmDelete(<%= u.getId() %>, '<%= u.getName().replace("'", "\\'") %>')"
-                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-semibold text-danger border border-danger/30 hover:bg-danger hover:text-white transition-all">
-                                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-                                Remover
-                            </button>
+                            <%
+                                User usuarioLogado = (User) session.getAttribute("user");
+                                if (usuarioLogado != null && usuarioLogado.getId() != u.getId()) {
+                            %>
+                                <button onclick="confirmDelete(<%= u.getId() %>, '<%= u.getName().replace("'", "\\'") %>')"
+                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-semibold text-danger border border-danger/30 hover:bg-danger hover:text-white transition-all">
+                                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                                    Remover
+                                </button>
+                            <% } %>
                         </td>
                     </tr>
                     <%      }
