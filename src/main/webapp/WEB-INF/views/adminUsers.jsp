@@ -119,8 +119,8 @@
                         </td>
                         <td class="px-6 py-4 text-right">
                             <%
-                                User usuarioLogado = (User) session.getAttribute("user");
-                                if (usuarioLogado != null && usuarioLogado.getId() != u.getId()) {
+                                User currentAdmin = (User) session.getAttribute("user");
+                                if (currentAdmin != null && currentAdmin.getId() != u.getId()) { // sem essa linha, caso a sessao caisse nao daria um erro enorme 500 ()
                             %>
                                 <button onclick="confirmDelete(<%= u.getId() %>, '<%= u.getName().replace("'", "\\'") %>')"
                                         class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-semibold text-danger border border-danger/30 hover:bg-danger hover:text-white transition-all">
