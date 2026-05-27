@@ -25,7 +25,7 @@
             --font-mono: "JetBrains Mono", monospace;
         }
     </style>
-     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/icons/favicon.png">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/icons/favicon.png">
 </head>
 <body class="min-h-screen bg-fundo-geral text-texto-padrao font-sora flex flex-col md:flex-row">
 
@@ -55,8 +55,7 @@
     <div class="flex items-center gap-3 mb-6 p-4 bg-status-vermelho/10 border border-status-vermelho/30 rounded-xl text-status-vermelho text-[13px] font-semibold">
         Resposta incorreta. Revise o assunto pois uma lacuna pode estar se formando
     </div>
-    <% }
-    } %>
+    <% } } %>
 
     <form method="GET" action="${pageContext.request.contextPath}/questions" class="flex flex-col md:flex-row gap-3 mb-8">
         <select name="topicId" class="px-4 py-3 bg-fundo-card border border-linha-divisoria rounded-xl text-[13px] text-texto-padrao outline-none focus:border-marca-kairos w-full md:w-64 transition-colors">
@@ -83,7 +82,7 @@
             if (questions != null && !questions.isEmpty()) {
                 for (Question q : questions) {
         %>
-        <div class="p-5 md:p-6 bg-fundo-card border border-linha-divisoria rounded-2xl shadow-lg">
+        <div class="p-5 md:p-6 bg-fundo-card border border-linha-divisoria rounded-2xl shadow-lg" id="question-card-<%= q.getId() %>">
 
             <div class="flex justify-between items-start mb-4">
                 <span class="px-3 py-1 bg-fundo-hover text-texto-opaco text-[11px] font-bold rounded-lg uppercase tracking-wider">
@@ -126,7 +125,9 @@
             </form>
 
             <div class="flex justify-end pt-3 mt-4 border-t border-linha-divisoria">
-                <a href="${pageContext.request.contextPath}/reportQuestion?questionId=<%= q.getId() %>&topicId=<%= q.getTopic().getId() %>" class="inline-flex items-center gap-1 text-[11px] font-semibold text-status-vermelho hover:text-texto-padrao transition-colors">
+                <a href="${pageContext.request.contextPath}/reportQuestion?questionId=<%= q.getId() %>&topicId=<%= q.getTopic().getId() %>"
+                   onclick="sessionStorage.setItem('reportedQuestion', '<%= q.getId() %>')"
+                   class="inline-flex items-center gap-1 text-[11px] font-semibold text-status-vermelho hover:text-texto-padrao transition-colors">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"></path></svg>
                     Reportar erro na questão
                 </a>
@@ -145,5 +146,15 @@
         <% } %>
     </div>
 </main>
+
+<script>
+    const reportedId = sessionStorage.getItem('reportedQuestion');
+    if (reportedId) {
+        const card = document.getElementById('question-card-' + reportedId);
+        if (card) card.style.display = 'none';
+        sessionStorage.removeItem('reportedQuestion');
+    }
+</script>
+
 </body>
 </html>
