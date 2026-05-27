@@ -22,7 +22,7 @@
             --font-sora: "Sora", sans-serif;
         }
     </style>
-     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/icons/favicon.png">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/icons/favicon.png">
 </head>
 <body class="min-h-screen bg-fundo-geral text-texto-padrao font-sora flex flex-col md:flex-row">
 
@@ -50,7 +50,6 @@
 
     <%
         List<Report> reports = (List<Report>) request.getAttribute("reports");
-
         if (reports == null || reports.isEmpty()) {
     %>
     <div class="p-8 bg-fundo-card border border-linha-divisoria rounded-2xl text-center">
@@ -93,8 +92,7 @@
                     <div class="text-[12px] p-2 bg-fundo-geral rounded border border-linha-divisoria <%= alt.getCorrect() ? "text-status-verde border-status-verde/30" : "text-texto-opaco" %>">
                         <%= alt.getText() %> <%= alt.getCorrect() ? "(Correta)" : "" %>
                     </div>
-                    <% }
-                    } %>
+                    <% } } %>
                 </div>
 
                 <div>
@@ -106,6 +104,7 @@
             </div>
 
             <div class="flex flex-wrap justify-end gap-3 pt-4 mt-5 border-t border-linha-divisoria">
+
                 <form action="${pageContext.request.contextPath}/editQuestion" method="GET">
                     <input type="hidden" name="questionId" value="<%= report.getQuestion() != null ? report.getQuestion().getId() : "" %>">
                     <button type="submit" class="px-4 py-2 bg-amber-500/10 text-amber-500 border border-amber-500/30 text-[12px] font-bold rounded-xl hover:bg-amber-500 hover:text-white transition-all">
@@ -113,25 +112,104 @@
                     </button>
                 </form>
 
-                <form action="${pageContext.request.contextPath}/deleteQuestion" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta questão?');">
+                <form id="form-delete-<%= report.getId() %>" action="${pageContext.request.contextPath}/deleteQuestion" method="POST" class="hidden">
                     <input type="hidden" name="questionId" value="<%= report.getQuestion() != null ? report.getQuestion().getId() : "" %>">
-                    <button type="submit" class="px-4 py-2 bg-status-vermelho/10 text-status-vermelho border border-status-vermelho/30 text-[12px] font-bold rounded-xl hover:bg-status-vermelho hover:text-white transition-all">
-                        Excluir Questão
-                    </button>
                 </form>
+                <button type="button" onclick="openModal('modal-delete-<%= report.getId() %>')"
+                        class="px-4 py-2 bg-status-vermelho/10 text-status-vermelho border border-status-vermelho/30 text-[12px] font-bold rounded-xl hover:bg-status-vermelho hover:text-white transition-all">
+                    Excluir Questão
+                </button>
 
-                <form action="${pageContext.request.contextPath}/reports" method="POST">
+                <form id="form-resolve-<%= report.getId() %>" action="${pageContext.request.contextPath}/reports" method="POST" class="hidden">
                     <input type="hidden" name="reportId" value="<%= report.getId() %>">
-                    <button type="submit" class="px-4 py-2 bg-status-verde/15 text-status-verde border border-status-verde/30 text-[12px] font-bold rounded-xl hover:bg-status-verde hover:text-white transition-all">
-                        Resolver Report
-                    </button>
                 </form>
+                <button type="button" onclick="openModal('modal-resolve-<%= report.getId() %>')"
+                        class="px-4 py-2 bg-status-verde/15 text-status-verde border border-status-verde/30 text-[12px] font-bold rounded-xl hover:bg-status-verde hover:text-white transition-all">
+                    Resolver Report
+                </button>
             </div>
         </div>
+
+        <div id="modal-delete-<%= report.getId() %>" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('modal-delete-<%= report.getId() %>')"></div>
+            <div class="relative w-full max-w-md bg-fundo-card border border-status-vermelho/40 rounded-2xl shadow-2xl p-6 z-10">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-full bg-status-vermelho/10 flex items-center justify-center shrink-0">
+                        <svg class="w-5 h-5 text-status-vermelho" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-[15px] font-bold text-texto-padrao">Excluir Questão</h3>
+                        <p class="text-[12px] text-texto-opaco">Esta ação não pode ser desfeita</p>
+                    </div>
+                </div>
+                <p class="text-[13px] text-texto-opaco mb-6 leading-relaxed">
+                    Tem certeza que deseja excluir esta questão permanentemente? Todas as alternativas e respostas associadas serão removidas.
+                </p>
+                <div class="flex gap-3 justify-end">
+                    <button type="button" onclick="closeModal('modal-delete-<%= report.getId() %>')"
+                            class="px-5 py-2.5 text-[12px] font-bold text-texto-opaco border border-linha-divisoria rounded-xl hover:text-texto-padrao hover:border-texto-opaco transition-all">
+                        Cancelar
+                    </button>
+                    <button type="button" onclick="document.getElementById('form-delete-<%= report.getId() %>').submit()"
+                            class="px-5 py-2.5 text-[12px] font-bold bg-status-vermelho text-white rounded-xl hover:opacity-90 active:scale-[.98] transition-all">
+                        Sim, excluir
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-resolve-<%= report.getId() %>" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('modal-resolve-<%= report.getId() %>')"></div>
+            <div class="relative w-full max-w-md bg-fundo-card border border-status-verde/40 rounded-2xl shadow-2xl p-6 z-10">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-full bg-status-verde/10 flex items-center justify-center shrink-0">
+                        <svg class="w-5 h-5 text-status-verde" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-[15px] font-bold text-texto-padrao">Resolver Report</h3>
+                        <p class="text-[12px] text-texto-opaco">Marcar denúncia como analisada</p>
+                    </div>
+                </div>
+                <p class="text-[13px] text-texto-opaco mb-6 leading-relaxed">
+                    Confirma que este report foi analisado e pode ser marcado como resolvido?
+                </p>
+                <div class="flex gap-3 justify-end">
+                    <button type="button" onclick="closeModal('modal-resolve-<%= report.getId() %>')"
+                            class="px-5 py-2.5 text-[12px] font-bold text-texto-opaco border border-linha-divisoria rounded-xl hover:text-texto-padrao hover:border-texto-opaco transition-all">
+                        Cancelar
+                    </button>
+                    <button type="button" onclick="document.getElementById('form-resolve-<%= report.getId() %>').submit()"
+                            class="px-5 py-2.5 text-[12px] font-bold bg-status-verde text-white rounded-xl hover:opacity-90 active:scale-[.98] transition-all">
+                        Sim, resolver
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <% } %>
     </div>
     <% } %>
 
 </main>
+
+<script>
+    function openModal(id) {
+        document.getElementById(id).classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+        document.getElementById(id).classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('[id^="modal-"]').forEach(function(m) {
+                m.classList.add('hidden');
+            });
+            document.body.style.overflow = '';
+        }
+    });
+</script>
+
 </body>
 </html>
