@@ -15,8 +15,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kairos - Gerenciar Usuários</title>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <%@ include file="styles.jsp" %>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <style type="text/tailwindcss">
+        @theme {
+            /* Color tokens mapped to utility names used in this file (bg-*, text-*) */
+            --color-background: #0B101E;
+            --color-surface: #161F35;
+            --color-surface-hover: #1D2B48;
+            --color-divider: #1D2B48;
+            --color-brand: #E16144;
+            --color-content: #ffffff;
+            --color-muted: #8494b0;
+            --color-success: #22c55e;
+            --color-danger: #E16144;
+
+            /* Font tokens (keep names used by font-* utilities) */
+            --font-sora: "Sora", sans-serif;
+            --font-mono: "JetBrains Mono", monospace;
+
+            /* Legacy Portuguese tokens kept for other pages compatibility */
+            --color-fundo-geral: #0B101E;
+            --color-fundo-card: #161F35;
+            --color-fundo-hover: #1D2B48;
+            --color-linha-divisoria: #1D2B48;
+            --color-marca-kairos: #E16144;
+            --color-texto-padrao: #ffffff;
+            --color-texto-opaco: #8494b0;
+            --color-status-verde: #22c55e;
+            --color-status-amarelo: #f59e0b;
+            --color-status-vermelho: #E16144;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
      <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/favicon.png">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico">
 </head>
