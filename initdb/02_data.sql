@@ -8,6 +8,8 @@ SET character_set_connection = utf8mb4;
 -- DADOS DE USUARIOS (sem acentos)
 -- ============================================================
 
+
+    -- senhas de usuários padrões = Kairos@2024
 INSERT INTO user (name, email, password, user_type) VALUES
     ('Admin Geral', 'admin@kairos.com', '$2a$12$YNV5lQlzWfdvoG9FFfpQReDtq2GifySUvc.1Z8Rf6ARffhW2bLD3e', 'admin'),
     ('Mod Matematica', 'mod.mat@kairos.com', '$2a$12$dqrhfCN4DrbsYmkSJb3iMOw6mvierQElkinpc2TDs6BzrKNuj6Uqq', 'moderator'),
