@@ -25,7 +25,7 @@ public class ReportQuestionServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         User user = (session != null) ? (User) session.getAttribute("user") : null;
 
-        if (user == null || !"student".equals(user.getRole())) {
+        if (user == null || !user.isStudent()) {
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
@@ -53,7 +53,7 @@ public class ReportQuestionServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         User user = (session != null) ? (User) session.getAttribute("user") : null;
 
-        if (user == null || !"student".equals(user.getRole())) {
+        if (user == null || !user.isStudent()) {
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }

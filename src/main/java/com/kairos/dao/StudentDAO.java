@@ -28,7 +28,7 @@ public class StudentDAO {
 
     public Student getById(int id) {
         String sql =
-                "SELECT u.id_user, u.name, u.email, u.password, u.user_type, s.level, s.xp " +
+                "SELECT u.id_user, u.name, u.email, u.password, u.user_type " +
                         "FROM user u " +
                         "INNER JOIN student s ON u.id_user = s.id_student " +
                         "WHERE u.id_user = ?;";
@@ -43,8 +43,7 @@ public class StudentDAO {
                     return new Student(
                             rs.getInt("id_user"), rs.getString("name"),
                             rs.getString("email"), rs.getString("password"),
-                            rs.getString("user_type"),
-                            rs.getInt("level"), rs.getInt("xp")
+                            rs.getString("user_type")
                     );
                 }
             }
@@ -60,7 +59,7 @@ public class StudentDAO {
         List<Student> list = new ArrayList<>();
 
         String sql =
-                "SELECT u.id_user, u.name, u.email, u.password, u.user_type, s.level, s.xp " +
+                "SELECT u.id_user, u.name, u.email, u.password, u.user_type " +
                         "FROM user u " +
                         "INNER JOIN student s ON u.id_user = s.id_student;";
 
@@ -72,8 +71,7 @@ public class StudentDAO {
                 list.add(new Student(
                         rs.getInt("id_user"), rs.getString("name"),
                         rs.getString("email"), rs.getString("password"),
-                        rs.getString("user_type"),
-                        rs.getInt("level"), rs.getInt("xp")
+                        rs.getString("user_type")
                 ));
             }
 

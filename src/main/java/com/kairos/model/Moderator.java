@@ -20,4 +20,12 @@ public class Moderator extends User{
     public String getResponsibileDiscipline() {
         return responsibileDiscipline;
     }
+
+    @Override
+    public boolean canManageContent() { return true; }
+
+    @Override
+    public void applyQuestionStats(MultipleChoiceQuestion question) {
+        question.setStats("verified");
+    }
 }

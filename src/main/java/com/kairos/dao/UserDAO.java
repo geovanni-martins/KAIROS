@@ -40,7 +40,7 @@ public class UserDAO {
     public User getById(int id) {
         String sql =
                 "SELECT u.id_user, u.name, u.email, u.password, u.user_type, " +
-                        "m.subject_owner, s.level, s.xp " +
+                        "m.subject_owner" +
                         "FROM user u " +
                         "LEFT JOIN moderator m ON u.id_user = m.id_moderator " +
                         "LEFT JOIN student s ON u.id_user = s.id_student " +
@@ -73,8 +73,7 @@ public class UserDAO {
                     case "student":
                         return new Student(
                                 rs.getInt("id_user"), rs.getString("name"),
-                                rs.getString("email"), rs.getString("password"), userType,
-                                rs.getInt("level"), rs.getInt("xp")
+                                rs.getString("email"), rs.getString("password"), userType
                         );
                 }
             }
@@ -130,22 +129,10 @@ public class UserDAO {
                         break;
                     }
                     case "student": {
-                        String sqlStudent = "SELECT level, xp FROM student WHERE id_student = ?;";
-                        try (Connection conn2 = DBConnection.connect();
-                             PreparedStatement stmt2 = conn2.prepareStatement(sqlStudent)
-                        ) {
-                            stmt2.setInt(1, user.getId());
-                            try (ResultSet rs2 = stmt2.executeQuery()) {
-                                if (rs2.next()) {
-                                    return new Student(
-                                            user.getId(), user.getName(), user.getEmail(),
-                                            user.getPassword(), user.getRole(),
-                                            rs2.getInt("level"), rs2.getInt("xp")
-                                    );
-                                }
-                            }
-                        }
-                        break;
+                        return new Student(
+                                user.getId(), user.getName(), user.getEmail(),
+                                user.getPassword(), user.getRole()
+                        );
                     }
                 }
             }
@@ -162,7 +149,7 @@ public class UserDAO {
 
         String sql =
                 "SELECT u.id_user, u.name, u.email, u.password, u.user_type, " +
-                        "a.id_admin, m.subject_owner, s.level, s.xp " +
+                        "a.id_admin, m.subject_owner" +
                         "FROM user u " +
                         "LEFT JOIN admin a ON u.id_user = a.id_admin " +
                         "LEFT JOIN moderator m ON u.id_user = m.id_moderator " +
@@ -192,8 +179,7 @@ public class UserDAO {
                     case "student":
                         list.add(new Student(
                                 rs.getInt("id_user"), rs.getString("name"),
-                                rs.getString("email"), rs.getString("password"), userType,
-                                rs.getInt("level"), rs.getInt("xp")
+                                rs.getString("email"), rs.getString("password"), userType
                         ));
                         break;
                 }

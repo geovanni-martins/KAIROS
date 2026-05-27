@@ -29,7 +29,7 @@ public class HomeServlet extends HttpServlet {
         if (session != null && session.getAttribute("user") != null) {
             User user = (User) session.getAttribute("user");
 
-            if ("student".equals(user.getRole())) {
+            if (user.isStudent()) {
                 int studentId = user.getId();
 
                 List<StudentTopic> topics = studentTopicController.listByStudent(studentId);

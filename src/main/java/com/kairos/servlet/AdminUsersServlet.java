@@ -24,7 +24,7 @@ public class AdminUsersServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
-        if (currentUser == null || !currentUser.getRole().equals("admin")) {
+        if (currentUser == null || !currentUser.isAdmin()) {
             resp.sendRedirect(req.getContextPath() + "/home");
             return;
         }
@@ -43,7 +43,7 @@ public class AdminUsersServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
-        if (currentUser == null || !currentUser.getRole().equals("admin")) {
+        if (currentUser == null || !currentUser.isAdmin()) {
             resp.sendRedirect(req.getContextPath() + "/home");
             return;
         }

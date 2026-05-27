@@ -2,6 +2,7 @@ package com.kairos.servlet;
 
 import com.kairos.dao.*;
 import com.kairos.model.*;
+import com.kairos.controller.GapController;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -21,7 +22,7 @@ public class StudentQuestionsServlet extends HttpServlet {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
 
-        if (user == null || !"student".equals(user.getRole())) {
+        if (user == null || !user.isStudent()) {
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
@@ -62,7 +63,7 @@ public class StudentQuestionsServlet extends HttpServlet {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
 
-        if (user == null || !"student".equals(user.getRole())) {
+        if (user == null || !user.isStudent()) {
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
@@ -89,6 +90,11 @@ public class StudentQuestionsServlet extends HttpServlet {
         StudentTopicDAO stDAO = new StudentTopicDAO();
         stDAO.upsertProgress(studentId, topicId, gotRight);
 
+        GapController gapController = new GapController();
+        gapController.evaluateNewGap(studentId, topicId);
+        gapController.processGapUpdate(studentId, topicId, gotRight);
+
         resp.sendRedirect(req.getContextPath() + "/questions?topicId=" + topicId + "&answered=true&correct=" + gotRight);
+
     }
 }

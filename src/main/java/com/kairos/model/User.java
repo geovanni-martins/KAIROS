@@ -55,4 +55,21 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public boolean isAdmin() {
+        return false;
+    }
+
+    public boolean isStudent() {
+        return false;
+    }
+
+    public boolean canManageContent() { // moderator + admin
+        return false;
+    }
+
+    public void applyQuestionStats(MultipleChoiceQuestion question) {
+        // admin não auto-verifica, não faz nada
+    }
+
 }
