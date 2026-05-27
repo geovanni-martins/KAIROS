@@ -141,6 +141,7 @@ Matemática não se domina com volume. Domina-se com **consciência do erro**.
 
 ## 📁 Estrutura de Pacotes
 
+ 
 ```
 kairos/
 ├── src/
@@ -264,8 +265,58 @@ docker compose logs -f db
 docker compose logs -f web
 ```
 
----
+ 
+</div>
 
+---
+ 
+<div align="center">
+## 🚀 Como Rodar o Projeto
+ 
+*Sem instalar Java, Maven ou configurar banco de dados. Apenas Docker.*
+ 
+</div>
+<br>
+### Pré-requisito
+ 
+Ter o **Docker** instalado na máquina → [docker.com/get-started](https://www.docker.com/get-started/)
+ 
+<br>
+### Passo a passo
+ 
+**1. Clone o repositório**
+```bash
+git clone https://github.com/seu-usuario/kairos.git
+cd kairos
+```
+ 
+**2. Suba a aplicação**
+```bash
+docker compose up --build
+```
+ 
+> Na primeira execução, o Docker irá baixar as imagens necessárias e compilar o projeto. Aguarde até aparecer a mensagem:
+> ```
+> kairos-app | INFO: Server startup in [XXXX] milliseconds
+> ```
+ 
+**3. Acesse no navegador**
+```
+http://localhost:8080
+```
+ 
+<br>
+### Comandos úteis
+ 
+| Comando | O que faz |
+|:---|:---|
+| `docker compose up --build` | Sobe o projeto (com recompilação) |
+| `docker compose up` | Sobe o projeto (sem recompilar) |
+| `Ctrl + C` | Para os containers |
+| `docker compose down` | Para e remove os containers |
+ 
+---
+ 
 <div align="center">
 
 ## 👥 Equipe
