@@ -23,7 +23,7 @@ public class CreateModeratorServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         User user = (session != null) ? (User) session.getAttribute("user") : null;
 
-        if (user == null || !user.getRole().equals("admin")) {
+        if (user == null || !user.isAdmin()) {
             resp.sendRedirect(req.getContextPath() + "/home");
             return;
         }

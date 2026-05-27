@@ -41,7 +41,7 @@ public class GapServlet extends HttpServlet {
 			user = (User) session.getAttribute("user");
 		}
 
-		if (user == null || !user.getRole().equals("student")) {
+		if (user == null || !user.isStudent()) {
 			response.sendRedirect(request.getContextPath() + "/home");
 			return;
 		}
