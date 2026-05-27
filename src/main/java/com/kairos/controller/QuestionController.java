@@ -18,8 +18,7 @@ public class QuestionController {
 
     public void insertQuestion(MultipleChoiceQuestion question, User user) {
 
-        if (!user.getRole().equals("moderator") && !user.getRole().equals("admin")) {
-
+        if (!user.canManageContent()) {
             System.out.println("Sem permissão para criar questões");
             return;
         }
@@ -58,10 +57,7 @@ public class QuestionController {
             return;
         }
 
-        if (user.getRole().equals("moderator")){
-
-            question.setStats("verified");
-        }
+        user.applyQuestionStats(question);
 
         questionDAO.insert(question);
     }
@@ -83,7 +79,7 @@ public class QuestionController {
 
     public void updateQuestion(MultipleChoiceQuestion question, User user) {
 
-        if (!user.getRole().equals("moderator") && !user.getRole().equals("admin")) {
+        if (!user.canManageContent()) {
             System.out.println("Sem permissão para atualizar a questão");
             return;
         }
@@ -98,7 +94,7 @@ public class QuestionController {
 
     public void deleteQuestion(int id, User user) {
 
-        if (!user.getRole().equals("moderator") && !user.getRole().equals("admin")) {
+        if (!user.canManageContent()) {
             System.out.println("Sem permissão para atualizar a questão");
             return;
         }

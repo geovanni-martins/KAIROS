@@ -28,7 +28,7 @@ public class CreateQuestionServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         User user = (User) session.getAttribute("user");
 
-        if (user == null || user.getRole().equals("student")) {
+        if (user == null || user.isStudent()) {
             resp.sendRedirect(req.getContextPath() + "/home");
             return;
         }

@@ -30,4 +30,7 @@ public class Student extends User {
     public void setLevel(int level) {
         this.level = level;
     }
+
+    @Override
+    public boolean isStudent() { return true; }
 }

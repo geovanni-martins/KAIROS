@@ -16,7 +16,7 @@ public class TopicController {
 
     public void insertTopic(Topic topic, User user){
 
-        if (!user.getRole().equals("moderator") && !user.getRole().equals("admin")) {
+        if (!user.canManageContent()) {
 
             System.out.println("Sem permissão para criar tópicos");
             return;
@@ -52,7 +52,7 @@ public class TopicController {
 
     public void updateTopic(Topic topic, User user) {
 
-        if (!user.getRole().equals("moderator") && !user.getRole().equals("admin")) {
+        if (!user.canManageContent()) {
             System.out.println("Sem permissão para atualizar o tópico");
             return;
         }
@@ -67,7 +67,7 @@ public class TopicController {
 
     public void deleteTopic(int id, User user) {
 
-        if (!user.getRole().equals("moderator") && !user.getRole().equals("admin")) {
+        if (!user.canManageContent()) {
             System.out.println("Sem permissão para atualizar o tópico");
             return;
         }

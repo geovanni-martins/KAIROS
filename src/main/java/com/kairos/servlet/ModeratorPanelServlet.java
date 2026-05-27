@@ -17,9 +17,9 @@ public class ModeratorPanelServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         HttpSession session = req.getSession(false);
-        User user = (User) session.getAttribute("user");
+        User user = (session != null) ? (User) session.getAttribute("user") : null;
 
-        if (user == null || user.getRole().equals("student")) {
+        if (user == null || user.isStudent()) {
             resp.sendRedirect(req.getContextPath() + "/home");
             return;
         }

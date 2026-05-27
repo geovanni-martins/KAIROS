@@ -15,43 +15,50 @@ public class QuestionDAO {
     public void insert(MultipleChoiceQuestion question) {
         String sql = "INSERT INTO question (topic_id, statement, stats, difficulty) VALUES (?, ?, ?, ?)";
 
-        try (Connection conn = DBConnection.connect();
-             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
-        ) {
-            stmt.setInt(1, question.getTopic().getId());
-            stmt.setString(2, question.getStatement());
-            stmt.setString(3, question.getStats());
-            stmt.setString(4, question.getDifficulty());
-            stmt.executeUpdate();
+        try (Connection conn = DBConnection.connect()) {
+            conn.setAutoCommit(false); // inicia transação
 
-            try (ResultSet rs = stmt.getGeneratedKeys()) {
-                if (rs.next()) {
-                    int generatedId = rs.getInt(1);
+            try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                stmt.setInt(1, question.getTopic().getId());
+                stmt.setString(2, question.getStatement());
+                stmt.setString(3, question.getStats());
+                stmt.setString(4, question.getDifficulty());
+                stmt.executeUpdate();
 
-                    PreparedStatement stmt2 = conn.prepareStatement(
-                            "INSERT INTO multiple_choice_question (question_id, justification) VALUES (?, ?)"
-                    );
-                    stmt2.setInt(1, generatedId);
-                    stmt2.setString(2, question.getJustification());
-                    stmt2.executeUpdate();
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        int generatedId = rs.getInt(1);
 
-                    PreparedStatement stmt3 = conn.prepareStatement(
-                            "INSERT INTO alternative (question_id, text, is_correct) VALUES (?, ?, ?)"
-                    );
-                    for (Alternative alt : question.getAlternatives()) {
-                        stmt3.setInt(1, generatedId);
-                        stmt3.setString(2, alt.getText());
-                        stmt3.setBoolean(3, alt.getCorrect());
-                        stmt3.addBatch();
+                        PreparedStatement stmt2 = conn.prepareStatement(
+                                "INSERT INTO multiple_choice_question (question_id, justification) VALUES (?, ?)"
+                        );
+                        stmt2.setInt(1, generatedId);
+                        stmt2.setString(2, question.getJustification());
+                        stmt2.executeUpdate();
+
+                        PreparedStatement stmt3 = conn.prepareStatement(
+                                "INSERT INTO alternative (question_id, text, is_correct) VALUES (?, ?, ?)"
+                        );
+                        for (Alternative alt : question.getAlternatives()) {
+                            stmt3.setInt(1, generatedId);
+                            stmt3.setString(2, alt.getText());
+                            stmt3.setBoolean(3, alt.getCorrect());
+                            stmt3.addBatch();
+                        }
+                        stmt3.executeBatch();
                     }
-                    stmt3.executeBatch();
                 }
+
+                conn.commit();
+                System.out.println("Questão cadastrada");
+
+            } catch (SQLException e) {
+                conn.rollback();
+                System.out.println("Erro ao inserir questão: " + e.getMessage());
             }
 
-            System.out.println("Questão cadastrada");
-
         } catch (SQLException e) {
-            System.out.println("Erro ao inserir questão: " + e.getMessage());
+            System.out.println("Erro de conexão: " + e.getMessage());
         }
     }
 
@@ -187,46 +194,54 @@ public class QuestionDAO {
     }
 
     public void update(MultipleChoiceQuestion question) {
-        String sql = "UPDATE question SET topic_id = ?, statement = ?, stats = ?, difficulty = ? WHERE id_question = ?";
+        try (Connection conn = DBConnection.connect()) {
+            conn.setAutoCommit(false);
 
-        try (Connection conn = DBConnection.connect();
-             PreparedStatement stmt = conn.prepareStatement(sql)
-        ) {
-            stmt.setInt(1, question.getTopic().getId());
-            stmt.setString(2, question.getStatement());
-            stmt.setString(3, question.getStats());
-            stmt.setString(4, question.getDifficulty());
-            stmt.setInt(5, question.getId());
-            stmt.executeUpdate();
+            try {
+                PreparedStatement stmt = conn.prepareStatement(
+                        "UPDATE question SET topic_id = ?, statement = ?, stats = ?, difficulty = ? WHERE id_question = ?"
+                );
+                stmt.setInt(1, question.getTopic().getId());
+                stmt.setString(2, question.getStatement());
+                stmt.setString(3, question.getStats());
+                stmt.setString(4, question.getDifficulty());
+                stmt.setInt(5, question.getId());
+                stmt.executeUpdate();
 
-            PreparedStatement stmt2 = conn.prepareStatement(
-                    "UPDATE multiple_choice_question SET justification = ? WHERE question_id = ?"
-            );
-            stmt2.setString(1, question.getJustification());
-            stmt2.setInt(2, question.getId());
-            stmt2.executeUpdate();
+                PreparedStatement stmt2 = conn.prepareStatement(
+                        "UPDATE multiple_choice_question SET justification = ? WHERE question_id = ?"
+                );
+                stmt2.setString(1, question.getJustification());
+                stmt2.setInt(2, question.getId());
+                stmt2.executeUpdate();
 
-            PreparedStatement stmtDelete = conn.prepareStatement(
-                    "DELETE FROM alternative WHERE question_id = ?"
-            );
-            stmtDelete.setInt(1, question.getId());
-            stmtDelete.executeUpdate();
+                PreparedStatement stmtDelete = conn.prepareStatement(
+                        "DELETE FROM alternative WHERE question_id = ?"
+                );
+                stmtDelete.setInt(1, question.getId());
+                stmtDelete.executeUpdate();
 
-            PreparedStatement stmt3 = conn.prepareStatement(
-                    "INSERT INTO alternative (question_id, text, is_correct) VALUES (?, ?, ?)"
-            );
-            for (Alternative alt : question.getAlternatives()) {
-                stmt3.setInt(1, question.getId());
-                stmt3.setString(2, alt.getText());
-                stmt3.setBoolean(3, alt.getCorrect());
-                stmt3.addBatch();
+                PreparedStatement stmt3 = conn.prepareStatement(
+                        "INSERT INTO alternative (question_id, text, is_correct) VALUES (?, ?, ?)"
+                );
+                for (Alternative alt : question.getAlternatives()) {
+                    stmt3.setInt(1, question.getId());
+                    stmt3.setString(2, alt.getText());
+                    stmt3.setBoolean(3, alt.getCorrect());
+                    stmt3.addBatch();
+                }
+                stmt3.executeBatch();
+
+                conn.commit();
+                System.out.println("Questão atualizada");
+
+            } catch (SQLException e) {
+                conn.rollback();
+                System.out.println("Erro ao atualizar questão: " + e.getMessage());
             }
-            stmt3.executeBatch();
-
-            System.out.println("Questão atualizada");
 
         } catch (SQLException e) {
-            System.out.println("Erro ao atualizar questão: " + e.getMessage());
+            System.out.println("Erro de conexão: " + e.getMessage());
         }
     }
 

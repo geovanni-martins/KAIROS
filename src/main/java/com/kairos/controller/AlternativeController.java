@@ -109,14 +109,4 @@ public class AlternativeController {
 
         alternativeDAO.delete(id);
     }
-
-    public void deleteAlternativeByQuestionId(int questionId) {
-
-        if (questionId <= 0) {
-            System.out.println("ID de questão inválido");
-            return;
-        }
-
-        alternativeDAO.deleteAllByQuestion(questionId);
-    }
 }

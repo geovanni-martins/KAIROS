@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
-    private static final String URL = "jdbc:mysql://kodama.proxy.rlwy.net:35384/railway";
+    private static final String URL = "jdbc:mysql://localhost:3307/kairosdb?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8";
     private static final String USER = "root";
-    private static final String PASSWORD = "JMDyssWXdqDMNGwpaksZyuKskmKjEUzm";
+    private static final String PASSWORD = "0000";
 
     public static Connection connect() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);

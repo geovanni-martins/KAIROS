@@ -23,7 +23,7 @@ public class CreateAdminServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         User user = (session != null) ? (User) session.getAttribute("user") : null;
 
-        if (user == null || !user.getRole().equals("admin")) {
+        if (user == null || !user.isAdmin()) {
             resp.sendRedirect(req.getContextPath() + "/home");
             return;
         }
@@ -40,7 +40,7 @@ public class CreateAdminServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
-        if (currentUser == null || !currentUser.getRole().equals("admin")) {
+        if (currentUser == null || !currentUser.isAdmin()) {
             resp.sendRedirect(req.getContextPath() + "/home");
             return;
         }
