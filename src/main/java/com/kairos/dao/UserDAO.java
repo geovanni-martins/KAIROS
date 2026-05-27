@@ -149,7 +149,7 @@ public class UserDAO {
 
         String sql =
                 "SELECT u.id_user, u.name, u.email, u.password, u.user_type, " +
-                        "a.id_admin, m.subject_owner" +
+                        "a.id_admin, m.subject_owner " +
                         "FROM user u " +
                         "LEFT JOIN admin a ON u.id_user = a.id_admin " +
                         "LEFT JOIN moderator m ON u.id_user = m.id_moderator " +
