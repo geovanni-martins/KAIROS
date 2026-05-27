@@ -47,7 +47,7 @@ public class StudentTopicDAO {
                 if (rs.next()) {
                     Student student = new Student(
                             rs.getInt("student_id"), rs.getString("student_name"),
-                            null, null, null, 0, 0
+                            null, null, null
                     );
                     Topic topic = new Topic(
                             rs.getInt("topic_id"), rs.getString("topic_name"), null
@@ -82,7 +82,7 @@ public class StudentTopicDAO {
             while (rs.next()) {
                 Student student = new Student(
                         rs.getInt("student_id"), rs.getString("student_name"),
-                        null, null, null, 0, 0
+                        null, null, null
                 );
                 Topic topic = new Topic(
                         rs.getInt("topic_id"), rs.getString("topic_name"), null
@@ -119,7 +119,7 @@ public class StudentTopicDAO {
                 while (rs.next()) {
                     Student student = new Student(
                             rs.getInt("student_id"), rs.getString("student_name"),
-                            null, null, null, 0, 0
+                            null, null, null
                     );
                     Topic topic = new Topic(
                             rs.getInt("topic_id"), rs.getString("topic_name"), null
