@@ -1,4 +1,4 @@
-USE kairosDB;
+USE kairosdb;
 
 SET NAMES utf8mb4;
 SET CHARACTER SET utf8mb4;
@@ -9,15 +9,15 @@ SET character_set_connection = utf8mb4;
 -- ============================================================
 
 INSERT INTO user (name, email, password, user_type) VALUES
-                                                        ('Admin Geral', 'admin@kairos.com', '$2a$12$YNV5lQlzWfdvoG9FFfpQReDtq2GifySUvc.1Z8Rf6ARffhW2bLD3e', 'admin'),
-                                                        ('Mod Matematica', 'mod.mat@kairos.com', '$2a$12$dqrhfCN4DrbsYmkSJb3iMOw6mvierQElkinpc2TDs6BzrKNuj6Uqq', 'moderator'),
-                                                        ('Mod Algebra', 'mod.alg@kairos.com', '$2a$12$vs9ECsl1arutlNqvg62IYOTnWz4IZV1qCZ2jNti8EeFHII1/va9GO', 'moderator'),
-                                                        ('Mod Geometria', 'mod.geo@kairos.com', '$2a$12$el6Nn1Z2Kt.HXXuQd2iaJOX26REBtY8U3BVMblRVBvVk2KEUMhnRK', 'moderator'),
-                                                        ('Ana Souza', 'ana.souza@email.com', '$2a$12$6LXsjRBu8G8SQb66pbfdtutVPLQQ0LXtHIScsb/vwpLF/uA5BMvz.', 'student'),
-                                                        ('Bruno Lima', 'bruno.lima@email.com', '$2a$12$rkxnrBrK5ZxT3ZXahHifuO3WtfRPfEP/vXgeZGuagmRyPyYqGxTmG', 'student'),
-                                                        ('Carla Mota', 'carla.mota@email.com', '$2a$12$el6Nn1Z2Kt.HXXuQd2iaJOX26REBtY8U3BVMblRVBvVk2KEUMhnRK', 'student'),
-                                                        ('Diego Alves', 'diego.alves@email.com', '$2a$12$ew04xrdQDAAeLBMJrrswPe3AXhRkNiwTSDV2H4t.bXAIB7o2um1Ui', 'student'),
-                                                        ('Elena Ferreira', 'elena.f@email.com', '$2a$12$Rus8Sd6Enw2gc/hQueVyR.pz/nb.5g7i3f/NeCT9lBa7OsnxKQjJq', 'student');
+    ('Admin Geral', 'admin@kairos.com', '$2a$12$YNV5lQlzWfdvoG9FFfpQReDtq2GifySUvc.1Z8Rf6ARffhW2bLD3e', 'admin'),
+    ('Mod Matematica', 'mod.mat@kairos.com', '$2a$12$dqrhfCN4DrbsYmkSJb3iMOw6mvierQElkinpc2TDs6BzrKNuj6Uqq', 'moderator'),
+    ('Mod Algebra', 'mod.alg@kairos.com', '$2a$12$vs9ECsl1arutlNqvg62IYOTnWz4IZV1qCZ2jNti8EeFHII1/va9GO', 'moderator'),
+    ('Mod Geometria', 'mod.geo@kairos.com', '$2a$12$el6Nn1Z2Kt.HXXuQd2iaJOX26REBtY8U3BVMblRVBvVk2KEUMhnRK', 'moderator'),
+    ('Ana Souza', 'ana.souza@email.com', '$2a$12$6LXsjRBu8G8SQb66pbfdtutVPLQQ0LXtHIScsb/vwpLF/uA5BMvz.', 'student'),
+    ('Bruno Lima', 'bruno.lima@email.com', '$2a$12$rkxnrBrK5ZxT3ZXahHifuO3WtfRPfEP/vXgeZGuagmRyPyYqGxTmG', 'student'),
+    ('Carla Mota', 'carla.mota@email.com', '$2a$12$el6Nn1Z2Kt.HXXuQd2iaJOX26REBtY8U3BVMblRVBvVk2KEUMhnRK', 'student'),
+    ('Diego Alves', 'diego.alves@email.com', '$2a$12$ew04xrdQDAAeLBMJrrswPe3AXhRkNiwTSDV2H4t.bXAIB7o2um1Ui', 'student'),
+    ('Elena Ferreira', 'elena.f@email.com', '$2a$12$Rus8Sd6Enw2gc/hQueVyR.pz/nb.5g7i3f/NeCT9lBa7OsnxKQjJq', 'student');
 
 SET @id_admin = (SELECT id_user FROM user WHERE email = 'admin@kairos.com');
 SET @id_mod1  = (SELECT id_user FROM user WHERE email = 'mod.mat@kairos.com');

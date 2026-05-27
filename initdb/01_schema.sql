@@ -13,8 +13,6 @@ CREATE TABLE IF NOT EXISTS user (
 
 CREATE TABLE IF NOT EXISTS student (
     id_student INT PRIMARY KEY,
-    level INT DEFAULT 0,
-    xp INT DEFAULT 0,
     FOREIGN KEY (id_student) REFERENCES user(id_user) ON DELETE CASCADE
 );
 

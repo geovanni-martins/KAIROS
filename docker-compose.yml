@@ -5,12 +5,11 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: '0000'
-      MYSQL_DATABASE: 'kairosDB'
+      MYSQL_DATABASE: 'kairosdb'
     ports:
       - '3307:3306'
     volumes:
-      - ./src/database/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
-      - ./src/database/data.sql:/docker-entrypoint-initdb.d/2-data.sql
+      - ./initdb:/docker-entrypoint-initdb.d
     networks:
       - kairos-net
 
