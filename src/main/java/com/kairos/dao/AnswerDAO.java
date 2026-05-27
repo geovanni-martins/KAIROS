@@ -82,7 +82,9 @@ public class AnswerDAO {
 
 		return list;
 	}
-
+	
+	//Essa query alimenta os gráficos de desempenho da Dashboard. 
+	//Ela traz as respostas apenas dos últimos 7 dias, usando uma função nativa do banco, a INTERVAL 6 DAY
 	public List<Answer> getAnswersLast7Days(int studentId) {
 		List<Answer> list = new ArrayList<>();
 		String sql = "SELECT got_right, answer_date FROM answer " +

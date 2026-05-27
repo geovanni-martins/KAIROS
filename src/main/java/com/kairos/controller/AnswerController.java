@@ -16,6 +16,9 @@ public class AnswerController {
 			dao.insert(ans);
 			
 			StudentTopicDAO studentTopicDAO = new StudentTopicDAO();
+			
+			//O sistema não guarda apenas o histório bruto da resposta, mas também já alimenta uma tabela agregada de progresso por tópico
+			//isso evita sobrecarregar o banco na hora de gerar os relatórios
 			studentTopicDAO.upsertProgress(studentId, topicId, gotRight);
 	}
 	

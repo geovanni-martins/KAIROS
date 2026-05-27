@@ -41,6 +41,7 @@ public class GapServlet extends HttpServlet {
 			user = (User) session.getAttribute("user");
 		}
 
+		//Barreira de segurança, garante que apenas o perfil "Estudante" acesse a tela de lacunas
 		if (user == null || !user.isStudent()) {
 			response.sendRedirect(request.getContextPath() + "/home");
 			return;

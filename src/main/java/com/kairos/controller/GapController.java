@@ -30,6 +30,7 @@ public class GapController {
 			return gapDAO.countErrorsByTopic(studentId, topicId);
 	}
 
+	//O aluno precisa provar estatisticamente que superou a deficiencia naquele topico. Apos fazer 30 questões mínimas, se o rendimento for de 70% de acertos, lacuna resolvida
 	private void checkAndSolveGap(int studentId, int topicId) {
 		
 			Gap gap = gapDAO.getByStudentAndTopic(studentId, topicId);
@@ -44,6 +45,7 @@ public class GapController {
 					gapDAO.markAsSolved(studentId, topicId);
 			}
 	}
+	//A partir da 10ª questão respondida em um topico, ele passa a calcular a taxa de erro. Se essa taxa bater 50% ou mais, o sistema gera um registro de Lacuna pro aluno
 	public void evaluateNewGap(int studentId, int topicId) {
 
 			int totalRespostas = gapDAO.countTotalAnswersByTopic(studentId, topicId);

@@ -121,6 +121,8 @@ public class GapDAO {
 		return totalCount;
 	}
 
+	//Ao inves do sistema recontar todas as respostas do zero a cada clique, este metodo mantem um "placar corrido"
+	//exclusivamente para as lacunas que estão com o status NOT_SOLVED, economizando muito processamento do serviidor
 	public void updatePerformance(int studentId, int topicId, boolean gotRight) {
 		String sql =
 				"UPDATE gap SET qty_solved_questions = qty_solved_questions + 1, " +
