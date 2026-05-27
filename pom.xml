@@ -22,7 +22,7 @@
     <dependency>
       <groupId>com.mysql</groupId>
       <artifactId>mysql-connector-j</artifactId>
-      <version>9.6.0</version>
+      <version>8.3.0</version>
     </dependency>
 
     <!-- Jakarta EE (Servlet, JSP, etc) -->
@@ -79,6 +79,20 @@
         <version>3.11.0</version>
         <!-- pode até remover <configuration>, pois já está nas properties -->
       </plugin>
+
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.4.0</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
 

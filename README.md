@@ -140,6 +140,7 @@ Matemática não se domina com volume. Domina-se com **consciência do erro**.
 ---
 
 ## 📁 Estrutura de Pacotes
+
  
 ```
 kairos/
@@ -163,6 +164,107 @@ kairos/
 │           └── web.xml
 └── .mvn/
 ```
+
+</div>
+
+---
+
+## 🚀 Como Rodar
+
+### Pré-requisitos
+
+- **Java 21** ou superior
+- **Maven 3.9+**
+- **Docker** e **Docker Compose**
+- Porta **8080** livre para a aplicação
+- Porta **3307** livre para o MySQL local
+
+### Configuração do Banco
+
+O projeto usa MySQL com as seguintes credenciais de desenvolvimento:
+
+| Campo | Valor |
+|:---|:---|
+| Host | `localhost` |
+| Porta | `3307` |
+| Banco | `kairosdb` |
+| Usuário | `root` |
+| Senha | `0000` |
+
+Os scripts de criação e carga inicial ficam em:
+
+- `src/database/schema.sql`
+- `src/database/data.sql`
+
+### Rodando Localmente
+
+Suba apenas o banco de dados:
+
+```bash
+docker compose up -d db
+```
+
+Compile o projeto:
+
+```bash
+mvn clean package
+```
+
+Inicie a aplicação com Tomcat embedded pelo Maven:
+
+```bash
+mvn cargo:run
+```
+
+Acesse no navegador:
+
+```text
+http://localhost:8080/kairos
+```
+
+A primeira tela configurada no `web.xml` é o cadastro (`/register`).
+
+### Parando os Serviços
+
+Para parar o banco:
+
+```bash
+docker compose down
+```
+
+Para reiniciar o banco do zero com os scripts SQL, remova o container e suba novamente:
+
+```bash
+docker compose down
+docker compose up -d db
+```
+
+### Rodando Tudo com Docker
+
+O `docker-compose.yml` também possui um serviço `web`, que constrói a aplicação e expõe a porta `8080`:
+
+```bash
+docker compose up --build
+```
+
+Para esse modo funcionar, a aplicação precisa conectar no host do banco dentro da rede Docker (`kairos-db:3306`). Se a classe `DBConnection` estiver configurada com `localhost:3307`, use o modo local acima ou ajuste a conexão para ler `DB_HOST` e `DB_PORT` do ambiente.
+
+### Comandos Úteis
+
+```bash
+# Gerar o WAR em target/kairos.war
+mvn clean package
+
+# Rodar sem executar testes
+mvn clean package -DskipTests
+
+# Ver logs do banco
+docker compose logs -f db
+
+# Ver logs da aplicação em Docker
+docker compose logs -f web
+```
+
  
 </div>
 
