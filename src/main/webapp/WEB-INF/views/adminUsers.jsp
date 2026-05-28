@@ -15,9 +15,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kairos - Gerenciar Usuários</title>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <%@ include file="styles.jsp" %>
-    <script src="https://cdn.tailwindcss.com"></script>
-     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/favicon.png">
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style type="text/tailwindcss">
+        @theme {
+            --color-background: #0B101E;
+            --color-surface: #161F35;
+            --color-surface-hover: #1D2B48;
+            --color-divider: #1D2B48;
+            --color-brand: #E16144;
+            --color-content: #ffffff;
+            --color-muted: #8494b0;
+            --color-success: #22c55e;
+            --color-danger: #E16144;
+
+            --color-fundo-geral: #0B101E;
+            --color-fundo-card: #161F35;
+            --color-fundo-hover: #1D2B48;
+            --color-linha-divisoria: #1D2B48;
+            --color-marca-kairos: #E16144;
+            --color-marca-escuro: #C9523A;
+            --color-texto-padrao: #ffffff;
+            --color-texto-opaco: #8494b0;
+            --color-status-vermelho: #E16144;
+            --color-status-verde: #22c55e;
+            --color-status-amarelo: #eab308;
+
+            --font-sora: "Sora", sans-serif;
+            --font-mono: "JetBrains Mono", monospace;
+        }
+    </style>
+
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/favicon.png">
     <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico">
 </head>
 <body class="min-h-screen bg-background text-content font-sora flex flex-col md:flex-row">
@@ -47,7 +77,7 @@
         <div class="flex flex-col md:flex-row gap-3 mb-6">
             <div class="relative flex-1">
                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                <input type="text" id="searchInput" placeholder="Buscar por name ou e-mail..."
+                <input type="text" id="searchInput" placeholder="Buscar por nome ou e-mail..."
                        class="w-full pl-10 pr-4 py-3 bg-surface border border-divider rounded-xl text-[13px] text-content outline-none focus:border-brand transition-colors">
             </div>
             <select id="roleFilter" class="px-4 py-3 bg-surface border border-divider rounded-xl text-[13px] text-content outline-none focus:border-brand transition-colors">
@@ -122,11 +152,11 @@
                                 User currentAdmin = (User) session.getAttribute("user");
                                 if (currentAdmin != null && currentAdmin.getId() != u.getId()) { // sem essa linha, caso a sessao caisse daria um erro enorme 500 ()
                             %>
-                                <button onclick="confirmDelete(<%= u.getId() %>, '<%= u.getName().replace("'", "\\'") %>')"
-                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-semibold text-danger border border-danger/30 hover:bg-danger hover:text-white transition-all">
-                                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-                                    Remover
-                                </button>
+                            <button onclick="confirmDelete(<%= u.getId() %>, '<%= u.getName().replace("'", "\\'") %>')"
+                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-semibold text-danger border border-danger/30 hover:bg-danger hover:text-white transition-all">
+                                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                                Remover
+                            </button>
                             <% } %>
                         </td>
                     </tr>
