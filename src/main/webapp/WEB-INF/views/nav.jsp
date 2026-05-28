@@ -43,7 +43,7 @@
             if (uri.contains("gap")) { classGap = activeClasses; }
             if (uri.contains("reportQuestion")) { classQuestions = activeClasses; }
 
-            if (uri.contains("admin-panel") || uri.contains("adminPanel")) {
+            if (uri.contains("admin-panel") || uri.contains("adminPanel") || uri.contains("adminUsers") || uri.contains("createModerator") || uri.contains("createAdmin")) {
                 classAdmin = activeClasses;
             }
 
