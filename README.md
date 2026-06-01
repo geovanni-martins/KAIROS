@@ -141,6 +141,7 @@ Matemática não se domina com volume. Domina-se com **consciência do erro**.
 
 ## 📁 Estrutura de Pacotes
 
+```text
 KAIROS/
 ├── initdb/
 ├── mysql_data/
@@ -165,8 +166,7 @@ KAIROS/
 ├── Dockerfile
 ├── pom.xml
 └── README.md
-
----
+```
 
 <div align="center">
 
