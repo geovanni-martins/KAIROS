@@ -188,7 +188,7 @@ Ter o **Docker** instalado na máquina → [docker.com/get-started](https://www.
 
 **1. Clone o repositório**
 ```bash
-[git clone https://github.com/geovanni-martins/KAIROS.git
+git clone https://github.com/geovanni-martins/KAIROS.git
 cd kairos
 ```
 
