@@ -16,7 +16,8 @@ public class AuthFilterServlet implements Filter {
             "/login",
             "/register",
             "/logout",
-            "/new-password"
+            "/new-password",
+            "/sobre"
     );
 
     @Override
@@ -32,6 +33,7 @@ public class AuthFilterServlet implements Filter {
                 || path.startsWith("/css/")
                 || path.startsWith("/js/")
                 || path.startsWith("/icons/")
+                || path.startsWith("/assets/")
                 || path.startsWith("/termos")
                 || path.startsWith("/images/");
 
