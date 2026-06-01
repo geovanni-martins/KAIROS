@@ -143,23 +143,28 @@ Matemática não se domina com volume. Domina-se com **consciência do erro**.
 
 KAIROS/
 ├── initdb/
+├── mysql_data/
 ├── src/
 │   └── main/
 │       ├── java/
-│       │   └── com.kairos/
-│       │       ├── controller/
-│       │       ├── dao/
-│       │       ├── model/
-│       │       ├── servlet/
-│       │       └── util/
+│       │   └── com/
+│       │       └── kairos/
+│       │           ├── controller/
+│       │           ├── dao/
+│       │           ├── model/
+│       │           ├── servlet/
+│       │           └── util/
 │       └── webapp/
 │           ├── icons/
 │           └── WEB-INF/
 │               ├── views/
 │               └── web.xml
+├── target/
+├── .gitignore
 ├── docker-compose.yml
 ├── Dockerfile
-└── pom.xml
+├── pom.xml
+└── README.md
 
 ---
 
