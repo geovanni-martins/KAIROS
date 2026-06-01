@@ -140,3 +140,123 @@ Matemática não se domina com volume. Domina-se com **consciência do erro**.
 ---
 
 ## 📁 Estrutura de Pacotes
+
+KAIROS/
+├── initdb/
+├── src/
+│   └── main/
+│       ├── java/
+│       │   └── com.kairos/
+│       │       ├── controller/
+│       │       ├── dao/
+│       │       ├── model/
+│       │       ├── servlet/
+│       │       └── util/
+│       └── webapp/
+│           ├── icons/
+│           └── WEB-INF/
+│               ├── views/
+│               └── web.xml
+├── docker-compose.yml
+├── Dockerfile
+└── pom.xml
+
+---
+
+<div align="center">
+
+## 🚀 Como Rodar
+
+*Sem instalar Java, Maven ou configurar banco de dados. Apenas Docker.*
+
+</div>
+
+<br>
+
+### Pré-requisito
+
+Ter o **Docker** instalado na máquina → [docker.com/get-started](https://www.docker.com/get-started/)
+
+<br>
+
+### Passo a passo
+
+**1. Clone o repositório**
+```bash
+git clone https://github.com/seu-usuario/kairos.git
+cd kairos
+```
+
+**2. Suba a aplicação**
+```bash
+docker compose up --build
+```
+
+> Na primeira execução, o Docker irá baixar as imagens necessárias e compilar o projeto. Aguarde até aparecer a mensagem:
+> ```
+> kairos-app | INFO: Server startup in [XXXX] milliseconds
+> ```
+
+**3. Acesse no navegador**
+http://localhost:8080/kairos
+
+<br>
+
+### Comandos úteis
+
+| Comando | O que faz |
+|:---|:---|
+| `docker compose up --build` | Sobe o projeto com recompilação |
+| `docker compose up` | Sobe o projeto sem recompilar |
+| `Ctrl + C` | Para os containers |
+| `docker compose down` | Para e remove os containers |
+
+---
+
+<div align="center">
+
+## 👥 Equipe
+
+<br>
+
+<table>
+<tr>
+
+<td align="center" width="260">
+<br>
+<img src="https://img.shields.io/badge/G-Desenvolvedor-e8a020?style=for-the-badge&labelColor=0d1528"/>
+<br><br>
+<b>Geovanni Martins de Souza</b>
+<br><br>
+</td>
+
+<td align="center" width="260">
+<br>
+<img src="https://img.shields.io/badge/D-Desenvolvedor-e8a020?style=for-the-badge&labelColor=0d1528"/>
+<br><br>
+<b>Davi Monteiro Carvalho</b>
+<br><br>
+</td>
+
+<td align="center" width="260">
+<br>
+<img src="https://img.shields.io/badge/L-Desenvolvedor-e8a020?style=for-the-badge&labelColor=0d1528"/>
+<br><br>
+<b>Leonardo dos Santos Pereira</b>
+<br><br>
+</td>
+
+</tr>
+</table>
+
+<br>
+
+---
+
+*Κ Α Ι Ρ Ο Σ · Programação Orientada a Objetos · 2025*
+
+<br>
+
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0d1528&height=100&section=footer"/>
+
+</div>
