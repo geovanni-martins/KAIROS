@@ -252,6 +252,17 @@ http://localhost:8080/kairos
 </td>
 
 </tr>
+
+<tr>
+<td colspan="3" align="center">
+<br><br>
+<img src="https://img.shields.io/badge/Orientador-e8a020?style=for-the-badge&labelColor=0d1528"/>
+<br><br>
+<b>Woquiton Lima Fernandes</b>
+<br><br>
+</td>
+</tr>
+
 </table>
 
 <br>
