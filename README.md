@@ -188,7 +188,7 @@ Ter o **Docker** instalado na máquina → [docker.com/get-started](https://www.
 
 **1. Clone o repositório**
 ```bash
-git clone https://github.com/seu-usuario/kairos.git
+[git clone https://github.com/geovanni-martins/KAIROS.git
 cd kairos
 ```
 
@@ -207,14 +207,38 @@ http://localhost:8080/kairos
 
 <br>
 
+<div align="center">
+
 ### Comandos úteis
 
-| Comando | O que faz |
-|:---|:---|
-| `docker compose up --build` | Sobe o projeto com recompilação |
-| `docker compose up` | Sobe o projeto sem recompilar |
-| `Ctrl + C` | Para os containers |
-| `docker compose down` | Para e remove os containers |
+<table>
+  <tr>
+    <th>Comando</th>
+    <th>O que faz</th>
+  </tr>
+  <tr>
+    <td><code>docker compose up --build</code></td>
+    <td>Sobe o projeto com recompilação</td>
+  </tr>
+  <tr>
+    <td><code>docker compose up</code></td>
+    <td>Sobe o projeto sem recompilar</td>
+  </tr>
+  <tr>
+    <td><code>Ctrl + C</code></td>
+    <td>Para os containers</td>
+  </tr>
+  <tr>
+    <td><code>docker compose down</code></td>
+    <td>Para e remove os containers</td>
+  </tr>
+</table>
+
+</div>
+
+</table>
+
+</div>
 
 ---
 
@@ -256,7 +280,7 @@ http://localhost:8080/kairos
 <tr>
 <td colspan="3" align="center">
 <br><br>
-<img src="https://img.shields.io/badge/Orientador-e8a020?style=for-the-badge&labelColor=0d1528"/>
+<img src="https://img.shields.io/badge/W-Orientador-e8a020?style=for-the-badge&labelColor=0d1528"/>
 <br><br>
 <b>Woquiton Lima Fernandes</b>
 <br><br>
