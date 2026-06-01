@@ -144,7 +144,6 @@ Matemática não se domina com volume. Domina-se com **consciência do erro**.
 ```text
 KAIROS/
 ├── initdb/
-├── mysql_data/
 ├── src/
 │   └── main/
 │       ├── java/
@@ -160,19 +159,16 @@ KAIROS/
 │           └── WEB-INF/
 │               ├── views/
 │               └── web.xml
-├── target/
-├── .gitignore
 ├── docker-compose.yml
 ├── Dockerfile
-├── pom.xml
-└── README.md
+└── pom.xml
 ```
+
+---
 
 <div align="center">
 
 ## 🚀 Como Rodar
-
-*Sem instalar Java, Maven ou configurar banco de dados. Apenas Docker.*
 
 </div>
 
@@ -180,30 +176,32 @@ KAIROS/
 
 ### Pré-requisito
 
-Ter o **Docker** instalado na máquina → [docker.com/get-started](https://www.docker.com/get-started/)
+Ter o **Docker** instalado na máquina → <https://www.docker.com/get-started>
 
 <br>
 
 ### Passo a passo
 
 **1. Clone o repositório**
+
 ```bash
 git clone https://github.com/geovanni-martins/KAIROS.git
 cd kairos
 ```
 
 **2. Suba a aplicação**
+
 ```bash
 docker compose up --build
 ```
 
-> Na primeira execução, o Docker irá baixar as imagens necessárias e compilar o projeto. Aguarde até aparecer a mensagem:
-> ```
-> kairos-app | INFO: Server startup in [XXXX] milliseconds
-> ```
+> Na primeira execução, o Docker irá baixar as imagens necessárias e compilar o projeto.
 
 **3. Acesse no navegador**
+
+```text
 http://localhost:8080/kairos
+```
 
 <br>
 
@@ -212,29 +210,30 @@ http://localhost:8080/kairos
 ### Comandos úteis
 
 <table>
-  <tr>
-    <th>Comando</th>
-    <th>O que faz</th>
-  </tr>
-  <tr>
-    <td><code>docker compose up --build</code></td>
-    <td>Sobe o projeto com recompilação</td>
-  </tr>
-  <tr>
-    <td><code>docker compose up</code></td>
-    <td>Sobe o projeto sem recompilar</td>
-  </tr>
-  <tr>
-    <td><code>Ctrl + C</code></td>
-    <td>Para os containers</td>
-  </tr>
-  <tr>
-    <td><code>docker compose down</code></td>
-    <td>Para e remove os containers</td>
-  </tr>
-</table>
+<tr>
+<th>Comando</th>
+<th>O que faz</th>
+</tr>
 
-</div>
+<tr>
+<td><code>docker compose up --build</code></td>
+<td>Sobe o projeto com recompilação</td>
+</tr>
+
+<tr>
+<td><code>docker compose up</code></td>
+<td>Sobe o projeto sem recompilar</td>
+</tr>
+
+<tr>
+<td><code>Ctrl + C</code></td>
+<td>Para os containers</td>
+</tr>
+
+<tr>
+<td><code>docker compose down</code></td>
+<td>Para e remove os containers</td>
+</tr>
 
 </table>
 
