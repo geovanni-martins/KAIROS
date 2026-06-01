@@ -40,7 +40,7 @@
 
 Estudantes de concursos, vestibulares e provas técnicas perdem tempo revisando o que **já dominam** — enquanto os tópicos onde realmente erram ficam invisíveis.
 
-O **KAIROS** muda isso. A plataforma acompanha cada resposta do aluno, identifica automaticamente os tópicos frágeis e os coloca na frente do estudante — para que o estudo seja **preciso, não aleatório**.
+O **KAIROS** muda isso. A plataforma acompanha cada resposta do aluno, identifica automaticamente os tópicos frágeis — para que o estudo seja **preciso, não aleatório**.
 
 Matemática não se domina com volume. Domina-se com **consciência do erro**.
 
@@ -114,9 +114,9 @@ Matemática não se domina com volume. Domina-se com **consciência do erro**.
 
 | Perfil | Permissões |
 |:------:|-----------|
-| 🎓 **Estudante** | Resolve questões · Filtra por tópico e dificuldade · Visualiza lacunas e desempenho |
+| 🎓 **Estudante** | Resolve questões · Filtra por tópico · Visualiza lacunas e desempenho |
 | 🛠️ **Moderador** | Adiciona · Edita · Remove questões do banco |
-| 👑 **Admin** | Todas as permissões do moderador · Gerencia moderadores · Gerencia tópicos |
+| 👑 **Admin** | Gerencia usuários · Cadastra moderadores e admins |
 
 </div>
 
@@ -141,182 +141,106 @@ Matemática não se domina com volume. Domina-se com **consciência do erro**.
 
 ## 📁 Estrutura de Pacotes
 
- 
-```
-kairos/
+```text
+KAIROS/
+├── initdb/
 ├── src/
-│   ├── database/
-│   │   ├── data.sql
-│   │   └── schema.sql
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com.kairos/
-│   │   │       ├── controller/
-│   │   │       ├── dao/
-│   │   │       ├── model/
-│   │   │       ├── servlet/
-|   |   |       └── util/
-│   │   └── resources/
-│   └── webapp/
-│       ├── icons/
-│       └── WEB-INF/
-│           ├── views/
-│           └── web.xml
-└── .mvn/
+│   └── main/
+│       ├── java/
+│       │   └── com/
+│       │       └── kairos/
+│       │           ├── controller/
+│       │           ├── dao/
+│       │           ├── model/
+│       │           ├── servlet/
+│       │           └── util/
+│       └── webapp/
+│           ├── icons/
+│           └── WEB-INF/
+│               ├── views/
+│               └── web.xml
+├── docker-compose.yml
+├── Dockerfile
+└── pom.xml
 ```
-
-</div>
 
 ---
 
+<div align="center">
+
 ## 🚀 Como Rodar
 
-### Pré-requisitos
+</div>
 
-- **Java 21** ou superior
-- **Maven 3.9+**
-- **Docker** e **Docker Compose**
-- Porta **8080** livre para a aplicação
-- Porta **3307** livre para o MySQL local
+<br>
 
-### Configuração do Banco
+### Pré-requisito
 
-O projeto usa MySQL com as seguintes credenciais de desenvolvimento:
+Ter o **Docker** instalado na máquina → <https://www.docker.com/get-started>
 
-| Campo | Valor |
-|:---|:---|
-| Host | `localhost` |
-| Porta | `3307` |
-| Banco | `kairosdb` |
-| Usuário | `root` |
-| Senha | `0000` |
+<br>
 
-Os scripts de criação e carga inicial ficam em:
+### Passo a passo
 
-- `src/database/schema.sql`
-- `src/database/data.sql`
-
-### Rodando Localmente
-
-Suba apenas o banco de dados:
+**1. Clone o repositório**
 
 ```bash
-docker compose up -d db
+git clone https://github.com/geovanni-martins/KAIROS.git
+cd kairos
 ```
 
-Compile o projeto:
+**2. Suba a aplicação**
 
 ```bash
-mvn clean package
+docker compose up --build
 ```
 
-Inicie a aplicação com Tomcat embedded pelo Maven:
+> Na primeira execução, o Docker irá baixar as imagens necessárias e compilar o projeto.
 
-```bash
-mvn cargo:run
-```
-
-Acesse no navegador:
+**3. Acesse no navegador**
 
 ```text
 http://localhost:8080/kairos
 ```
 
-A primeira tela configurada no `web.xml` é o cadastro (`/register`).
+<br>
 
-### Parando os Serviços
-
-Para parar o banco:
-
-```bash
-docker compose down
-```
-
-Para reiniciar o banco do zero com os scripts SQL, remova o container e suba novamente:
-
-```bash
-docker compose down
-docker compose up -d db
-```
-
-### Rodando Tudo com Docker
-
-O `docker-compose.yml` também possui um serviço `web`, que constrói a aplicação e expõe a porta `8080`:
-
-```bash
-docker compose up --build
-```
-
-Para esse modo funcionar, a aplicação precisa conectar no host do banco dentro da rede Docker (`kairos-db:3306`). Se a classe `DBConnection` estiver configurada com `localhost:3307`, use o modo local acima ou ajuste a conexão para ler `DB_HOST` e `DB_PORT` do ambiente.
-
-### Comandos Úteis
-
-```bash
-# Gerar o WAR em target/kairos.war
-mvn clean package
-
-# Rodar sem executar testes
-mvn clean package -DskipTests
-
-# Ver logs do banco
-docker compose logs -f db
-
-# Ver logs da aplicação em Docker
-docker compose logs -f web
-```
-
- 
-</div>
-
----
- 
 <div align="center">
-## 🚀 Como Rodar o Projeto
- 
-*Sem instalar Java, Maven ou configurar banco de dados. Apenas Docker.*
- 
-</div>
-<br>
-### Pré-requisito
- 
-Ter o **Docker** instalado na máquina → [docker.com/get-started](https://www.docker.com/get-started/)
- 
-<br>
-### Passo a passo
- 
-**1. Clone o repositório**
-```bash
-git clone https://github.com/seu-usuario/kairos.git
-cd kairos
-```
- 
-**2. Suba a aplicação**
-```bash
-docker compose up --build
-```
- 
-> Na primeira execução, o Docker irá baixar as imagens necessárias e compilar o projeto. Aguarde até aparecer a mensagem:
-> ```
-> kairos-app | INFO: Server startup in [XXXX] milliseconds
-> ```
- 
-**3. Acesse no navegador**
-```
-http://localhost:8080
-```
- 
-<br>
+
 ### Comandos úteis
- 
-| Comando | O que faz |
-|:---|:---|
-| `docker compose up --build` | Sobe o projeto (com recompilação) |
-| `docker compose up` | Sobe o projeto (sem recompilar) |
-| `Ctrl + C` | Para os containers |
-| `docker compose down` | Para e remove os containers |
- 
+
+<table>
+<tr>
+<th>Comando</th>
+<th>O que faz</th>
+</tr>
+
+<tr>
+<td><code>docker compose up --build</code></td>
+<td>Sobe o projeto com recompilação</td>
+</tr>
+
+<tr>
+<td><code>docker compose up</code></td>
+<td>Sobe o projeto sem recompilar</td>
+</tr>
+
+<tr>
+<td><code>Ctrl + C</code></td>
+<td>Para os containers</td>
+</tr>
+
+<tr>
+<td><code>docker compose down</code></td>
+<td>Para e remove os containers</td>
+</tr>
+
+</table>
+
+</div>
+
 ---
- 
+
 <div align="center">
 
 ## 👥 Equipe
@@ -351,6 +275,17 @@ http://localhost:8080
 </td>
 
 </tr>
+
+<tr>
+<td colspan="3" align="center">
+<br><br>
+<img src="https://img.shields.io/badge/W-Orientador-e8a020?style=for-the-badge&labelColor=0d1528"/>
+<br><br>
+<b>Woquiton Lima Fernandes</b>
+<br><br>
+</td>
+</tr>
+
 </table>
 
 <br>
