@@ -40,7 +40,7 @@
 
 Estudantes de concursos, vestibulares e provas técnicas perdem tempo revisando o que **já dominam** — enquanto os tópicos onde realmente erram ficam invisíveis.
 
-O **KAIROS** muda isso. A plataforma acompanha cada resposta do aluno, identifica automaticamente os tópicos frágeis e os coloca na frente do estudante — para que o estudo seja **preciso, não aleatório**.
+O **KAIROS** muda isso. A plataforma acompanha cada resposta do aluno, identifica automaticamente os tópicos frágeis — para que o estudo seja **preciso, não aleatório**.
 
 Matemática não se domina com volume. Domina-se com **consciência do erro**.
 
@@ -114,7 +114,7 @@ Matemática não se domina com volume. Domina-se com **consciência do erro**.
 
 | Perfil | Permissões |
 |:------:|-----------|
-| 🎓 **Estudante** | Resolve questões · Filtra por tópico e dificuldade · Visualiza lacunas e desempenho |
+| 🎓 **Estudante** | Resolve questões · Filtra por tópico · Visualiza lacunas e desempenho |
 | 🛠️ **Moderador** | Adiciona · Edita · Remove questões do banco |
 | 👑 **Admin** | Gerencia usuários · Cadastra moderadores e admins |
 
