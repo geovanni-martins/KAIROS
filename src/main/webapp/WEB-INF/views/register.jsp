@@ -18,17 +18,23 @@
 
         :root {
             --font-principal: 'Inter', sans-serif;
-            --color-principal: #1D2B48;
-            --color-principal-sec: #161F35;
-            --color-sec: #E16144;
-            --color-sec-sec: #C9523A;
-            --color-text: #E8EDF8;
+
+            --color-fundo-geral: #0B101E;
+            --color-fundo-card: #161F35;
+            --color-fundo-hover: #1D2B48;
+            --color-linha-divisoria: #1D2B48;
+
+            --color-marca-kairos: #E16144;
+            --color-marca-escuro: #C9523A;
+
+            --color-texto-padrao: #E8EDF8;
+            --color-texto-opaco: #8494B0;
         }
 
         body {
             margin: 0;
             font-family: var(--font-principal), serif;
-            color: var(--color-text);
+            color: var(--color-texto-padrao);
         }
 
         #alert-erro {
@@ -41,7 +47,8 @@
     </style>
     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/icons/favicon.png">
 </head>
-<body class="min-h-screen bg-[var(--color-principal-sec)] text-slate-100">
+<%@include file="header.jsp"%>
+<body class="min-h-screen bg-[var(--color-fundo-geral)] text-slate-100">
 
 <%
     String erro = (String) request.getAttribute("erro");
@@ -59,27 +66,26 @@
 <% } %>
 
 <main class="min-h-screen flex items-center justify-center px-4 py-8">
-    <section class="w-full max-w-lg rounded-[28px] border border-white/10 bg-slate-900/90 p-6 shadow-[0_25px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:p-8">
-
+    <section class="w-full max-w-lg rounded-[28px] border border-white/10 bg-[var(--color-fundo-card)] p-6 shadow-[0_25px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:p-8">
 
         <form action="${pageContext.request.contextPath}/register" method="post" class="space-y-6">
 
             <div class="space-y-2">
-                <label for="name" class="block text-sm font-semibold tracking-[0.18em] text-slate-400">NOME COMPLETO</label>
+                <label for="name" class="block text-sm font-semibold tracking-[0.18em] text-[var(--color-texto-opaco)]">NOME COMPLETO</label>
 
                 <input id="name" name="name" type="text" minlength="4" maxlength="100" required placeholder="Seu nome"
                        class="w-full rounded-2xl border border-slate-700 bg-slate-900/90 px-4 py-3 text-sm text-slate-100 outline-none transition duration-200 focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20">
             </div>
             <div class="space-y-2">
 
-                <label for="email" class="block text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">Email</label>
+                <label for="email" class="block text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-texto-opaco)]">Email</label>
 
                 <input id="email" name="email" type="email" minlength="8" maxlength="100" required placeholder="aluno@kairos.com.br"
                        class="w-full rounded-2xl border border-slate-700 bg-slate-900/90 px-4 py-3 text-sm text-slate-100 outline-none transition duration-200 focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20">
             </div>
             <div class="space-y-2">
 
-                <label for="password" class="block text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">Senha</label>
+                <label for="password" class="block text-sm font-semibold uppercase tracking-[0.18em] text-[var(--color-texto-opaco)]">Senha</label>
 
                 <input id="password" name="password" type="password" minlength="8" maxlength="70" required placeholder="••••••••"
                        class="w-full rounded-2xl border border-slate-700 bg-slate-900/90 px-4 py-3 text-sm text-slate-100 outline-none transition duration-200 focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20">
@@ -91,27 +97,17 @@
 
                 <label for="terms" class="text-sm leading-6 text-slate-200">
                     Li e concordo com os
-                    <a href="${pageContext.request.contextPath}/termos" class="font-semibold text-[var(--color-sec)] hover:underline">Termos de Uso e Política de Privacidade</a>.
+                    <a href="${pageContext.request.contextPath}/termos" class="font-semibold text-[var(--color-marca-kairos)] hover:underline">Termos de Uso e Política de Privacidade</a>.
                 </label>
             </div>
 
             <input type="hidden" name="role" value="student">
             <input type="hidden" name="responsibleDiscipline" value="null">
 
-            <button type="submit" class="flex w-full items-center justify-center rounded-2xl bg-[var(--color-sec)] px-4 py-3 text-sm font-semibold text-slate-100">
+            <button type="submit" class="flex w-full items-center justify-center rounded-2xl bg-[var(--color-marca-kairos)] hover:bg-[var(--color-marca-escuro)] px-4 py-3 text-sm font-semibold text-slate-100 transition duration-200">
                 Criar conta
             </button>
         </form>
-
-
-        <div class="mt-6 border-t border-white/10   pt-5 text-center text-sm text-slate-200">
-            <span>Já possui conta?</span>
-
-            <a href="${pageContext.request.contextPath}/login" class="font-semibold text-[var(--color-sec)] hover:text-[var(--color-sec-sec)]">Entrar na conta</a>
-        </div>
-
-
-
     </section>
 </main>
 
@@ -126,5 +122,4 @@
         }
     }
 </script>
-
 </html>
