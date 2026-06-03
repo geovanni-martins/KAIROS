@@ -9,6 +9,7 @@ public class Alternative {
 
     public Alternative(int id, String text, Boolean isCorrect, Question question) {
 
+        if (question == null) throw new IllegalArgumentException("Alternative must belong to a Question");
         this.id = id;
         this.text = text;
         this.isCorrect = isCorrect;
@@ -17,6 +18,7 @@ public class Alternative {
 
     public Alternative(String text, Boolean isCorrect, Question question) {
 
+        if (question == null) throw new IllegalArgumentException("Alternative must belong to a Question");
         this.text = text;
         this.isCorrect = isCorrect;
         this.question = question;
@@ -46,9 +48,6 @@ public class Alternative {
         return question;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
-    }
 
     @Override
     public String toString() {

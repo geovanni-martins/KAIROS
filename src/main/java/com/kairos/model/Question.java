@@ -2,6 +2,8 @@ package com.kairos.model;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Question {
 
@@ -12,7 +14,7 @@ public class Question {
     private Topic topic;
     private User createBy;
     private Instant createAt;
-    private ArrayList<Alternative> alternatives = new ArrayList<>();
+    private final ArrayList<Alternative> alternatives = new ArrayList<>();
 
     public Question(int id, String statement, String stats, String difficulty, Topic topic, Instant createAt) {
         this.id = id;
@@ -67,12 +69,26 @@ public class Question {
         this.topic = topic;
     }
 
-    public ArrayList<Alternative> getAlternatives() {
-        return alternatives;
+    public List<Alternative> getAlternatives() {
+        return Collections.unmodifiableList(alternatives);
     }
 
-    public void setAlternatives(ArrayList<Alternative> alternatives) {
-        this.alternatives = alternatives;
+    public Alternative addAlternative(String text, Boolean isCorrect) {
+        Alternative alt = new Alternative(text, isCorrect, this);
+        alternatives.add(alt);
+        return alt;
+    }
+
+    public void addAlternative(Alternative alt) {
+        if (alt == null || alt.getQuestion() != this) {
+            throw new IllegalArgumentException("Alternative must belong to this Question");
+        }
+        alternatives.add(alt);
+    }
+
+    public boolean removeAlternative(Alternative alt) {
+        if (alt == null || alt.getQuestion() != this) return false;
+        return alternatives.remove(alt);
     }
 
     public User getCreateBy() {

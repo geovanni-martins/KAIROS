@@ -89,7 +89,7 @@ public class QuestionDAO {
 
                     int altId = rs.getInt("id_alternative");
                     if (!rs.wasNull()) {
-                        current.getAlternatives().add(new Alternative(
+                        current.addAlternative(new Alternative(
                                 altId, rs.getString("text"),
                                 rs.getBoolean("is_correct"), current
                         ));
@@ -133,7 +133,7 @@ public class QuestionDAO {
 
                 int altId = rs.getInt("id_alternative");
                 if (!rs.wasNull()) {
-                    current.getAlternatives().add(new Alternative(
+                    current.addAlternative(new Alternative(
                             altId, rs.getString("text"),
                             rs.getBoolean("is_correct"), current
                     ));
@@ -178,7 +178,7 @@ public class QuestionDAO {
 
                     int altId = rs.getInt("id_alternative");
                     if (!rs.wasNull()) {
-                        current.getAlternatives().add(new Alternative(
+                        current.addAlternative(new Alternative(
                                 altId, rs.getString("text"),
                                 rs.getBoolean("is_correct"), current
                         ));
@@ -297,7 +297,7 @@ public class QuestionDAO {
 
                     int altId = rs.getInt("id_alternative");
                     if (!rs.wasNull()) {
-                        current.getAlternatives().add(new Alternative(
+                        current.addAlternative(new Alternative(
                                 altId, rs.getString("text"),
                                 rs.getBoolean("is_correct"), current
                         ));
@@ -344,7 +344,7 @@ public class QuestionDAO {
 
                     int altId = rs.getInt("id_alternative");
                     if (!rs.wasNull()) {
-                        current.getAlternatives().add(new Alternative(
+                        current.addAlternative(new Alternative(
                                 altId, rs.getString("text"),
                                 rs.getBoolean("is_correct"), current
                         ));
