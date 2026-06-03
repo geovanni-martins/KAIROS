@@ -5,13 +5,13 @@ import java.time.Instant;
 public class Report {
     private int id;
     private Student student;
-    private Question question;
+    private MultipleChoiceQuestion question;
     private String reason;
     private String status; // "analyzed", "not_analyzed"
     private Instant createdAt;
     private Moderator analyzedBy;
 
-    public Report(Student student, Question question, String reason, String status) {
+    public Report(Student student, MultipleChoiceQuestion question, String reason, String status) {
         this.student = student;
         this.question = question;
         this.reason = reason;
@@ -19,7 +19,7 @@ public class Report {
         this.analyzedBy = null;
     }
 
-    public Report(int id, Student student, Question question, String reason, String status, Instant createdAt, Moderator analyzedBy) {
+    public Report(int id, Student student, MultipleChoiceQuestion question, String reason, String status, Instant createdAt, Moderator analyzedBy) {
         this.id = id;
         this.student = student;
         this.question = question;
@@ -61,11 +61,11 @@ public class Report {
         this.status = status;
     }
 
-    public Question getQuestion() {
+    public MultipleChoiceQuestion getQuestion() {
         return question;
     }
 
-    public void setQuestion(Question question) {
+    public void setQuestion(MultipleChoiceQuestion question) {
         this.question = question;
     }
 

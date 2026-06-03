@@ -7,18 +7,18 @@ public class Alternative {
     private int id;
     private String text;
     private Boolean isCorrect;
-    private Question question;
+    private MultipleChoiceQuestion question;
 
-    public Alternative(int id, String text, Boolean isCorrect, Question question) {
-        Objects.requireNonNull(question, "Alternative deve pertencer a uma Question");
+    public Alternative(int id, String text, Boolean isCorrect, MultipleChoiceQuestion question) {
+        Objects.requireNonNull(question, "Alternative deve pertencer a uma MultipleChoiceQuestion");
         this.id = id;
         this.text = text;
         this.isCorrect = isCorrect;
         this.question = question;
     }
 
-    public Alternative(String text, Boolean isCorrect, Question question) {
-        Objects.requireNonNull(question, "Alternative deve pertencer a uma Question");
+    public Alternative(String text, Boolean isCorrect, MultipleChoiceQuestion question) {
+        Objects.requireNonNull(question, "Alternative deve pertencer a uma MultipleChoiceQuestion");
         this.text = text;
         this.isCorrect = isCorrect;
         this.question = question;
@@ -44,7 +44,7 @@ public class Alternative {
         isCorrect = correct;
     }
 
-    public Question getQuestion() {
+    public MultipleChoiceQuestion getQuestion() {
         return question;
     }
 

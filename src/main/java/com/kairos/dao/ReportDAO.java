@@ -1,7 +1,7 @@
 package com.kairos.dao;
 
 import com.kairos.model.Moderator;
-import com.kairos.model.Question;
+import com.kairos.model.MultipleChoiceQuestion;
 import com.kairos.model.Report;
 import com.kairos.model.Student;
 import com.kairos.util.DBConnection;
@@ -46,7 +46,7 @@ public class ReportDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     Student student = studentDAO.getById(rs.getInt("student_id"));
-                    Question question = questionDAO.getById(rs.getInt("question_id"));
+                    MultipleChoiceQuestion question = (MultipleChoiceQuestion) questionDAO.getById(rs.getInt("question_id"));
 
                     Moderator moderator = null;
                     int analyzedBy = rs.getInt("analyzed_by");
@@ -85,7 +85,7 @@ public class ReportDAO {
         ) {
             while (rs.next()) {
                 Student student = studentDAO.getById(rs.getInt("student_id"));
-                Question question = questionDAO.getById(rs.getInt("question_id"));
+                MultipleChoiceQuestion question = (MultipleChoiceQuestion) questionDAO.getById(rs.getInt("question_id"));
 
                 Moderator moderator = null;
                 int analyzedBy = rs.getInt("analyzed_by");
@@ -125,7 +125,7 @@ public class ReportDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Student student = studentDAO.getById(rs.getInt("student_id"));
-                    Question question = questionDAO.getById(rs.getInt("question_id"));
+                    MultipleChoiceQuestion question = (MultipleChoiceQuestion) questionDAO.getById(rs.getInt("question_id"));
 
                     Moderator moderator = null;
                     int analyzedBy = rs.getInt("analyzed_by");
@@ -166,7 +166,7 @@ public class ReportDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Student student = studentDAO.getById(rs.getInt("student_id"));
-                    Question question = questionDAO.getById(rs.getInt("question_id"));
+                    MultipleChoiceQuestion question = (MultipleChoiceQuestion) questionDAO.getById(rs.getInt("question_id"));
 
                     Moderator moderator = null;
                     int analyzedBy = rs.getInt("analyzed_by");

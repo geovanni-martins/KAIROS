@@ -13,7 +13,7 @@ public class ReportController {
         reportDAO = new ReportDAO();
     }
 
-    public void insertReport(Student student, Question question, String reason) {
+    public void insertReport(Student student, MultipleChoiceQuestion question, String reason) {
         if (student == null) { return; }
         if (question == null) { return; }
         if (reason == null || reason.isBlank()) { return; }

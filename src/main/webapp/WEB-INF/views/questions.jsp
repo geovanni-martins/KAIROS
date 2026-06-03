@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<%@ page import="com.kairos.model.Topic, com.kairos.model.Question, com.kairos.model.Alternative, java.util.List" %>
+<%@ page import="com.kairos.model.Topic, com.kairos.model.MultipleChoiceQuestion, com.kairos.model.Alternative, java.util.List" %>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -78,9 +78,9 @@
 
     <div class="space-y-6">
         <%
-            List<Question> questions = (List<Question>) request.getAttribute("questions");
+            List<MultipleChoiceQuestion> questions = (List<MultipleChoiceQuestion>) request.getAttribute("questions");
             if (questions != null && !questions.isEmpty()) {
-                for (Question q : questions) {
+                for (MultipleChoiceQuestion q : questions) {
         %>
         <div class="p-5 md:p-6 bg-fundo-card border border-linha-divisoria rounded-2xl shadow-lg" id="question-card-<%= q.getId() %>">
 

@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<%@ page import="com.kairos.model.Question, com.kairos.model.Alternative, com.kairos.model.Topic, java.util.List" %>
+<%@ page import="com.kairos.model.MultipleChoiceQuestion, com.kairos.model.Alternative, com.kairos.model.Topic, java.util.List" %>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -82,7 +82,7 @@
 
     <div class="space-y-6">
         <%
-            List<Question> questions = (List<Question>) request.getAttribute("questions");
+            List<MultipleChoiceQuestion> questions = (List<MultipleChoiceQuestion>) request.getAttribute("questions");
             if (questions != null && !questions.isEmpty()) {
 
                 questions.sort((q1, q2) -> {
@@ -107,7 +107,7 @@
                     return Integer.compare(question1, question2);
                 });
 
-                for (Question q : questions) {
+                for (MultipleChoiceQuestion q : questions) {
 
                     String diffColor = "";
                     String diffText = "";

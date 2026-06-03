@@ -75,15 +75,15 @@ public class QuestionDAO {
             stmt.setInt(1, id);
 
             try (ResultSet rs = stmt.executeQuery()) {
-                Question current = null;
+                MultipleChoiceQuestion current = null;
 
                 while (rs.next()) {
                     if (current == null) {
                         Topic topic = new Topic(rs.getInt("topic_id"), null, null);
-                        current = new Question(
+                        current = new MultipleChoiceQuestion(
                                 rs.getInt("id_question"), rs.getString("statement"),
                                 rs.getString("stats"), rs.getString("difficulty"),
-                                topic, rs.getTimestamp("created_at").toInstant()
+                                topic, rs.getTimestamp("created_at").toInstant(), null
                         );
                     }
 
@@ -116,17 +116,17 @@ public class QuestionDAO {
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()
         ) {
-            Question current = null;
+            MultipleChoiceQuestion current = null;
 
             while (rs.next()) {
                 int id = rs.getInt("id_question");
                 Topic topic = new Topic(rs.getInt("topic_id"), null, null);
 
                 if (current == null || current.getId() != id) {
-                    current = new Question(
+                    current = new MultipleChoiceQuestion(
                             id, rs.getString("statement"), rs.getString("stats"),
                             rs.getString("difficulty"), topic,
-                            rs.getTimestamp("created_at").toInstant()
+                            rs.getTimestamp("created_at").toInstant(), null
                     );
                     list.add(current);
                 }
@@ -161,17 +161,17 @@ public class QuestionDAO {
             stmt.setInt(1, topicId);
 
             try (ResultSet rs = stmt.executeQuery()) {
-                Question current = null;
+                MultipleChoiceQuestion current = null;
 
                 while (rs.next()) {
                     int id = rs.getInt("id_question");
                     Topic topic = new Topic(rs.getInt("topic_id"), null, null);
 
                     if (current == null || current.getId() != id) {
-                        current = new Question(
+                        current = new MultipleChoiceQuestion(
                                 id, rs.getString("statement"), rs.getString("stats"),
                                 rs.getString("difficulty"), topic,
-                                rs.getTimestamp("created_at").toInstant()
+                                rs.getTimestamp("created_at").toInstant(), null
                         );
                         list.add(current);
                     }
@@ -280,17 +280,17 @@ public class QuestionDAO {
             stmt.setInt(1, studentId);
 
             try (ResultSet rs = stmt.executeQuery()) {
-                Question current = null;
+                MultipleChoiceQuestion current = null;
 
                 while (rs.next()) {
                     int id = rs.getInt("id_question");
                     Topic topic = new Topic(rs.getInt("topic_id"), null, null);
 
                     if (current == null || current.getId() != id) {
-                        current = new Question(
+                        current = new MultipleChoiceQuestion(
                                 id, rs.getString("statement"), rs.getString("stats"),
                                 rs.getString("difficulty"), topic,
-                                rs.getTimestamp("created_at").toInstant()
+                                rs.getTimestamp("created_at").toInstant(), null
                         );
                         list.add(current);
                     }
@@ -327,17 +327,17 @@ public class QuestionDAO {
             stmt.setInt(2, studentId);
 
             try (ResultSet rs = stmt.executeQuery()) {
-                Question current = null;
+                MultipleChoiceQuestion current = null;
 
                 while (rs.next()) {
                     int id = rs.getInt("id_question");
                     Topic topic = new Topic(rs.getInt("topic_id"), null, null);
 
                     if (current == null || current.getId() != id) {
-                        current = new Question(
+                        current = new MultipleChoiceQuestion(
                                 id, rs.getString("statement"), rs.getString("stats"),
                                 rs.getString("difficulty"), topic,
-                                rs.getTimestamp("created_at").toInstant()
+                                rs.getTimestamp("created_at").toInstant(), null
                         );
                         list.add(current);
                     }
