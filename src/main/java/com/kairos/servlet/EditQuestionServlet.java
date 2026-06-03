@@ -2,7 +2,6 @@ package com.kairos.servlet;
 
 import com.kairos.controller.QuestionController;
 import com.kairos.controller.TopicController;
-import com.kairos.model.Alternative;
 import com.kairos.model.MultipleChoiceQuestion;
 import com.kairos.model.Question;
 import com.kairos.model.Topic;
@@ -70,19 +69,17 @@ public class EditQuestionServlet extends HttpServlet {
 
             Topic topic = topicController.searchTopicById(topicId);
 
-            MultipleChoiceQuestion mcq = new MultipleChoiceQuestion(
+            MultipleChoiceQuestion multipleChoiceQuestion = new MultipleChoiceQuestion(
                     questionId, statement, "verified", difficulty, topic, null, "Atualizada via Painel"
             );
 
-            ArrayList<Alternative> alts = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
                 String altText = req.getParameter("altText_" + i);
                 boolean isCorrect = (i == correctIndex);
-                alts.add(new Alternative(0, altText, isCorrect, mcq));
+                multipleChoiceQuestion.addAlternative(altText, isCorrect);
             }
-            mcq.setAlternatives(alts);
 
-            questionController.updateQuestion(mcq, user);
+            questionController.updateQuestion(multipleChoiceQuestion, user);
 
             resp.sendRedirect(req.getContextPath() + "/reports?resolved=true");
 

@@ -2,7 +2,6 @@ package com.kairos.servlet;
 
 import com.kairos.controller.QuestionController;
 import com.kairos.controller.TopicController;
-import com.kairos.model.Alternative;
 import com.kairos.model.MultipleChoiceQuestion;
 import com.kairos.model.Topic;
 import com.kairos.model.User;
@@ -37,7 +36,8 @@ public class CreateQuestionServlet extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/views/createQuestion.jsp").forward(req, resp);
     }
 
-    @Override  protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
 
@@ -55,17 +55,15 @@ public class CreateQuestionServlet extends HttpServlet {
             String correctParameter = req.getParameter("correct");
             int correctIndex = Integer.parseInt(correctParameter);
 
-            ArrayList<Alternative> alternatives = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
-                String text = req.getParameter("alt" + i);
-                boolean isCorrect = (i == correctIndex);
-                alternatives.add(new Alternative(text, isCorrect, null));
-            }
-
             MultipleChoiceQuestion question = new MultipleChoiceQuestion(
                     statement, "not_verified", difficulty, topic, justification
             );
-            question.setAlternatives(alternatives);
+
+            for (int i = 0; i < 5; i++) {
+                String text = req.getParameter("alt" + i);
+                boolean isCorrect = (i == correctIndex);
+                question.addAlternative(text, isCorrect);
+            }
 
             questionController.insertQuestion(question, user);
 

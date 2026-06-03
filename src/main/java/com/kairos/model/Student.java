@@ -11,5 +11,15 @@ public class Student extends User {
     }
 
     @Override
+    public boolean isAdmin() { return false; }
+
+    @Override
     public boolean isStudent() { return true; }
+
+    @Override
+    public boolean canManageContent() { return false; }
+
+    @Override
+    public void applyQuestionStats(MultipleChoiceQuestion question) {
+    }
 }

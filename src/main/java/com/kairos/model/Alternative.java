@@ -1,5 +1,7 @@
 package com.kairos.model;
 
+import java.util.Objects;
+
 public class Alternative {
 
     private int id;
@@ -8,7 +10,7 @@ public class Alternative {
     private Question question;
 
     public Alternative(int id, String text, Boolean isCorrect, Question question) {
-
+        Objects.requireNonNull(question, "Alternative deve pertencer a uma Question");
         this.id = id;
         this.text = text;
         this.isCorrect = isCorrect;
@@ -16,7 +18,7 @@ public class Alternative {
     }
 
     public Alternative(String text, Boolean isCorrect, Question question) {
-
+        Objects.requireNonNull(question, "Alternative deve pertencer a uma Question");
         this.text = text;
         this.isCorrect = isCorrect;
         this.question = question;
@@ -46,9 +48,6 @@ public class Alternative {
         return question;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
-    }
 
     @Override
     public String toString() {
