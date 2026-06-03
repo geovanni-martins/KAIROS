@@ -203,6 +203,12 @@ docker compose up --build
 http://localhost:8080/kairos
 ```
 
+**4. Para acessar perfis de usuários padrões no sistema**
+
+```text
+senha: Kairos@2024
+```
+
 <br>
 
 <div align="center">
