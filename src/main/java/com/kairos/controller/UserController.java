@@ -5,6 +5,9 @@ import com.kairos.dao.ModeratorDAO;
 import com.kairos.dao.StudentDAO;
 import org.mindrot.jbcrypt.BCrypt;
 import com.kairos.model.User;
+import com.kairos.model.Admin;
+import com.kairos.model.Moderator;
+import com.kairos.model.Student;
 import com.kairos.dao.UserDAO;
 
 import java.util.List;
@@ -47,7 +50,24 @@ public class UserController {
 
         String password = BCrypt.hashpw(passwordTyped, BCrypt.gensalt(12));
 
-        User user = new User(name, email, password, role);
+        User user;
+        switch (role) {
+            case "admin":
+                user = new Admin(name, email, password, role);
+                break;
+
+            case "moderator":
+                user = new Moderator(name, email, password, role, responsibleDiscipline);
+                break;
+
+            case "student":
+                user = new Student(name, email, password, role);
+                break;
+
+            default:
+                return false;
+        }
+
         int userId = userDAO.insert(user);
 
         if (userId == -1) {

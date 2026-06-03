@@ -1,5 +1,7 @@
 package com.kairos.model;
 
+import java.util.Objects;
+
 public class Alternative {
 
     private int id;
@@ -8,8 +10,7 @@ public class Alternative {
     private Question question;
 
     public Alternative(int id, String text, Boolean isCorrect, Question question) {
-
-        if (question == null) throw new IllegalArgumentException("Alternative must belong to a Question");
+        Objects.requireNonNull(question, "Alternative deve pertencer a uma Question");
         this.id = id;
         this.text = text;
         this.isCorrect = isCorrect;
@@ -17,8 +18,7 @@ public class Alternative {
     }
 
     public Alternative(String text, Boolean isCorrect, Question question) {
-
-        if (question == null) throw new IllegalArgumentException("Alternative must belong to a Question");
+        Objects.requireNonNull(question, "Alternative deve pertencer a uma Question");
         this.text = text;
         this.isCorrect = isCorrect;
         this.question = question;

@@ -1,6 +1,6 @@
 package com.kairos.model;
 
-public class User {
+public abstract class User {
     private int id;
     private String name, email, password;
     private String role; // "admin", "moderator", "student"
@@ -56,20 +56,12 @@ public class User {
         this.role = role;
     }
 
-    public boolean isAdmin() {
-        return false;
-    }
+    public abstract boolean isAdmin();
 
-    public boolean isStudent() {
-        return false;
-    }
+    public abstract boolean isStudent();
 
-    public boolean canManageContent() { // moderator + admin
-        return false;
-    }
+    public abstract boolean canManageContent(); // moderator + admin
 
-    public void applyQuestionStats(MultipleChoiceQuestion question) {
-        // admin não auto-verifica, não faz nada
-    }
+    public abstract void applyQuestionStats(MultipleChoiceQuestion question);
 
 }

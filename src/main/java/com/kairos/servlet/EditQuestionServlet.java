@@ -69,17 +69,17 @@ public class EditQuestionServlet extends HttpServlet {
 
             Topic topic = topicController.searchTopicById(topicId);
 
-            MultipleChoiceQuestion mcq = new MultipleChoiceQuestion(
+            MultipleChoiceQuestion multipleChoiceQuestion = new MultipleChoiceQuestion(
                     questionId, statement, "verified", difficulty, topic, null, "Atualizada via Painel"
             );
 
             for (int i = 0; i < 5; i++) {
                 String altText = req.getParameter("altText_" + i);
                 boolean isCorrect = (i == correctIndex);
-                mcq.addAlternative(altText, isCorrect);
+                multipleChoiceQuestion.addAlternative(altText, isCorrect);
             }
 
-            questionController.updateQuestion(mcq, user);
+            questionController.updateQuestion(multipleChoiceQuestion, user);
 
             resp.sendRedirect(req.getContextPath() + "/reports?resolved=true");
 

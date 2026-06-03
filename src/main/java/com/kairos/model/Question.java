@@ -70,24 +70,34 @@ public class Question {
     }
 
     public List<Alternative> getAlternatives() {
-        return Collections.unmodifiableList(alternatives);
+        return alternatives;
     }
 
     public Alternative addAlternative(String text, Boolean isCorrect) {
-        Alternative alt = new Alternative(text, isCorrect, this);
-        alternatives.add(alt);
-        return alt;
+        Alternative alternative = new Alternative(text, isCorrect, this);
+        alternatives.add(alternative);
+
+        return alternative;
     }
 
-    public void addAlternative(Alternative alt) {
-        if (alt == null || alt.getQuestion() != this) {
-            throw new IllegalArgumentException("Alternative must belong to this Question");
+    public void addAlternative(Alternative alternative) {
+        if (alternative == null) {
+            System.out.println("Alternative deve pertencer a uma Question");
+            return;
         }
-        alternatives.add(alt);
+
+        if (alternative.getQuestion() != this) {
+            System.out.println("Alternative deve pertencer a uma Question");
+            return;
+        }
+
+        alternatives.add(alternative);
     }
 
     public boolean removeAlternative(Alternative alt) {
-        if (alt == null || alt.getQuestion() != this) return false;
+        if (alt == null || alt.getQuestion() != this) {
+            return false;
+        }
         return alternatives.remove(alt);
     }
 
