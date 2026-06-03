@@ -1,7 +1,7 @@
 package com.kairos.dao;
 
 import com.kairos.model.Alternative;
-import com.kairos.model.Question;
+import com.kairos.model.MultipleChoiceQuestion;
 import com.kairos.util.DBConnection;
 
 import java.sql.*;
@@ -49,7 +49,7 @@ public class AlternativeDAO {
 
     public List<Alternative> getAllByQuestion(int questionId) {
         QuestionDAO questionDAO = new QuestionDAO();
-        Question q = questionDAO.getById(questionId);
+        MultipleChoiceQuestion q = (MultipleChoiceQuestion) questionDAO.getById(questionId);
         if (q == null) return new ArrayList<>();
         return new ArrayList<>(q.getAlternatives());
     }

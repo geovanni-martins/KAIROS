@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<%@ page import="com.kairos.model.Question, com.kairos.model.Topic, com.kairos.model.Alternative, java.util.List" %>
+<%@ page import="com.kairos.model.MultipleChoiceQuestion, com.kairos.model.Topic, com.kairos.model.Alternative, java.util.List" %>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -29,7 +29,7 @@
 
 <main class="flex-1 p-4 pt-16 md:p-9 md:pt-20 overflow-y-auto flex justify-center">
 
-    <% Question question = (Question) request.getAttribute("question"); %>
+    <% MultipleChoiceQuestion question = (MultipleChoiceQuestion) request.getAttribute("question"); %>
 
     <div class="w-full max-w-4xl bg-fundo-card border border-linha-divisoria rounded-2xl shadow-lg p-6 md:p-8 h-fit">
 

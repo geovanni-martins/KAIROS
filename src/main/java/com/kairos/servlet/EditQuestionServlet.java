@@ -3,7 +3,6 @@ package com.kairos.servlet;
 import com.kairos.controller.QuestionController;
 import com.kairos.controller.TopicController;
 import com.kairos.model.MultipleChoiceQuestion;
-import com.kairos.model.Question;
 import com.kairos.model.Topic;
 import com.kairos.model.User;
 import jakarta.servlet.ServletException;
@@ -35,7 +34,7 @@ public class EditQuestionServlet extends HttpServlet {
         try {
             int questionId = Integer.parseInt(req.getParameter("questionId"));
 
-            Question question = questionController.searchQuestionById(questionId);
+            MultipleChoiceQuestion question = (MultipleChoiceQuestion) questionController.searchQuestionById(questionId);
 
             req.setAttribute("question", question);
             req.setAttribute("topics", topicController.listTopics());
