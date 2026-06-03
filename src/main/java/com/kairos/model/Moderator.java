@@ -22,6 +22,12 @@ public class Moderator extends User{
     }
 
     @Override
+    public boolean isAdmin() { return false; }
+
+    @Override
+    public boolean isStudent() { return false; }
+
+    @Override
     public boolean canManageContent() { return true; }
 
     @Override

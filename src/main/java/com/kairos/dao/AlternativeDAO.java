@@ -1,6 +1,7 @@
 package com.kairos.dao;
 
 import com.kairos.model.Alternative;
+import com.kairos.model.Question;
 import com.kairos.util.DBConnection;
 
 import java.sql.*;
@@ -47,30 +48,10 @@ public class AlternativeDAO {
     }
 
     public List<Alternative> getAllByQuestion(int questionId) {
-        List<Alternative> list = new ArrayList<>();
-        String sql = "SELECT * FROM alternative WHERE question_id = ?";
-
-        try (Connection conn = DBConnection.connect();
-             PreparedStatement stmt = conn.prepareStatement(sql)
-        ) {
-            stmt.setInt(1, questionId);
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    list.add(new Alternative(
-                            rs.getInt("id_alternative"),
-                            rs.getString("text"),
-                            rs.getBoolean("is_correct"),
-                            null
-                    ));
-                }
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Erro ao buscar alternativas: " + e.getMessage());
-        }
-
-        return list;
+        QuestionDAO questionDAO = new QuestionDAO();
+        Question q = questionDAO.getById(questionId);
+        if (q == null) return new ArrayList<>();
+        return new ArrayList<>(q.getAlternatives());
     }
 
     public void update(Alternative alternative) {

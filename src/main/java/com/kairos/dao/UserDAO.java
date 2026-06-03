@@ -40,7 +40,7 @@ public class UserDAO {
     public User getById(int id) {
         String sql =
                 "SELECT u.id_user, u.name, u.email, u.password, u.user_type, " +
-                        "m.subject_owner" +
+                        "m.subject_owner " +
                         "FROM user u " +
                         "LEFT JOIN moderator m ON u.id_user = m.id_moderator " +
                         "LEFT JOIN student s ON u.id_user = s.id_student " +
@@ -98,41 +98,31 @@ public class UserDAO {
                     return null;
                 }
 
-                User user = new User(
-                        rs.getInt("id_user"), rs.getString("name"),
-                        rs.getString("email"), rs.getString("password"),
-                        rs.getString("user_type")
-                );
+                int idUser = rs.getInt("id_user");
+                String name = rs.getString("name");
+                String emailDb = rs.getString("email");
+                String passwordDb = rs.getString("password");
+                String userType = rs.getString("user_type");
 
-                switch (user.getRole()) {
+                switch (userType) {
                     case "admin":
-                        return new Admin(
-                                user.getId(), user.getName(),
-                                user.getEmail(), user.getPassword(), user.getRole()
-                        );
+                        return new Admin(idUser, name, emailDb, passwordDb, userType);
                     case "moderator": {
                         String sqlMod = "SELECT subject_owner FROM moderator WHERE id_moderator = ?;";
                         try (Connection conn2 = DBConnection.connect();
                              PreparedStatement stmt2 = conn2.prepareStatement(sqlMod)
                         ) {
-                            stmt2.setInt(1, user.getId());
+                            stmt2.setInt(1, idUser);
                             try (ResultSet rs2 = stmt2.executeQuery()) {
                                 if (rs2.next()) {
-                                    return new Moderator(
-                                            user.getId(), user.getName(), user.getEmail(),
-                                            user.getPassword(), user.getRole(),
-                                            rs2.getString("subject_owner")
-                                    );
+                                    return new Moderator(idUser, name, emailDb, passwordDb, userType, rs2.getString("subject_owner"));
                                 }
                             }
                         }
                         break;
                     }
                     case "student": {
-                        return new Student(
-                                user.getId(), user.getName(), user.getEmail(),
-                                user.getPassword(), user.getRole()
-                        );
+                        return new Student(idUser, name, emailDb, passwordDb, userType);
                     }
                 }
             }
