@@ -155,6 +155,8 @@ KAIROS/
 │       │           ├── servlet/
 │       │           └── util/
 │       └── webapp/
+│           ├── assets/
+│           │   └── team/
 │           ├── icons/
 │           └── WEB-INF/
 │               ├── views/
@@ -206,6 +208,11 @@ http://localhost:8080/kairos
 **4. Para acessar perfis de usuários padrões no sistema**
 
 ```text
+emails para acessar:
+admin@kairos.com
+mod.mat@kairos.com
+diego.alves@email.com
+
 senha: Kairos@2024
 ```
 
